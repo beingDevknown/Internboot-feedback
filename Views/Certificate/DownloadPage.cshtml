@@ -1,0 +1,243 @@
+@{
+    ViewData["Title"] = "Certificate Download";
+    var testResultId = ViewBag.TestResultId;
+    var certificateUrl = ViewBag.CertificateUrl;
+    var testTitle = ViewBag.TestTitle;
+    var userName = ViewBag.UserName;
+    var score = ViewBag.Score;
+    var rating = ViewBag.Rating;
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="certificate-download-card">
+                <div class="card-header text-center">
+                    <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                    <h2>Certificate Ready!</h2>
+                    <p class="text-muted">Your achievement certificate has been generated successfully</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="certificate-info mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fas fa-user text-primary"></i>
+                                    <span class="label">Name:</span>
+                                    <span class="value">@userName</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fas fa-book text-primary"></i>
+                                    <span class="label">Test:</span>
+                                    <span class="value">@testTitle</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fas fa-chart-line text-primary"></i>
+                                    <span class="label">Score:</span>
+                                    <span class="value">@score</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fas fa-star text-primary"></i>
+                                    <span class="label">Rating:</span>
+                                    <span class="value">@rating</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="download-section text-center">
+                        <div class="download-preview mb-4">
+                            <div class="preview-container">
+                                <i class="fas fa-file-image fa-5x text-muted mb-3"></i>
+                                <p class="text-muted">Your certificate is ready for download</p>
+                            </div>
+                        </div>
+
+                        <div class="download-actions">
+                            @if (!string.IsNullOrEmpty(certificateUrl))
+                            {
+                                <a href="@certificateUrl" class="btn btn-success btn-lg download-btn" download>
+                                    <i class="fas fa-download me-2"></i>
+                                    Download Certificate
+                                </a>
+                                <br>
+                                <small class="text-muted mt-2 d-block">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    High-quality JPEG format • Suitable for printing
+                                </small>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Certificate is being generated. Please refresh the page in a moment.
+                                </div>
+                                <button class="btn btn-primary" onclick="location.reload()">
+                                    <i class="fas fa-sync-alt me-2"></i>
+                                    Refresh Page
+                                </button>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="additional-actions mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="/Test/Result/@testResultId" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-chart-bar me-2"></i>
+                                    View Test Results
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="/Test/MyBookings" class="btn btn-outline-secondary w-100">
+                                    <i class="fas fa-list me-2"></i>
+                                    My Tests
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        This certificate is digitally generated and verified
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .certificate-download-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: none;
+        margin-top: 2rem;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 2rem;
+        border: none;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        padding: 1rem 2rem;
+    }
+
+    .certificate-info {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1.5rem;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-item i {
+        width: 20px;
+        margin-right: 0.5rem;
+    }
+
+    .info-item .label {
+        font-weight: 600;
+        margin-right: 0.5rem;
+        color: #495057;
+    }
+
+    .info-item .value {
+        color: #212529;
+    }
+
+    .download-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        padding: 2rem;
+    }
+
+    .preview-container {
+        padding: 1rem;
+    }
+
+    .download-btn {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        text-decoration: none;
+    }
+
+    .download-btn:hover {
+        background: linear-gradient(45deg, #218838, #1ea085);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .additional-actions .btn {
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+    }
+
+    .alert {
+        border-radius: 15px;
+        border: none;
+    }
+
+    @@media (max-width: 768px) {
+        .certificate-download-card {
+            margin: 1rem;
+        }
+
+        .card-header, .card-body {
+            padding: 1.5rem;
+        }
+
+        .additional-actions .btn {
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Auto-refresh if certificate URL is not available
+        @if (string.IsNullOrEmpty(certificateUrl))
+        {
+            <text>
+            setTimeout(function() {
+                location.reload();
+            }, 5000); // Refresh after 5 seconds
+            </text>
+        }
+    </script>
+}

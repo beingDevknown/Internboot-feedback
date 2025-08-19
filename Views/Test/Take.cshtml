@@ -1,0 +1,1479 @@
+@model OnlineAssessment.Web.Models.Test
+
+@{
+    ViewData["Title"] = "Take Test";
+    var totalQuestions = Model.Questions.Count;
+    var mcqQuestions = Model.Questions.ToList();
+    Layout = "_TestLayout";
+}
+
+@section Styles {
+    <style>
+        :root {
+            --primary-color: #10b981;
+            --primary-hover: #059669;
+            --primary-light: #d1fae5;
+            --background-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+
+        /* Test Header */
+        .test-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-left: 10px;
+        }
+
+        .back-button {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Main Container */
+        .test-container {
+            display: flex;
+            height: calc(100vh - 120px); /* Account for header and footer */
+        }
+
+        /* Footer positioning */
+        .simple-footer {
+            margin-top: auto;
+        }
+
+        /* Sidebar */
+        .test-sidebar {
+            width: 250px;
+            background-color: white;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-section-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Timer */
+        .timer-container {
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .timer-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Question Navigation */
+        .questions-nav {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .question-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .question-button:hover {
+            border-color: var(--primary-color);
+        }
+
+        .question-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .question-button.answered {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .test-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .question-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .nav-button i {
+            margin-right: 8px;
+        }
+
+        .nav-button i.right {
+            margin-right: 0;
+            margin-left: 8px;
+        }
+
+        /* Question */
+        .question-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-number {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.125rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Options */
+        .option-container {
+            margin-bottom: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            border-color: var(--primary-color);
+        }
+
+        .option-label.selected {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .option-radio {
+            margin-right: 12px;
+        }
+
+        /* Ad container styles */
+        .ad-container {
+            position: relative;
+            min-height: 120px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .ad-clickable {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ad-clickable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .ad-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .fallback-content {
+            max-width: 80%;
+        }
+
+        .fallback-content h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .fallback-content p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
+}
+
+<div class="test-header">
+    <span class="header-title">@Model.Title</span>
+</div>
+
+<div class="alert alert-warning" role="alert" style="border-left: 5px solid #f59e0b; font-size: 1.1rem;">
+    <strong><i class="fas fa-exclamation-triangle"></i> Important Security Notice:</strong>
+    <ul>
+        <li><strong>Do not switch tabs or minimize the window during the test.</strong></li>
+        <li>If you switch tabs or minimize the window more than 11 times, your test will be automatically submitted.</li>
+        <li>Using the back button or refreshing the page is not recommended during the test.</li>
+        <li>The test will be automatically submitted when the timer reaches 0.</li>
+        <li>Exiting fullscreen mode may be counted as a tab switch.</li>
+        <li>When you're finished, click the <strong>Submit Test</strong> button at the bottom of the page.</li>
+    </ul>
+</div>
+
+<div id="tab-switch-warning" class="alert alert-danger" role="alert" style="display: none; border-left: 5px solid #ef4444; font-size: 1.1rem; background-color: #fee2e2; color: #b91c1c; padding: 15px; margin-bottom: 20px; font-weight: bold;">
+    <strong><i class="fas fa-exclamation-circle"></i> Security Violation Detected:</strong>
+    <span id="tab-switch-count">You have switched tabs or minimized the window 0/11 times.</span> Your test will be automatically submitted if you do this 11 times in total.
+</div>
+
+<!-- Ad Unit Before Test -->
+<div class="container mb-4">
+    @await Html.PartialAsync("_AdUnit")
+</div>
+
+<div class="test-container">
+    <div class="test-sidebar">
+        <div class="sidebar-section">
+            <div class="timer-container">
+                <div id="timer" class="timer-display">00:15:30</div>
+                <div class="timer-label">Time Remaining</div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Questions</div>
+            <div class="questions-nav">
+                @for (int i = 1; i <= totalQuestions; i++)
+                {
+                    <button type="button" class="question-button @(i == 1 ? "active" : "")" data-question-index="@(i-1)">@i</button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="test-content">
+        <form id="testForm">
+            @Html.AntiForgeryToken()
+
+            <div id="questionsContainer" class="question-container">
+                @for (int i = 0; i < mcqQuestions.Count; i++)
+                {
+                    var question = mcqQuestions[i];
+                    <div class="question-content @(i == 0 ? "" : "d-none")" data-question-id="@question.Id" data-question-index="@i">
+                        <div class="question-navigation">
+                            @if (i > 0)
+                            {
+                                <button type="button" class="nav-button prev-question">
+                                    <i class="fas fa-arrow-left"></i> Previous
+                                </button>
+                            }
+                            else
+                            {
+                                <div></div>
+                            }
+
+                            @if (i < mcqQuestions.Count - 1)
+                            {
+                                <button type="button" class="nav-button next-question">
+                                    Next <i class="fas fa-arrow-right right"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <!-- Show Submit button on the last question -->
+                                <button type="button" class="nav-button submit-test" style="background-color: #10b981; color: white; font-weight: bold;">
+                                    Submit Test <i class="fas fa-check-circle right"></i>
+                                </button>
+                            }
+                        </div>
+
+                        <div class="question-card">
+                            <div class="question-number">Question @(i + 1)</div>
+                            <div class="question-text">@question.Text</div>
+
+                            <div class="options-container">
+                                @foreach (var option in question.AnswerOptions)
+                                {
+                                    <div class="option-container">
+                                        <label class="option-label" for="option_@option.Id">
+                                            <input class="option-radio" type="radio"
+                                                   name="question_@question.Id"
+                                                   value="@option.Id"
+                                                   id="option_@option.Id">
+                                            @option.Text
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Submit Test Button -->
+            <div class="container mt-4 text-center">
+                <button type="button" id="main-submit-button" class="btn btn-primary btn-lg" style="background-color: #10b981; border-color: #059669; padding: 12px 30px; font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;">
+                    <i class="fas fa-check-circle mr-2"></i> Submit Test
+                </button>
+                <p class="text-muted">Click the button above to submit your test when you're finished.</p>
+            </div>
+
+            <!-- Custom Submit Modal -->
+            <div id="submit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="submitModalLabel">Submit Test</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <i class="fas fa-question-circle fa-3x text-warning mb-3"></i>
+                                <h5>Are you sure you want to submit the test?</h5>
+                                <p class="text-muted">Once submitted, you cannot make any changes to your answers. Your current score will be calculated and saved.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary btn-lg me-3" data-bs-dismiss="modal" id="cancel-submit-btn">
+                                <i class="fas fa-times me-2"></i>No, Cancel
+                            </button>
+                            <button type="button" class="btn btn-success btn-lg" id="confirm-submit-btn">
+                                <i class="fas fa-check me-2"></i>Yes, Submit Test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad Unit at Bottom of Test -->
+            <div class="container mt-4">
+                @await Html.PartialAsync("_AdUnit")
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const testForm = document.getElementById('testForm');
+            const timerElement = document.getElementById('timer');
+            const questionButtons = document.querySelectorAll('.question-button');
+            const questionContents = document.querySelectorAll('.question-content');
+
+            // Check if this is a retake test
+            const isRetakeTest = @(ViewBag.IsRetake != null && ViewBag.IsRetake ? "true" : "false");
+            console.log('Is retake test: ' + isRetakeTest);
+
+            // Check if this is a special user
+            const isSpecialUser = @(User.IsInRole("SpecialUser") ? "true" : "false");
+            console.log('Is special user: ' + isSpecialUser);
+
+            // Check if this is a return visit using sessionStorage
+            const testId = @Model.Id;
+            const testSessionKey = `test_${testId}_session`;
+
+            // Check if there's an active test in session storage
+            // This used to auto-submit when a user clicks back and then tries to start the test again
+            // Now we just log it and continue without auto-submitting
+            const existingTestData = sessionStorage.getItem(testSessionKey);
+            if (existingTestData) {
+                try {
+                    const sessionData = JSON.parse(existingTestData);
+                    if (sessionData.isActiveTest === true && !sessionData.isCompleted) {
+                        console.log('Found active test in session storage. Continuing without auto-submission.');
+                        // Update the session data to reflect the current session
+                        sessionData.lastVisitTime = Date.now();
+                        sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                    }
+                } catch (e) {
+                    console.error('Error checking for active test:', e);
+                }
+            }
+
+            // Clear session storage for retake tests or special users to ensure a fresh start
+            if (isRetakeTest || isSpecialUser) {
+                console.log('This is a retake test or special user. Clearing previous session data.');
+                sessionStorage.removeItem(testSessionKey);
+                sessionStorage.removeItem('test_initialized');
+                sessionStorage.removeItem('test_page_visited');
+                sessionStorage.removeItem('tabSwitchCount');
+            }
+
+            const testSessionData = sessionStorage.getItem(testSessionKey);
+
+            // Variables to track if this is a return visit
+            let isReturnVisit = false;
+            let durationMinutes = @(Model.DurationMinutes > 0 ? Model.DurationMinutes : 15);
+            let timeLeft = durationMinutes * 60; // Default: convert minutes to seconds
+
+            // Check if we have session data for this test (and it's not a retake or special user)
+            if (testSessionData && !isRetakeTest && !isSpecialUser) {
+                try {
+                    const sessionData = JSON.parse(testSessionData);
+                    const lastVisitTime = sessionData.lastVisitTime || 0;
+                    const now = Date.now();
+
+                    // If we have stored time left, use it (but ensure it's not 0 or negative)
+                    if (sessionData.timeLeft !== undefined && sessionData.timeLeft > 0) {
+                        // If time has passed since the last visit, subtract it
+                        const elapsedSeconds = Math.floor((now - lastVisitTime) / 1000);
+                        timeLeft = Math.max(60, sessionData.timeLeft - elapsedSeconds); // Ensure at least 1 minute
+                    }
+
+                    // Only consider it a return visit if:
+                    // 1. The last visit was recent (within the last 5 minutes)
+                    // 2. The session was marked as inactive or completed
+                    // 3. We're not just continuing a test session
+                    if (now - lastVisitTime < 5 * 60 * 1000 &&
+                        (sessionData.isCompleted === true ||
+                         sessionData.isActiveTest === false ||
+                         sessionData.backButtonDetected === true)) {
+
+                        console.log('Return visit detected via session storage');
+                        isReturnVisit = true;
+
+                        // Show a warning instead of auto-submitting
+                        console.log('Return visit detected, showing warning');
+                        // Set a small delay to ensure the page is fully loaded
+                        setTimeout(() => {
+                            showToast('Warning: Returning to the test page using browser history is not recommended. Please continue with your test.', 'warning');
+                        }, 500);
+                    } else {
+                        // This is either a fresh visit or a continuation of an active test
+                        console.log('Continuing test session or starting new test');
+                    }
+                } catch (e) {
+                    console.error('Error parsing session data:', e);
+                }
+            } else if (isRetakeTest || isSpecialUser) {
+                console.log('Starting fresh test with full time (retake or special user)');
+                // For retake tests and special users, always use the full duration
+                timeLeft = durationMinutes * 60;
+            }
+
+            // Update session storage with current state
+            function updateSessionStorage() {
+                try {
+                    // Get existing session data if available
+                    let sessionData = {};
+                    try {
+                        const existingData = sessionStorage.getItem(testSessionKey);
+                        if (existingData) {
+                            sessionData = JSON.parse(existingData);
+                        }
+                    } catch (parseError) {
+                        console.error('Error parsing existing session data:', parseError);
+                    }
+
+                    // Update with current values
+                    sessionData.lastVisitTime = Date.now();
+                    sessionData.timeLeft = timeLeft;
+                    sessionData.isActiveTest = true;
+                    sessionData.isCompleted = false;
+
+                    // Save back to session storage
+                    sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                } catch (e) {
+                    console.error('Error updating session storage:', e);
+                }
+            }
+
+            // Log timer initialization for debugging
+            console.log(`Timer initialized: durationMinutes=${durationMinutes}, timeLeft=${timeLeft} seconds (${Math.floor(timeLeft/60)} minutes)`);
+            console.log(`User type: ${isSpecialUser ? 'Special User' : 'Regular User'}, Retake: ${isRetakeTest}`);
+
+            // Ensure timer is never 0 or negative for special users
+            if (isSpecialUser && timeLeft <= 0) {
+                console.warn('Timer was 0 or negative for special user, resetting to full duration');
+                timeLeft = durationMinutes * 60;
+            }
+
+            // Update session storage immediately and then periodically
+            updateSessionStorage();
+            const sessionUpdateInterval = setInterval(updateSessionStorage, 5000);
+
+            // Initialize timer display immediately
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            console.log(`Timer display set to: ${timerElement.textContent}`);
+
+            // Start the timer interval
+            const timerInterval = setInterval(updateTimer, 1000);
+
+            // Timer function
+            function updateTimer() {
+                if (timeLeft <= 0) {
+                    console.log('Timer expired, preparing to auto-submit');
+                    clearInterval(timerInterval);
+                    timerElement.textContent = '00:00:00';
+                    timerElement.classList.add('text-danger');
+
+                    // For special users, add extra validation to prevent false auto-submission
+                    if (isSpecialUser) {
+                        const testStarted = Date.now() - testStartTime;
+                        const minimumTestTime = 30000; // 30 seconds minimum
+
+                        if (testStarted < minimumTestTime) {
+                            console.warn('Special user timer expired too quickly, resetting timer');
+                            timeLeft = durationMinutes * 60; // Reset to full duration
+                            timerElement.classList.remove('text-danger');
+                            return; // Don't auto-submit
+                        }
+                    }
+
+                    // Add a small delay before submitting to ensure the timer shows 00:00:00
+                    setTimeout(() => {
+                        console.log('Auto-submitting due to timer expiration');
+                        // Set auto-submit flag to true
+                        isAutoSubmitting = true;
+                        // Auto-submit when time expires
+                        submitTest(true);
+                    }, 500);
+                    return;
+                }
+
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+
+                timerElement.textContent =
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                // Add warning class when less than 5 minutes remaining
+                if (timeLeft <= 300) {
+                    timerElement.classList.add('text-danger');
+                }
+
+                timeLeft--;
+            }
+
+            // Handle question navigation
+            questionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.getAttribute('data-question-index'));
+                    showQuestion(questionIndex);
+                });
+            });
+
+            function showQuestion(index) {
+                // Hide all questions
+                questionContents.forEach(content => {
+                    content.classList.add('d-none');
+                });
+
+                // Show selected question
+                questionContents[index].classList.remove('d-none');
+
+                // Update active button
+                questionButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                questionButtons[index].classList.add('active');
+            }
+
+            // Handle prev/next buttons
+            document.querySelectorAll('.next-question').forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentQuestion = document.querySelector('.question-content:not(.d-none)');
+                    const currentIndex = parseInt(currentQuestion.getAttribute('data-question-index'));
+                    showQuestion(currentIndex + 1);
+                });
+            });
+
+            document.querySelectorAll('.prev-question').forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentQuestion = document.querySelector('.question-content:not(.d-none)');
+                    const currentIndex = parseInt(currentQuestion.getAttribute('data-question-index'));
+                    showQuestion(currentIndex - 1);
+                });
+            });
+
+            // Mark questions as answered when an option is selected
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const questionContent = this.closest('.question-content');
+                    const questionIndex = parseInt(questionContent.getAttribute('data-question-index'));
+                    questionButtons[questionIndex].classList.add('answered');
+
+                    // Mark label as selected
+                    const labels = questionContent.querySelectorAll('.option-label');
+                    labels.forEach(label => {
+                        label.classList.remove('selected');
+                    });
+                    this.closest('.option-label').classList.add('selected');
+                });
+            });
+
+            // Variables to track tab switching and back button usage
+            // These are now defined in the tab switching detection code below
+
+            const MAX_TAB_SWITCHES = 11; // Increased from 3 to 11 as requested
+            let isSubmitting = false;
+            let isAutoSubmitting = false; // Track if test is being auto-submitted
+            let testStartTime = Date.now(); // Record when the test page loaded
+            let testDuration = @Model.DurationMinutes * 60 * 1000; // Convert minutes to milliseconds
+            let hasRefreshed = false; // Track if the page has been refreshed
+
+            console.log(`Test start time recorded: ${new Date(testStartTime).toISOString()}`);
+
+            // Disable back button - more aggressive approach
+            window.addEventListener('load', function() {
+                // Push initial state
+                history.pushState({ page: 'test' }, null, location.href);
+
+                // Push state again to ensure we have history to go back to
+                history.pushState({ page: 'test-started' }, null, location.href);
+
+                // Handle back button press
+                window.onpopstate = function (event) {
+                    console.log('Back button detected');
+                    // Push state again to prevent navigation
+                    history.pushState({ page: 'test-back-detected' }, null, location.href);
+
+                    // Mark in session storage that we detected back button
+                    try {
+                        const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                        sessionData.backButtonDetected = true;
+                        sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                    } catch (e) {
+                        console.error('Error updating session storage for back button:', e);
+                    }
+
+                    // Show a warning toast instead of auto-submitting
+                    showToast('Warning: Using the back button during a test is not allowed. Please continue with your test.', 'warning');
+                };
+
+                // Add another listener for the beforeunload event
+                window.addEventListener('beforeunload', function(e) {
+                    // Only show confirmation dialog if not auto-submitting and not submitting
+                    if (!isAutoSubmitting && !isSubmitting) {
+                        e.preventDefault();
+                        e.returnValue = '';
+
+                        // Update session storage to indicate page is being unloaded
+                        try {
+                            const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                            sessionData.isActiveTest = false;
+                            sessionData.unloadDetected = true;
+                            sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                        } catch (e) {
+                            console.error('Error updating session storage for unload:', e);
+                        }
+
+                        // The message won't actually be shown in most modern browsers
+                        return 'Are you sure you want to leave? Your test will be automatically submitted.';
+                    }
+                });
+
+                // Add a hashchange listener as another way to detect navigation attempts
+                window.addEventListener('hashchange', function(e) {
+                    console.log('Hash change detected');
+
+                    // Update session storage
+                    try {
+                        const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                        sessionData.hashChangeDetected = true;
+                        sessionData.isActiveTest = false;
+                        sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                    } catch (e) {
+                        console.error('Error updating session storage for hash change:', e);
+                    }
+
+                    handleSecurityViolation('navigation attempt');
+                    return false;
+                });
+
+                // Check if this is a page reload or return visit
+                // Only check if we've already initialized the test page and it's not a retake test
+                if (sessionStorage.getItem('test_initialized') === 'true' && !isRetakeTest) {
+                    let isRefresh = false;
+                    let isBackForward = false;
+
+                    // Check using the older performance API
+                    if (performance && performance.navigation) {
+                        if (performance.navigation.type === 1) { // 1 is TYPE_RELOAD
+                            console.log('Page was refreshed (performance API)');
+                            isRefresh = true;
+                        } else if (performance.navigation.type === 2) { // 2 is TYPE_BACK_FORWARD
+                            console.log('Page was loaded via back/forward button (performance API)');
+                            isBackForward = true;
+                        }
+                    }
+
+                    // Alternative detection for newer browsers
+                    if (!isRefresh && !isBackForward && window.performance && window.performance.getEntriesByType) {
+                        const navEntries = window.performance.getEntriesByType('navigation');
+                        if (navEntries.length > 0) {
+                            if (navEntries[0].type === 'reload') {
+                                console.log('Page was refreshed (newer API)');
+                                isRefresh = true;
+                            } else if (navEntries[0].type === 'back_forward') {
+                                console.log('Page was loaded via back/forward button (newer API)');
+                                isBackForward = true;
+                            }
+                        }
+                    }
+
+                    // Handle refresh detection
+                    if (isRefresh) {
+                        try {
+                            const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                            sessionData.refreshDetected = true;
+                            sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+
+                            // Show a warning toast instead of auto-submitting
+                            showToast('Warning: Refreshing the page during a test is not recommended. Please continue with your test.', 'warning');
+                        } catch (e) {
+                            console.error('Error updating session storage for refresh:', e);
+                        }
+                    }
+
+                    // Handle back/forward detection
+                    if (isBackForward) {
+                        try {
+                            const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                            sessionData.backForwardDetected = true;
+                            sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+
+                            // Show a warning toast instead of auto-submitting
+                            showToast('Warning: Using browser navigation during a test is not recommended. Please continue with your test.', 'warning');
+                        } catch (e) {
+                            console.error('Error updating session storage for back/forward:', e);
+                        }
+                    }
+                } else {
+                    // Mark that we've initialized the test page
+                    sessionStorage.setItem('test_initialized', 'true');
+                    console.log('Test page initialized for the first time' + (isRetakeTest ? ' (retake test)' : ''));
+                }
+            });
+
+            // Prevent F5/refresh
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Show a warning toast instead of auto-submitting
+                    showToast('Warning: Refreshing the page during a test is not recommended. Please continue with your test.', 'warning');
+                    return false;
+                }
+            });
+
+            // Check if this is a return visit from browser history
+            // This is a fallback in case the session storage detection didn't trigger
+            // Skip this check for retake tests
+            if (isReturnVisit && sessionStorage.getItem('test_page_visited') === 'true' && !isRetakeTest) {
+                console.log('Return visit detected via session flags');
+                // Show a warning toast instead of auto-submitting
+                showToast('Warning: Returning to the test page using browser history is not recommended. Please continue with your test.', 'warning');
+            }
+
+            // Set a flag in session storage to indicate this page has been visited
+            // But first, set a visit allowed flag to prevent false detection
+            sessionStorage.setItem('test_page_visit_allowed', 'true');
+
+            // Then set the visited flag
+            sessionStorage.setItem('test_page_visited', 'true');
+
+            // Keep the visit allowed flag for this session
+
+            // Refresh detection is now handled in the load event handler
+            // This prevents duplicate detection and false positives
+
+            // Completely revised tab switching and window focus detection
+            // Use a comprehensive approach to detect all types of cheating attempts
+            let tabSwitchCount = 0;
+            let isPageActive = true;
+            let lastEventTime = 0;
+            let windowFocusLostTime = 0;
+            let isFullscreenWarningShown = false;
+
+            // Function to update the warning display
+            function updateTabSwitchWarning() {
+                console.log(`Updating tab switch warning. Count: ${tabSwitchCount}/${MAX_TAB_SWITCHES}`);
+
+                // Update the warning message text
+                const tabSwitchCountElement = document.getElementById('tab-switch-count');
+                if (tabSwitchCountElement) {
+                    tabSwitchCountElement.textContent = `You have switched tabs or minimized the window ${tabSwitchCount}/${MAX_TAB_SWITCHES} times.`;
+                } else {
+                    console.error('Warning element not found: tab-switch-count');
+                }
+
+                // Show the warning if count is greater than 0
+                if (tabSwitchCount > 0) {
+                    const tabSwitchWarningElement = document.getElementById('tab-switch-warning');
+                    if (tabSwitchWarningElement) {
+                        tabSwitchWarningElement.style.display = 'block';
+                    } else {
+                        console.error('Warning element not found: tab-switch-warning');
+                    }
+                }
+
+                // Check if we've reached the limit
+                if (tabSwitchCount >= MAX_TAB_SWITCHES) {
+                    console.log(`Tab switch limit reached (${tabSwitchCount}/${MAX_TAB_SWITCHES}). Auto-submitting.`);
+                    handleSecurityViolation('tab switching limit reached');
+                }
+            }
+
+            // Function to detect window minimization or app switching
+            function detectWindowFocusLoss(event) {
+                const now = Date.now();
+
+                // Prevent double-counting with other events
+                if (now - lastEventTime < 500) {
+                    console.log('Ignoring window focus loss event too close to previous event');
+                    return;
+                }
+                lastEventTime = now;
+
+                if (isPageActive) {
+                    isPageActive = false;
+                    windowFocusLostTime = now;
+
+                    // Count as a tab switch
+                    tabSwitchCount++;
+                    console.log(`Window focus loss detected. Count: ${tabSwitchCount}/${MAX_TAB_SWITCHES}`);
+
+                    // Store the count in sessionStorage
+                    try {
+                        sessionStorage.setItem('tabSwitchCount', tabSwitchCount.toString());
+                    } catch (e) {
+                        console.error('Error storing tab switch count:', e);
+                    }
+
+                    // Show warning in the console
+                    console.warn(`Warning: Window focus loss detected (${tabSwitchCount}/${MAX_TAB_SWITCHES})`);
+
+                    // Check if we've reached the limit
+                    if (tabSwitchCount >= MAX_TAB_SWITCHES) {
+                        handleSecurityViolation('window focus loss limit reached');
+                    }
+                }
+            }
+
+            // Function to handle window focus regained
+            function handleWindowFocusRegained(event) {
+                const now = Date.now();
+
+                // Prevent double-counting with other events
+                if (now - lastEventTime < 500) {
+                    console.log('Ignoring window focus regain event too close to previous event');
+                    return;
+                }
+                lastEventTime = now;
+
+                if (!isPageActive) {
+                    isPageActive = true;
+                    const focusLostDuration = now - windowFocusLostTime;
+                    console.log(`Window focus regained after ${focusLostDuration}ms`);
+
+                    // Show warning when returning to the window
+                    if (tabSwitchCount > 0 && tabSwitchCount < MAX_TAB_SWITCHES) {
+                        updateTabSwitchWarning();
+
+                        // Also show a toast notification
+                        showToast(`Warning: Window focus loss detected (${tabSwitchCount}/${MAX_TAB_SWITCHES}). Your test will be auto-submitted if you do this ${MAX_TAB_SWITCHES - tabSwitchCount} more times.`, 'warning');
+                    }
+                }
+            }
+
+            // Use blur/focus for window level detection
+            window.addEventListener('blur', detectWindowFocusLoss);
+            window.addEventListener('focus', handleWindowFocusRegained);
+
+            // Use visibilitychange for tab level detection
+            document.addEventListener('visibilitychange', function() {
+                const now = Date.now();
+
+                // Prevent double-counting with blur/focus
+                if (now - lastEventTime < 500) {
+                    console.log('Ignoring visibilitychange event too close to previous event');
+                    return;
+                }
+                lastEventTime = now;
+
+                if (document.visibilityState === 'hidden' && isPageActive) {
+                    detectWindowFocusLoss({ type: 'visibilitychange' });
+                } else if (document.visibilityState === 'visible' && !isPageActive) {
+                    handleWindowFocusRegained({ type: 'visibilitychange' });
+                }
+            });
+
+            // Detect fullscreen exit (another way to cheat)
+            document.addEventListener('fullscreenchange', function() {
+                if (!document.fullscreenElement && !isFullscreenWarningShown) {
+                    console.log('Fullscreen mode exited');
+                    isFullscreenWarningShown = true;
+
+                    // Count as a tab switch
+                    tabSwitchCount++;
+                    console.log(`Fullscreen exit detected. Count: ${tabSwitchCount}/${MAX_TAB_SWITCHES}`);
+
+                    // Store the count in sessionStorage
+                    try {
+                        sessionStorage.setItem('tabSwitchCount', tabSwitchCount.toString());
+                    } catch (e) {
+                        console.error('Error storing tab switch count:', e);
+                    }
+
+                    // Show warning
+                    updateTabSwitchWarning();
+                    showToast('Warning: Exiting fullscreen mode is counted as a tab switch.', 'warning');
+
+                    // Check if we've reached the limit
+                    if (tabSwitchCount >= MAX_TAB_SWITCHES) {
+                        handleSecurityViolation('fullscreen exit limit reached');
+                    }
+                }
+            });
+
+            // Detect mouse leave (might indicate user is trying to use another monitor)
+            document.addEventListener('mouseleave', function(e) {
+                // Only count if the mouse leaves the top of the window (likely moving to another monitor)
+                if (e.clientY <= 0) {
+                    console.log('Mouse left the window from the top');
+                    showToast('Warning: Moving your mouse to another screen may be counted as a tab switch.', 'warning');
+                }
+            });
+
+            // Hide the warning initially
+            setTimeout(() => {
+                const tabSwitchWarningElement = document.getElementById('tab-switch-warning');
+                if (tabSwitchWarningElement) {
+                    tabSwitchWarningElement.style.display = 'none';
+                }
+
+                const tabSwitchCountElement = document.getElementById('tab-switch-count');
+                if (tabSwitchCountElement) {
+                    tabSwitchCountElement.textContent = `You have switched tabs or minimized the window 0/${MAX_TAB_SWITCHES} times.`;
+                }
+            }, 500);
+
+            // Function for security notice - removed popup
+            function showSecurityNotice() {
+                // No popup shown - security notice is already displayed in the alert at the top of the page
+                console.log('Security notice is displayed in the page header');
+            }
+
+            // Security notice is already shown in the page header, no need for popup
+            // showSecurityNotice();
+
+            // Function to handle security violations
+            function handleSecurityViolation(violationType) {
+                // Special handling for all limit-based violations - only submit if we've reached the limit
+                if (violationType === 'tab switching limit reached' ||
+                    violationType === 'window focus loss limit reached' ||
+                    violationType === 'fullscreen exit limit reached') {
+                    // Double-check the tab switch count to ensure it's actually at the limit
+                    // This prevents false positives
+                    if (tabSwitchCount < MAX_TAB_SWITCHES) {
+                        console.log(`Tab switch count (${tabSwitchCount}) is below limit (${MAX_TAB_SWITCHES}). Not submitting.`);
+                        return;
+                    }
+
+                    // Log that we're proceeding with the violation
+                    console.log(`Confirmed tab switch count (${tabSwitchCount}) has reached limit (${MAX_TAB_SWITCHES}). Proceeding with auto-submit.`);
+
+                    // Show a more specific message based on the violation type
+                    let violationMessage = '';
+                    if (violationType === 'tab switching limit reached') {
+                        violationMessage = 'You have switched tabs too many times.';
+                    } else if (violationType === 'window focus loss limit reached') {
+                        violationMessage = 'You have minimized or switched away from the test window too many times.';
+                    } else if (violationType === 'fullscreen exit limit reached') {
+                        violationMessage = 'You have exited fullscreen mode too many times.';
+                    }
+
+                    // Update the violation message if we have one
+                    if (violationMessage) {
+                        const violationReasonElement = document.getElementById('violation-reason');
+                        if (violationReasonElement) {
+                            violationReasonElement.textContent = violationMessage;
+                        }
+                    }
+                }
+
+                // Prevent multiple submissions for the same violation type
+                // Check if we've already handled this type of violation
+                const violationKey = `violation_${violationType.replace(/\s+/g, '_')}`;
+                if (sessionStorage.getItem(violationKey) === 'true') {
+                    console.log(`Ignoring duplicate security violation: ${violationType} (already handled)`);
+                    return;
+                }
+
+                // Mark this violation type as handled
+                sessionStorage.setItem(violationKey, 'true');
+
+                // Log the violation
+                console.log(`Security violation detected: ${violationType}`);
+                console.error(`Security violation: ${violationType}. Auto-submitting test.`);
+
+                // Set auto-submit flag to true
+                isAutoSubmitting = true;
+
+                // Force isSubmitting to false to ensure the submission goes through
+                isSubmitting = false;
+
+                // Use the submitTest function with security violation flag
+                submitTest(true);
+
+                // Only set one fallback redirect with a timeout
+                // This reduces the number of duplicate submissions
+                setTimeout(() => {
+                    console.log('Security violation fallback timeout reached (10s), redirecting to results');
+                    // Try to get the result ID from localStorage if available
+                    const resultId = localStorage.getItem('lastTestResultId');
+                    if (resultId) {
+                        window.location.replace(`/Test/Result/${resultId}`); // Use replace to prevent back button
+                    } else {
+                        window.location.replace('/Test/History'); // Use replace to prevent back button
+                    }
+                }, 10000);
+            }
+
+            // Initialize the modal
+            let submitModal;
+            try {
+                submitModal = new bootstrap.Modal(document.getElementById('submit-modal'));
+            } catch (e) {
+                console.error('Error initializing modal:', e);
+            }
+
+            // Add event listeners for the submit buttons
+            document.getElementById('main-submit-button').addEventListener('click', function() {
+                // Show the modal instead of a basic confirm dialog
+                if (submitModal) {
+                    submitModal.show();
+                } else {
+                    // Fallback to confirm if modal fails
+                    if (confirm('Are you sure you want to submit your test? This action cannot be undone.')) {
+                        submitTest(false);
+                    }
+                }
+            });
+
+            // Add event listeners for the submit button on the last question
+            document.querySelectorAll('.submit-test').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Show the modal instead of a basic confirm dialog
+                    if (submitModal) {
+                        submitModal.show();
+                    } else {
+                        // Fallback to confirm if modal fails
+                        if (confirm('Are you sure you want to submit your test? This action cannot be undone.')) {
+                            submitTest(false);
+                        }
+                    }
+                });
+            });
+
+            // Add event listener for the confirm button in the modal
+            document.getElementById('confirm-submit-btn').addEventListener('click', function() {
+                // Hide the modal immediately
+                if (submitModal) {
+                    submitModal.hide();
+                }
+
+                // Submit the test directly
+                submitTest(false);
+            });
+
+
+
+            function submitTest(isSecurityViolation = false) {
+                // For security violations or auto-submission, always allow submission regardless of isSubmitting state
+                if (isSubmitting && !isSecurityViolation && !isAutoSubmitting) {
+                    console.log('Already submitting, ignoring duplicate submission request');
+                    return; // Prevent multiple submissions unless it's a security violation or auto-submission
+                }
+
+                // Set the submitting flag
+                isSubmitting = true;
+
+                // Clear session update interval
+                clearInterval(sessionUpdateInterval);
+
+                // Mark test as inactive in session storage
+                try {
+                    const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                    sessionData.isActiveTest = false;
+                    sessionData.isSubmitting = true;
+                    sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                } catch (e) {
+                    console.error('Error updating session storage for submission:', e);
+                }
+
+                console.log(`Submitting test (security violation: ${isSecurityViolation}, auto-submission: ${isAutoSubmitting})`);
+
+                // Set a timeout to redirect to results page if submission takes too long
+                const submissionTimeout = setTimeout(() => {
+                    console.log('Submission timeout reached, redirecting to results');
+
+                    // Try to get the result ID from localStorage if available
+                    const resultId = localStorage.getItem('lastTestResultId');
+                    if (resultId) {
+                        window.location.href = `/Test/Result/${resultId}`;
+                    } else {
+                        window.location.href = '/Test/History';
+                    }
+                }, 15000); // 15 seconds timeout
+
+                // Collect all answers
+                const answers = {};
+
+                // Collect MCQ answers
+                const mcqInputs = document.querySelectorAll('input[name^="question_"]');
+                mcqInputs.forEach(input => {
+                    if (input.checked) {
+                        answers[input.name] = input.value;
+                    }
+                });
+
+                console.log(`Collected ${Object.keys(answers).length} answers`);
+
+                // Get the anti-forgery token
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+                if (!token) {
+                    console.error('Security token not found');
+                    // If security violation, redirect to history page
+                    if (isSecurityViolation) {
+                        console.warn('Security token not found during security violation, redirecting to history');
+                        setTimeout(() => {
+                            window.location.replace('/Test/History'); // Use replace to prevent back button
+                        }, 2000);
+                    } else {
+                        isSubmitting = false; // Reset flag if not a security violation
+                    }
+                    return;
+                }
+
+                console.log('Sending submission request to server...');
+
+                // Add security violation and auto-submission flags to the request
+                const requestData = {
+                    ...answers,
+                    isSecurityViolation: isSecurityViolation,
+                    isAutoSubmitting: isAutoSubmitting
+                };
+
+                // Submit the test directly without confirmation
+                fetch(`/Test/Submit/${@Model.Id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                .then(response => {
+                    console.log(`Server response status: ${response.status}`);
+                    if (!response.ok) {
+                        if (isSecurityViolation) {
+                            // For security violations, don't try to parse the response
+                            // Just throw a generic error
+                            throw new Error('Error submitting test during security violation');
+                        }
+                        return response.json().then(data => {
+                            // Check if this is a "test not found" error
+                            if (data.errorCode === 'TEST_NOT_FOUND') {
+                                console.error('Test not found error:', data.message);
+                                // Show a more user-friendly error message
+                                showToast('Error: ' + data.message, 'error');
+                                // Store the error in session storage to prevent repeated submissions
+                                try {
+                                    const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                                    sessionData.hasError = true;
+                                    sessionData.errorMessage = data.message;
+                                    sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                                } catch (e) {
+                                    console.error('Error updating session storage with error:', e);
+                                }
+                            }
+                            throw new Error(data.message || 'Error submitting test');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    clearTimeout(submissionTimeout); // Clear the timeout
+                    console.log('Submission successful, redirecting...');
+
+                    // Clear session storage for this test to prevent resubmission on return
+                    try {
+                        // Update session storage to mark test as completed
+                        const sessionData = JSON.parse(sessionStorage.getItem(testSessionKey) || '{}');
+                        sessionData.isActiveTest = false;
+                        sessionData.isCompleted = true;
+                        sessionData.completedAt = Date.now();
+                        sessionStorage.setItem(testSessionKey, JSON.stringify(sessionData));
+                    } catch (e) {
+                        console.error('Error updating session storage after submission:', e);
+                    }
+
+                    if (data.success) {
+                        // Show success message
+                        showToast('Test submitted successfully! Redirecting to results...', 'success');
+
+                        // Check if this was a duplicate submission
+                        if (data.isDuplicate) {
+                            console.log('Duplicate submission detected. Using existing result.');
+                            if (data.message) {
+                                console.log(data.message);
+                            }
+                        }
+
+                        // Store the result ID in localStorage for fallback redirects
+                        if (data.redirectUrl) {
+                            // Extract the result ID from the redirect URL
+                            const resultIdMatch = data.redirectUrl.match(/\/Test\/Result\/(\d+)/);
+                            if (resultIdMatch && resultIdMatch[1]) {
+                                const resultId = resultIdMatch[1];
+                                localStorage.setItem('lastTestResultId', resultId);
+                                console.log(`Stored result ID ${resultId} in localStorage`);
+                            }
+
+                            // Add a delay before redirecting to show the completion message
+                            setTimeout(() => {
+                                if (isSecurityViolation || isAutoSubmitting) {
+                                    window.location.replace(data.redirectUrl); // Use replace to prevent back button
+                                } else {
+                                    window.location.href = data.redirectUrl;
+                                }
+                            }, 2000);
+                        } else {
+                            // Add a delay before redirecting to show the completion message
+                            setTimeout(() => {
+                                if (isSecurityViolation || isAutoSubmitting) {
+                                    window.location.replace('/Test/History'); // Use replace to prevent back button
+                                } else {
+                                    window.location.href = '/Test/History';
+                                }
+                            }, 2000);
+                        }
+                    } else {
+                        console.error('Submission reported failure:', data.message);
+
+                        // Show error message to the user
+                        showToast('Error: ' + (data.message || 'Test submission failed'), 'error');
+
+                        // If security violation or auto-submission, redirect anyway
+                        if (isSecurityViolation || isAutoSubmitting) {
+                            setTimeout(() => {
+                                // Try to get the result ID from localStorage if available
+                                const resultId = localStorage.getItem('lastTestResultId');
+                                if (resultId) {
+                                    window.location.replace(`/Test/Result/${resultId}`); // Use replace to prevent back button
+                                } else {
+                                    window.location.replace('/Test/History'); // Use replace to prevent back button
+                                }
+                            }, 2000);
+                        } else {
+                            isSubmitting = false; // Reset submission flag if there was an error
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting test:', error);
+
+                    // Show error message to the user
+                    const errorMessage = error.message || 'An error occurred while submitting your test. Please try again.';
+
+                    // Show a toast notification with the error
+                    showToast('Error: ' + errorMessage, 'error');
+
+                    // If security violation or auto-submission, redirect anyway
+                    if (isSecurityViolation || isAutoSubmitting) {
+                        setTimeout(() => {
+                            // Try to get the result ID from localStorage if available
+                            const resultId = localStorage.getItem('lastTestResultId');
+                            if (resultId) {
+                                window.location.replace(`/Test/Result/${resultId}`); // Use replace to prevent back button
+                            } else {
+                                window.location.replace('/Test/History'); // Use replace to prevent back button
+                            }
+                        }, 3000); // Increased timeout to give user time to see the error
+                    } else {
+                        // For normal submissions, don't redirect automatically on error
+                        // Just reset the submission flag and let the user try again
+                        isSubmitting = false; // Reset submission flag if there was an error
+
+                        // Enable the submit button again after a short delay
+                        setTimeout(() => {
+                            if (submitModal) {
+                                // Hide the modal
+                                submitModal.hide();
+                            }
+                            // Re-enable the submit button
+                            document.getElementById('main-submit-button').disabled = false;
+                            document.querySelectorAll('.submit-test').forEach(btn => {
+                                btn.disabled = false;
+                            });
+                        }, 3000);
+                    }
+                });
+            }
+
+            // Helper functions for toast notifications
+            function showToast(message, type = 'info') {
+                console.log(`Showing toast: ${message} (${type})`);
+
+                // Create a more visible toast that doesn't rely on Bootstrap
+                const toast = document.createElement('div');
+
+                // Set styles directly to ensure visibility
+                toast.style.position = 'fixed';
+                toast.style.top = '100px';
+                toast.style.right = '20px';
+                toast.style.zIndex = '9999';
+                toast.style.minWidth = '300px';
+                toast.style.padding = '15px';
+                toast.style.borderRadius = '5px';
+                toast.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                toast.style.fontWeight = 'bold';
+                toast.style.color = 'white';
+
+                // Set background color based on type
+                if (type === 'success') {
+                    toast.style.backgroundColor = '#28a745';
+                } else if (type === 'error' || type === 'danger') {
+                    toast.style.backgroundColor = '#dc3545';
+                } else if (type === 'warning') {
+                    toast.style.backgroundColor = '#ffc107';
+                    toast.style.color = '#212529'; // Dark text for warning
+                } else {
+                    toast.style.backgroundColor = '#17a2b8'; // info
+                }
+
+                // Add content
+                toast.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex-grow: 1;">${message}</div>
+                        <button style="background: transparent; border: none; color: inherit; font-size: 20px; cursor: pointer; margin-left: 10px;">&times;</button>
+                    </div>
+                `;
+
+                // Add to document
+                document.body.appendChild(toast);
+
+                // Add click handler for close button
+                const closeButton = toast.querySelector('button');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function() {
+                        if (document.body.contains(toast)) {
+                            document.body.removeChild(toast);
+                        }
+                    });
+                }
+
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        document.body.removeChild(toast);
+                    }
+                }, 5000);
+
+                // Try Bootstrap toast as a fallback
+                try {
+                    if (typeof bootstrap !== 'undefined') {
+                        const bsToast = new bootstrap.Toast(toast, { delay: 5000 });
+                        bsToast.show();
+                    }
+                } catch (e) {
+                    console.warn('Bootstrap Toast not available, using custom implementation');
+                }
+            }
+        });
+    </script>
+}
+
+<!-- Hidden form for auto-submission -->
+<form id="auto-submit-form" method="post" action="@Url.Action("Submit", "Test", new { id = Model.Id })" style="display: none;">
+    <input type="hidden" name="isAutoSubmit" value="true" />
+    <input type="hidden" name="autoSubmitReason" id="auto-submit-reason" value="" />
+    <input type="hidden" name="violationReason" id="violation-reason" value="Security violation detected" />
+    <!-- The answers will be added dynamically -->
+</form>

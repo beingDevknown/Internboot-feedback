@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Organization Login";
+    Layout = "_LoginLayout";
+}
+
+@section Styles {
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .simple-footer {
+            margin-top: auto;
+        }
+    </style>
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="login-logo">
+                <img src="~/images/InternBoot.png" alt="InternBoot Logo" class="logo-img" style="max-width: 250px; height: auto; margin-bottom: 15px;" />
+            </div>
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Organization Login</h3>
+                </div>
+                <div class="card-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-envelope text-muted"></i>
+                                </span>
+                                <input type="email" class="form-control border-start-0" id="email" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-lock text-muted"></i>
+                                </span>
+                                <input type="password" class="form-control border-start-0" id="password" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-end">
+                            <a href="/Auth/ForgotPassword" class="text-decoration-none">Forgot Password?</a>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <p>Don't have an organization account? <a href="/Auth/OrganizationRegister">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+            alert('Please enter both email and password');
+            return;
+        }
+
+        try {
+            const response = await fetch('/Auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Store the token in localStorage
+                localStorage.setItem('token', data.token);
+                alert('Login successful!');
+                window.location.href = data.redirectUrl || '/Test';
+            } else {
+                if (data.redirectUrl) {
+                    if (confirm(data.message + ' Would you like to be redirected?')) {
+                        window.location.href = data.redirectUrl;
+                    }
+                } else {
+                    alert(data.message || 'Login failed. Please try again.');
+                }
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred during login. Please try again.');
+        }
+    });
+</script>
+}

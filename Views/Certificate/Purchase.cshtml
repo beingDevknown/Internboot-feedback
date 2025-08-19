@@ -1,0 +1,368 @@
+@{
+    ViewData["Title"] = "Purchase Certificate";
+    var testResultId = ViewBag.TestResultId;
+    var amount = ViewBag.Amount;
+    var orderId = ViewBag.OrderId;
+    var transactionId = ViewBag.TransactionId;
+    var purchaseId = ViewBag.PurchaseId;
+    var checkoutOptions = ViewBag.CheckoutOptions as Dictionary<string, object>;
+}
+
+@section Styles {
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="certificate-purchase-card">
+                <div class="card-header text-center">
+                    <i class="fas fa-certificate fa-3x text-warning mb-3"></i>
+                    <h3>Purchase Achievement Certificate</h3>
+                    <p class="text-muted">Get your official test completion certificate</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="certificate-preview mb-4">
+                        <div class="preview-container text-center">
+                            <div class="certificate-template-preview">
+                                <img src="/images/TestPortal.jpeg" alt="Certificate Template Preview" class="certificate-template-image">
+                                <div class="certificate-overlay">
+                                    <div class="preview-name">Your Name</div>
+                                    <div class="preview-rating">Good Performer</div>
+                                </div>
+                                <div class="preview-badge">
+                                    <i class="fas fa-eye"></i>
+                                    <span>Preview</span>
+                                </div>
+                            </div>
+                            <p class="text-muted mt-3 mb-0">
+                                <small><i class="fas fa-info-circle me-1"></i>This is how your certificate will look with your name and performance rating</small>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pricing-info text-center mb-4">
+                        <div class="price-display">
+                            <span class="currency">₹</span>
+                            <span class="amount">@amount</span>
+                        </div>
+                        <p class="text-muted">One-time payment for your achievement certificate</p>
+                    </div>
+
+                    <div class="features-list mb-4">
+                        <h5>What you get:</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Official achievement certificate</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Performance rating display</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Downloadable PDF format</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Instant delivery after payment</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Lifetime access</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="payButton" class="btn btn-primary btn-lg purchase-btn">
+                            <i class="fas fa-credit-card me-2"></i>
+                            Pay ₹@amount & Get Certificate
+                        </button>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt me-1"></i>
+                                Secure payment powered by Razorpay
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a href="/Test/Result/@testResultId" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Results
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Processing Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Processing Payment...</h5>
+                <p class="text-muted">Please wait while we process your payment.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('payButton').addEventListener('click', function() {
+            // Check if checkout options exist
+            @if (checkoutOptions == null)
+            {
+                <text>
+                console.error('Checkout options are null');
+                alert('Payment configuration error. Please try again.');
+                return;
+                </text>
+            }
+
+            var options = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(checkoutOptions));
+            console.log('Razorpay options:', options);
+
+            options.handler = function(response) {
+                // Show processing modal
+                var modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+                modal.show();
+
+                // Process the payment
+                fetch('/Certificate/ProcessPayment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        'testResultId': '@testResultId',
+                        'razorpayPaymentId': response.razorpay_payment_id,
+                        'razorpayOrderId': response.razorpay_order_id,
+                        'razorpaySignature': response.razorpay_signature
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    modal.hide();
+
+                    if (data.success) {
+                        // Show success message and redirect
+                        alert('Certificate purchased successfully! You can now download it from the results page.');
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        // Check if it's an authentication error
+                        if (data.message && data.message.includes('not authenticated')) {
+                            alert('Your session has expired. Please login again.');
+                            window.location.href = '/Auth/Login';
+                        } else {
+                            alert('Payment failed: ' + data.message);
+                        }
+                    }
+                })
+                .catch(error => {
+                    modal.hide();
+                    console.error('Error:', error);
+                    alert('An error occurred while processing the payment. Please try again.');
+                });
+            };
+
+            options.modal = {
+                ondismiss: function() {
+                    console.log('Payment modal closed');
+                }
+            };
+
+            var rzp = new Razorpay(options);
+            rzp.open();
+        });
+    </script>
+}
+
+<style>
+    .certificate-purchase-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: none;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border: none;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        padding: 1rem 2rem;
+    }
+
+    .certificate-preview {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1.5rem;
+    }
+
+    .certificate-template-preview {
+        position: relative;
+        display: inline-block;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+    }
+
+    .certificate-template-preview:hover {
+        transform: scale(1.02);
+    }
+
+    .certificate-template-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+    }
+
+    .certificate-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    .preview-name {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.8rem;
+        color: #b8860b;
+        font-weight: normal;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        white-space: nowrap;
+    }
+
+    .preview-rating {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.8rem;
+        color: #b8860b;
+        font-weight: normal;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        white-space: nowrap;
+    }
+
+    /* Responsive design for mobile devices */
+    @@media (max-width: 768px) {
+        .preview-name {
+            font-size: 1.4rem;
+        }
+
+        .preview-rating {
+            font-size: 1.4rem;
+        }
+
+        .certificate-template-image {
+            max-width: 100%;
+        }
+
+        .price-display {
+            font-size: 2.5rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .preview-name {
+            font-size: 1rem;
+        }
+
+        .preview-rating {
+            font-size: 1rem;
+        }
+
+        .price-display {
+            font-size: 2rem;
+        }
+    }
+
+    .preview-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .price-display {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #28a745;
+        margin-bottom: 0.5rem;
+    }
+
+    .price-display .currency {
+        font-size: 2rem;
+        vertical-align: top;
+    }
+
+    .features-list {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+    }
+
+    .features-list h5 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .features-list li {
+        padding: 0.5rem 0;
+        font-size: 1rem;
+    }
+
+    .purchase-btn {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .purchase-btn:hover {
+        background: linear-gradient(45deg, #218838, #1ea085);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-outline-secondary {
+        border-radius: 25px;
+        padding: 0.5rem 1.5rem;
+    }
+</style>

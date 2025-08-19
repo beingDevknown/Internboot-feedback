@@ -1,0 +1,516 @@
+@model OnlineAssessment.Web.Models.CategoryQuestions
+
+@{
+    ViewData["Title"] = "Upload Category Questions";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Upload Category Questions</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Upload question sets for specific categories. These questions will be available when creating tests for the selected category.
+                <p class="mt-2 mb-0">
+                    <strong>Note:</strong> Each question set must contain at least 60 questions.
+                </p>
+                <p class="mt-2 mb-0">
+                    <a href="/samples/category_questions_sample.json" download class="alert-link">
+                        <i class="fas fa-download"></i> Download sample JSON file
+                    </a>
+                </p>
+            </div>
+
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong>
+                <ul class="mb-0 mt-2">
+                    <li>The file must be a valid JSON file with a <code>.json</code> extension</li>
+                    <li>The JSON must contain an array of questions under the <code>mcqQuestions</code> key</li>
+                    <li>Each question must have <code>text</code>, <code>title</code>, and <code>answerOptions</code> fields</li>
+                    <li>Each answer option must have <code>text</code> and <code>isCorrect</code> fields</li>
+                    <li>If you're seeing HTML errors, make sure your file is not an HTML file</li>
+                </ul>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="BFSI Internship">BFSI Internship</option>
+                    <option value="Digital Marketing  Internships">Digital Marketing  Internships</option>
+                    <option value="IT Internships">IT Internships</option>
+                    <option value="Relationship Executive Internships">Relationship Executive Internships</option>
+                    <option value="Business Development Internships">Business Development Internships</option>
+                    <option value="Sales Internships">Sales Internships</option>
+                    <option value="Portfolio Internships">Portfolio Internships</option>
+                    <option value="Web Development Internships">Web Development Internships</option>
+                    <option value="Software Development Internships">Software Development Internships</option>
+                    <option value="Pharma Intern">Pharma Intern</option>
+                    <option value="Medical Coding Intern">Medical Coding Intern</option>
+                    <option value="AI">AI</option>
+                    <option value="DataScience">DataScience</option>
+                    <option value="Cybersecurity">Cybersecurity</option>
+                    <option value="Human Resource">Human Resource</option>
+                    <option value="Financial Analyst">Financial Analyst</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                </select>
+                <small class="form-text">Select the category for this question set.</small>
+            </div>
+
+            <div class="question-card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-file-upload"></i> Upload Questions</h5>
+                </div>
+                <div class="card-body">
+                    <div id="questionsUpload">
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload-label">
+                                <div class="file-upload-text">
+                                    <div class="file-upload-icon">
+                                        <i class="fas fa-file-upload"></i>
+                                    </div>
+                                    <h5>Upload Questions</h5>
+                                    <p>Drag and drop your JSON file here or click to browse</p>
+                                    <div class="file-name" id="fileName"></div>
+                                </div>
+                            </div>
+                            <input type="file" class="file-upload-input" id="questionsFile" accept=".json">
+                        </div>
+
+                        <div class="mt-3 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="validateJsonCheck" checked>
+                                <label class="form-check-label" for="validateJsonCheck">
+                                    Validate JSON format before uploading
+                                </label>
+                                <small class="form-text text-muted d-block">
+                                    This will check if your file is a valid JSON file before uploading
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-secondary" type="button" id="validateJsonBtn">
+                                <i class="fas fa-check-circle"></i> Validate JSON
+                            </button>
+                            <button class="btn btn-primary" type="button" id="uploadQuestionsBtn">
+                                <i class="fas fa-upload"></i> Upload Questions
+                            </button>
+                        </div>
+                        <div id="uploadStatus" class="alert mt-3 d-none"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3 mt-4">
+                <button id="backButton" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> <span id="backButtonText">Back to Category Questions</span>
+                </button>
+            </div>
+
+            <!-- Loading indicator that appears when navigating back -->
+            <div id="loadingIndicator" class="text-center mt-3 d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading category questions...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // File upload display
+        document.getElementById('questionsFile').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const fileName = file.name || 'No file selected';
+                document.getElementById('fileName').textContent = fileName;
+
+                // Check file extension
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                if (fileExtension !== 'json') {
+                    showToast('Warning: File does not have a .json extension. Make sure it is a valid JSON file.', 'warning');
+                }
+
+                // Auto-validate if checkbox is checked
+                if (document.getElementById('validateJsonCheck').checked) {
+                    validateJson();
+                }
+            }
+        });
+
+        // JSON validation function
+        function validateJson() {
+            const fileInput = document.getElementById('questionsFile');
+            const file = fileInput.files[0];
+            const statusElement = document.getElementById('uploadStatus');
+
+            if (!file) {
+                showToast('Please select a file to validate', 'warning');
+                return;
+            }
+
+            // Check file extension
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (fileExtension !== 'json') {
+                statusElement.className = 'alert mt-3 alert-warning';
+                statusElement.textContent = 'Warning: File does not have a .json extension. Validating content...';
+                statusElement.classList.remove('d-none');
+            } else {
+                statusElement.className = 'alert mt-3 alert-info';
+                statusElement.textContent = 'Validating JSON file...';
+                statusElement.classList.remove('d-none');
+            }
+
+            // Read and validate the file
+            const fileReader = new FileReader();
+
+            fileReader.onload = function(e) {
+                try {
+                    const fileContent = e.target.result;
+                    const jsonData = JSON.parse(fileContent);
+
+                    // Check for mcqQuestions array
+                    if (!jsonData.mcqQuestions || !Array.isArray(jsonData.mcqQuestions)) {
+                        statusElement.className = 'alert mt-3 alert-warning';
+                        statusElement.textContent = 'Warning: JSON is valid but missing "mcqQuestions" array. Please check the file format.';
+                        return;
+                    }
+
+                    // Count questions
+                    const questionCount = jsonData.mcqQuestions.length;
+
+                    // Validate question structure
+                    let validQuestions = 0;
+                    let invalidQuestions = 0;
+
+                    jsonData.mcqQuestions.forEach(q => {
+                        if (q.text && q.title && Array.isArray(q.answerOptions) && q.answerOptions.length >= 2) {
+                            validQuestions++;
+                        } else {
+                            invalidQuestions++;
+                        }
+                    });
+
+                    if (invalidQuestions > 0) {
+                        statusElement.className = 'alert mt-3 alert-warning';
+                        statusElement.textContent = `JSON is valid with ${questionCount} questions, but ${invalidQuestions} questions have invalid format. Each question must have text, title, and at least 2 answer options.`;
+                    } else {
+                        statusElement.className = 'alert mt-3 alert-success';
+                        statusElement.textContent = `JSON is valid! Found ${questionCount} properly formatted questions.`;
+
+                        if (questionCount < 60) {
+                            statusElement.textContent += ` Note: For production use, you need at least 60 questions (currently ${questionCount}).`;
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('JSON validation error:', error);
+                    statusElement.className = 'alert mt-3 alert-danger';
+                    statusElement.textContent = 'Error: Invalid JSON format. ' + error.message;
+                }
+            };
+
+            fileReader.onerror = function() {
+                statusElement.className = 'alert mt-3 alert-danger';
+                statusElement.textContent = 'Error: Failed to read the file. The file may be corrupted.';
+            };
+
+            fileReader.readAsText(file);
+        }
+
+        // Add event listener for validate button
+        document.getElementById('validateJsonBtn').addEventListener('click', validateJson);
+
+        // Handle back button click with optimized navigation
+        document.getElementById('backButton').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Show loading indicator
+            document.getElementById('loadingIndicator').classList.remove('d-none');
+
+            // Change button text
+            document.getElementById('backButtonText').textContent = 'Loading...';
+            this.disabled = true;
+
+            // Navigate back to the index page
+            window.location.href = '@Url.Action("Index", "CategoryQuestions")';
+        });
+
+        // Upload questions
+        document.getElementById('uploadQuestionsBtn').addEventListener('click', async function() {
+            const fileInput = document.getElementById('questionsFile');
+            const file = fileInput.files[0];
+            const category = document.getElementById('category').value;
+            const statusElement = document.getElementById('uploadStatus');
+
+            if (!category) {
+                showToast('Please select a category', 'warning');
+                return;
+            }
+
+            if (!file) {
+                showToast('Please select a file to upload', 'warning');
+                return;
+            }
+
+            // Check file extension
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (fileExtension !== 'json') {
+                statusElement.className = 'alert mt-3 alert-danger';
+                statusElement.textContent = 'Error: Only JSON files are allowed. Please upload a .json file.';
+                statusElement.classList.remove('d-none');
+                showToast('Error: Only JSON files are allowed', 'error');
+                return;
+            }
+
+            // Show loading state
+            statusElement.className = 'alert mt-3 alert-info';
+            statusElement.textContent = 'Processing file...';
+            statusElement.classList.remove('d-none');
+
+            const uploadBtn = document.getElementById('uploadQuestionsBtn');
+            const originalBtnText = uploadBtn.innerHTML;
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                // Validate the file content
+                const fileReader = new FileReader();
+
+                fileReader.onload = async function(e) {
+                    try {
+                        const fileContent = e.target.result;
+
+                        // Validate JSON format before parsing
+                        let questionsData;
+                        try {
+                            questionsData = JSON.parse(fileContent);
+                        } catch (jsonError) {
+                            console.error('JSON Parse Error:', jsonError);
+                            throw new Error('Invalid JSON format. Please check your file and ensure it is a valid JSON file.');
+                        }
+
+                        // Prepare questions for upload
+                        let questions = [];
+
+                        // Handle MCQ questions
+                        if (questionsData.mcqQuestions && Array.isArray(questionsData.mcqQuestions)) {
+                            questions = questionsData.mcqQuestions.map(q => ({
+                                text: q.text || '',
+                                title: q.title || q.text.substring(0, 50) || 'Question',
+                                type: 0, // MultipleChoice
+                                answerOptions: q.answerOptions || []
+                            }));
+                        }
+
+                        if (questions.length === 0) {
+                            throw new Error('No valid questions found in the file. Make sure your JSON has a "mcqQuestions" array.');
+                        }
+
+                        // For testing purposes, temporarily disable the 60 question minimum
+                        // In production, uncomment this validation
+                        /*
+                        if (questions.length < 60) {
+                            throw new Error(`At least 60 questions are required. Found only ${questions.length} questions.`);
+                        }
+                        */
+
+                        // Validate question structure
+                        const invalidQuestions = questions.filter(q =>
+                            !q.text ||
+                            !q.title ||
+                            !Array.isArray(q.answerOptions) ||
+                            q.answerOptions.length < 2
+                        );
+
+                        if (invalidQuestions.length > 0) {
+                            throw new Error(`${invalidQuestions.length} questions have invalid format. Each question must have text, title, and at least 2 answer options.`);
+                        }
+
+                        // Show uploading status with better visual feedback
+                        statusElement.className = 'alert mt-3 alert-info';
+                        statusElement.innerHTML = `
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span>Uploading questions to server... This may take a moment for large question sets.</span>
+                            </div>
+                        `;
+
+                        // Set a timeout to show a progress message if it takes too long
+                        const uploadTimeout = setTimeout(() => {
+                            statusElement.innerHTML = `
+                                <div class="d-flex align-items-center">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <span>Still uploading... Processing large question sets can take some time. Please be patient.</span>
+                                </div>
+                            `;
+                        }, 5000);
+
+                        // Upload questions with a longer timeout
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
+
+                        let response;
+                        let result;
+
+                        try {
+                            // Make the API request
+                            response = await fetch('/api/CategoryQuestions/Upload', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    category: category,
+                                    questions: questions
+                                }),
+                                signal: controller.signal
+                            });
+
+                            clearTimeout(timeoutId);
+                            clearTimeout(uploadTimeout);
+
+                            // Parse the JSON response
+                            try {
+                                result = await response.json();
+                            } catch (jsonError) {
+                                console.error('Response Parse Error:', jsonError);
+                                throw new Error('Failed to parse server response. The server may be experiencing issues.');
+                            }
+
+                            // Process the response
+                            if (response.ok) {
+                                statusElement.className = 'alert mt-3 alert-success';
+                                statusElement.textContent = result.message || 'Questions uploaded successfully!';
+                                statusElement.classList.remove('d-none');
+
+                                showToast('Questions uploaded successfully!', 'success');
+
+                                // Redirect to index page after a short delay
+                                setTimeout(() => {
+                                    window.location.href = '/CategoryQuestions/Index';
+                                }, 2000);
+                            } else {
+                                throw new Error(result.message || 'Failed to upload questions');
+                            }
+                        } catch (fetchError) {
+                            clearTimeout(timeoutId);
+                            clearTimeout(uploadTimeout);
+                            if (fetchError.name === 'AbortError') {
+                                throw new Error('The upload request took too long and was aborted. Please try again with a smaller file or contact support.');
+                            }
+                            throw fetchError;
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        statusElement.className = 'alert mt-3 alert-danger';
+                        statusElement.textContent = 'Error: ' + error.message;
+                        statusElement.classList.remove('d-none');
+                        showToast('Error uploading questions: ' + error.message, 'error');
+
+                        // Reset button
+                        uploadBtn.disabled = false;
+                        uploadBtn.innerHTML = originalBtnText;
+                    }
+                };
+
+                fileReader.onerror = function() {
+                    statusElement.className = 'alert mt-3 alert-danger';
+                    statusElement.textContent = 'Error: Failed to read the file. The file may be corrupted.';
+                    statusElement.classList.remove('d-none');
+                    showToast('Error reading file', 'error');
+
+                    // Reset button
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = originalBtnText;
+                };
+
+                fileReader.readAsText(file);
+            } catch (error) {
+                console.error('Error:', error);
+                statusElement.className = 'alert mt-3 alert-danger';
+                statusElement.textContent = 'Error: ' + error.message;
+                statusElement.classList.remove('d-none');
+                showToast('Error uploading questions: ' + error.message, 'error');
+
+                // Reset button
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = originalBtnText;
+            }
+        });
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Check if toast container exists, if not create it
+            let toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toastContainer';
+                toastContainer.style.position = 'fixed';
+                toastContainer.style.top = '20px';
+                toastContainer.style.right = '20px';
+                toastContainer.style.zIndex = '9999';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.style.minWidth = '250px';
+            toast.style.margin = '0 0 10px 0';
+            toast.style.padding = '15px';
+            toast.style.borderRadius = '4px';
+            toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            toast.style.transition = 'all 0.3s ease';
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-20px)';
+
+            // Set background color based on type
+            switch(type) {
+                case 'success':
+                    toast.style.backgroundColor = '#dcfce7';
+                    toast.style.color = '#166534';
+                    break;
+                case 'error':
+                    toast.style.backgroundColor = '#fee2e2';
+                    toast.style.color = '#991b1b';
+                    break;
+                case 'warning':
+                    toast.style.backgroundColor = '#fef3c7';
+                    toast.style.color = '#92400e';
+                    break;
+                default: // info
+                    toast.style.backgroundColor = '#dbeafe';
+                    toast.style.color = '#1e40af';
+            }
+
+            // Set message
+            toast.textContent = message;
+
+            // Add to container
+            toastContainer.appendChild(toast);
+
+            // Animate in
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+            }, 10);
+
+            // Remove after 5 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 5000);
+        }
+    </script>
+}

@@ -1,0 +1,89 @@
+@{
+    ViewData["Title"] = "Payment Failed";
+    Layout = "_Layout";
+
+    var errorDetails = ViewBag.ErrorDetails as string;
+    var paymentStatus = ViewBag.PaymentStatus as string;
+    var errorMessage = TempData["ErrorMessage"] as string ?? "Payment was not successful. Please try booking a slot again.";
+    var testId = TempData["FailedTestId"] as int?;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-times-circle text-danger" style="font-size: 5rem;"></i>
+                    </div>
+                    <h2 class="card-title mb-3">Payment Failed</h2>
+                    <p class="card-text mb-4">We're sorry, but your payment could not be processed. Your booking has not been confirmed.</p>
+
+                    @if (!string.IsNullOrEmpty(errorDetails))
+                    {
+                        <div class="alert alert-danger">
+                            <strong>Error details:</strong> @errorDetails
+                        </div>
+                    }
+
+                    <p class="card-text mb-4">You need to try booking a slot again to take the test. You will be redirected to the available tests page.</p>
+                    <p class="card-text mb-4"><strong>Don't worry!</strong> The test is still available for you to book again.</p>
+
+                    <div class="alert alert-info mb-4">
+                        <p><strong>What happened?</strong></p>
+                        <p>Your payment was not successful. This could be due to:</p>
+                        <ul class="text-start">
+                            <li>Insufficient funds in your account</li>
+                            <li>Bank declined the transaction</li>
+                            <li>Payment gateway timeout</li>
+                            <li>Network connectivity issues</li>
+                        </ul>
+                        <p>No money has been deducted from your account. If you see a pending transaction, it will be reversed automatically.</p>
+                    </div>
+
+                    <div class="spinner-border text-primary mb-4" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted small">If you are not redirected automatically, please click one of the buttons below.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        @if (testId.HasValue)
+                        {
+                            <a href="@Url.Action("BookSlot", "Test", new { id = testId })" class="btn btn-primary">Try Booking Again</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Test")" class="btn btn-primary">Book a New Slot</a>
+                        }
+                        <a href="@Url.Action("MyBookings", "Test")" class="btn btn-outline-secondary">Go to My Bookings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Clear any payment abandonment flags since we're handling the failure explicitly
+        sessionStorage.removeItem('paymentAbandoned');
+        sessionStorage.removeItem('paymentInProgress');
+
+        // Redirect to the appropriate page after a short delay
+        setTimeout(function() {
+            @if (testId.HasValue)
+            {
+                <text>
+                // Redirect to the BookSlot page for the same test
+                window.location.href = '@Url.Action("BookSlot", "Test", new { id = testId, error = errorMessage, paymentFailed = true })';
+                </text>
+            }
+            else
+            {
+                <text>
+                // Redirect to the test list page so the user can book a new slot
+                window.location.href = '@Url.Action("Index", "Test", new { error = errorMessage })';
+                </text>
+            }
+        }, 5000); // Increased delay to 5 seconds to give users time to read the information
+    </script>
+}

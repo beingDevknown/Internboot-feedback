@@ -1,0 +1,227 @@
+@model OnlineAssessment.Web.Models.SpecialUser
+
+@{
+    ViewData["Title"] = "Special User Profile";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-tie me-2"></i>
+                        Special User Profile
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Profile Information -->
+                        <div class="col-md-8">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Full Name:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.FullName
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Username:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.Username
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Email:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.Email
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Mobile Number:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.MobileNumber
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Category:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    <span class="badge bg-info">@Model.Category</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Education:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.Education
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Employment:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.Employment
+                                </div>
+                            </div>
+                            
+                            @if (!string.IsNullOrEmpty(Model.Description))
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <strong>Description:</strong>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        @Model.Description
+                                    </div>
+                                </div>
+                            }
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Status:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactive</span>
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <strong>Created At:</strong>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.CreatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")
+                                </div>
+                            </div>
+                            
+                            @if (Model.LastLoginAt.HasValue)
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <strong>Last Login:</strong>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        @Model.LastLoginAt.Value.ToString("MMM dd, yyyy 'at' hh:mm tt")
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        
+                        <!-- Profile Actions -->
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Profile Actions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <a href="/Test" class="btn btn-primary">
+                                            <i class="fas fa-clipboard-list me-2"></i>
+                                            View Available Tests
+                                        </a>
+                                        
+                                        <a href="/Test/History" class="btn btn-info">
+                                            <i class="fas fa-history me-2"></i>
+                                            Test History
+                                        </a>
+                                        
+                                        <button type="button" class="btn btn-warning" onclick="changePassword()">
+                                            <i class="fas fa-key me-2"></i>
+                                            Change Password
+                                        </button>
+                                        
+                                        <a href="/Auth/Logout" class="btn btn-outline-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i>
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="changePasswordForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function changePassword() {
+    $('#changePasswordModal').modal('show');
+}
+
+$('#changePasswordForm').on('submit', function(e) {
+    e.preventDefault();
+    
+    const currentPassword = $('#currentPassword').val();
+    const newPassword = $('#newPassword').val();
+    const confirmPassword = $('#confirmPassword').val();
+    
+    if (newPassword !== confirmPassword) {
+        alert('New password and confirm password do not match.');
+        return;
+    }
+    
+    // Here you would typically make an AJAX call to change the password
+    // For now, just show a success message
+    alert('Password change functionality will be implemented soon.');
+    $('#changePasswordModal').modal('hide');
+});
+</script>

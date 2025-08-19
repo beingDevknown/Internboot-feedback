@@ -1,0 +1,79 @@
+@{
+    ViewData["Title"] = "Open Payment Gateway";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Open Payment Gateway</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Use this form to open the payment gateway directly.</p>
+                    
+                    <form method="get" action="@Url.Action("OpenPaymentGateway", "Payment")">
+                        <div class="mb-3">
+                            <label for="testId" class="form-label">Test ID</label>
+                            <input type="number" class="form-control" id="testId" name="testId" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date (yyyy-MM-dd)</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="startTime" class="form-label">Start Time (HH:mm)</label>
+                                <input type="time" class="form-control" id="startTime" name="startTime" required>
+                            </div>
+                            <div class="col">
+                                <label for="endTime" class="form-label">End Time (HH:mm)</label>
+                                <input type="time" class="form-control" id="endTime" name="endTime" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="slotNumber" class="form-label">Slot Number</label>
+                            <input type="number" class="form-control" id="slotNumber" name="slotNumber" required>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="isReattempt" name="isReattempt" value="true">
+                            <label class="form-check-label" for="isReattempt">Is Reattempt?</label>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-credit-card me-2"></i> Open Payment Gateway
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="alert alert-info mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> This will redirect you to the Razorpay payment gateway to complete your payment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default date to today
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('date').value = formattedDate;
+            
+            // Set default times
+            document.getElementById('startTime').value = '10:00';
+            document.getElementById('endTime').value = '11:00';
+        });
+    </script>
+}

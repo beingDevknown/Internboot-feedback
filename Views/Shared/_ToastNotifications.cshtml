@@ -1,0 +1,89 @@
+@{
+    // Check for different types of notification messages
+    var successMessage = TempData["SuccessMessage"] ?? ViewBag.SuccessMessage;
+    var errorMessage = TempData["ErrorMessage"] ?? ViewBag.ErrorMessage;
+    var warningMessage = TempData["WarningMessage"] ?? ViewBag.WarningMessage;
+    var infoMessage = TempData["InfoMessage"] ?? ViewBag.InfoMessage;
+    var paymentWarning = ViewBag.PaymentWarning;
+
+    // Check if we should show payment warning
+    bool showPaymentWarning = false;
+    if (ViewBag.PaymentWarning != null && ViewBag.JustPaid != true && ViewBag.FromPayment != true && ViewBag.BookingStatus != "Confirmed")
+    {
+        showPaymentWarning = true;
+    }
+
+    // CRITICAL DEBUG: Log the values for debugging
+    var debugInfo = $"PaymentWarning: {ViewBag.PaymentWarning}, JustPaid: {ViewBag.JustPaid}, FromPayment: {ViewBag.FromPayment}, BookingStatus: {ViewBag.BookingStatus}, showPaymentWarning: {showPaymentWarning}";
+    System.Diagnostics.Debug.WriteLine($"CRITICAL DEBUG Toast: {debugInfo}");
+}
+
+<script>
+    // Wait for document to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if toastr is available
+        if (typeof toastr !== 'undefined') {
+            // Configure toastr options if not already configured
+            if (!toastr.options.closeButton) {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            }
+
+            // Show success message if available
+            @if (successMessage != null)
+            {
+                <text>
+                toastr.success('@Html.Raw(successMessage)');
+                </text>
+            }
+
+            // Show error message if available
+            @if (errorMessage != null)
+            {
+                <text>
+                toastr.error('@Html.Raw(errorMessage)');
+                </text>
+            }
+
+            // Show warning message if available
+            @if (warningMessage != null)
+            {
+                <text>
+                toastr.warning('@Html.Raw(warningMessage)');
+                </text>
+            }
+
+            // Show info message if available
+            @if (infoMessage != null)
+            {
+                <text>
+                toastr.info('@Html.Raw(infoMessage)');
+                </text>
+            }
+
+            // Show payment warning if available
+            @if (showPaymentWarning)
+            {
+                <text>
+                toastr.error('@Html.Raw(paymentWarning)');
+                </text>
+            }
+        } else {
+            console.error('Toastr library not loaded. Toast notifications will not be displayed.');
+        }
+    });
+</script>

@@ -1,0 +1,49 @@
+@{
+    var adId = Guid.NewGuid().ToString().Substring(0, 8);
+    var defaultAdLink = "https://internboot.com";
+
+    // AdSense publisher ID (real, verified publisher ID)
+    var adSensePublisherId = "ca-pub-8504842908769623";
+    // Ad unit ID (real, verified ad unit ID)
+    var adSlotId = "9319968119";
+}
+
+<div class="ad-container ad-clickable my-4" data-ad-link="@defaultAdLink">
+    <!-- Google AdSense Ad Unit -->
+    <!-- internboot -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8504842908769623" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="@adSensePublisherId"
+         data-ad-slot="@adSlotId"
+         data-ad-format="auto"
+         data-full-width-responsive="true"
+         data-ad-type="banner"
+         id="@adId"></ins>
+
+    <!-- No fallback content in production mode - we only show real ads -->
+</div>
+
+<style>
+    .ad-container {
+        position: relative;
+        min-height: 120px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .ad-clickable {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ad-clickable:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* No fallback styles in production mode */
+</style>

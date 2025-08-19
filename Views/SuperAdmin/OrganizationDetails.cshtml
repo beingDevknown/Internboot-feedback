@@ -1,0 +1,170 @@
+@model Organization
+@{
+    ViewData["Title"] = "Organization Details";
+    Layout = "_SuperAdminLayout";
+    var tests = ViewBag.Tests as List<Test>;
+    var testCount = ViewBag.TestCount;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Organization Details</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/SuperAdmin/Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/SuperAdmin/Organizations">Organizations</a></li>
+        <li class="breadcrumb-item active">@Model.Name</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-building me-1"></i>
+                    Organization Information
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 text-center">
+                        @if (!string.IsNullOrEmpty(Model.LogoUrl))
+                        {
+                            <img src="@Model.LogoUrl" alt="@Model.Name Logo" class="img-fluid mb-3" style="max-height: 150px;" onerror="this.src='/images/default-profile.svg'; this.onerror=null;" />
+                        }
+                        else
+                        {
+                            <img src="/images/default-profile.svg" alt="@Model.Name Logo" class="img-fluid mb-3" style="max-height: 150px;" />
+                        }
+                        <h3>@Model.Name</h3>
+                    </div>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Email</th>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <th>Contact Person</th>
+                            <td>@Model.ContactPerson</td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td>@(Model.PhoneNumber ?? "Not provided")</td>
+                        </tr>
+                        <tr>
+                            <th>Website</th>
+                            <td>
+                                @if (!string.IsNullOrEmpty(Model.Website))
+                                {
+                                    <a href="@Model.Website" target="_blank">@Model.Website</a>
+                                }
+                                else
+                                {
+                                    <span>Not provided</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>@(Model.Address ?? "Not provided")</td>
+                        </tr>
+                        <tr>
+                            <th>Created At</th>
+                            <td>@Model.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        </tr>
+                        <tr>
+                            <th>Last Login</th>
+                            <td>@(Model.LastLoginAt.HasValue ? Model.LastLoginAt.Value.ToString("yyyy-MM-dd HH:mm") : "Never")</td>
+                        </tr>
+                    </table>
+
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fas fa-trash"></i> Delete Organization
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-clipboard-list me-1"></i>
+                    Tests (@testCount)
+                </div>
+                <div class="card-body">
+                    @if (tests != null && tests.Any())
+                    {
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Duration</th>
+                                    <th>Created At</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var test in tests)
+                                {
+                                    <tr>
+                                        <td>@test.Title</td>
+                                        <td>@test.DurationMinutes minutes</td>
+                                        <td>@test.CreatedAt.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            @if (!test.IsDeleted)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Deleted</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            This organization has not created any tests yet.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Description
+                    </div>
+                    <div class="card-body">
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the organization <strong>@Model.Name</strong>? This action cannot be undone and will delete all associated tests and data.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="/super-admin/organizations/delete/@Model.SapId" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

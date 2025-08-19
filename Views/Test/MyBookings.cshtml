@@ -1,0 +1,1504 @@
+@{
+    ViewData["Title"] = "My Bookings";
+}
+
+<style>
+    .booking-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+        background-color: white;
+    }
+
+    .booking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .booking-header {
+        padding: 1.25rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .booking-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .booking-body {
+        padding: 1.25rem;
+    }
+
+    .booking-info {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+
+    .booking-info-item {
+        flex: 1;
+        min-width: 200px;
+        margin-bottom: 1rem;
+    }
+
+    .booking-info-label {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+    }
+
+    .booking-info-value {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .booking-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .section-title i {
+        color: #3498db;
+    }
+
+    .no-bookings {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .no-bookings i {
+        font-size: 3rem;
+        color: #dee2e6;
+        margin-bottom: 1rem;
+    }
+
+    .no-bookings h4 {
+        font-size: 1.25rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-bookings p {
+        color: #adb5bd;
+        margin-bottom: 1.5rem;
+    }
+
+    .badge-slot {
+        background-color: #e9ecef;
+        color: #495057;
+        font-weight: 500;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.875rem;
+    }
+
+    .badge-available {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .badge-upcoming {
+        background-color: #cff4fc;
+        color: #055160;
+    }
+
+    .badge-expired {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .badge-taken {
+        background-color: #e2e3e5;
+        color: #41464b;
+    }
+
+    .badge-pending {
+        background-color: #fff3cd;
+        color: #664d03;
+    }
+
+    .badge-failed {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-start-test {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-start-test:hover {
+        background: linear-gradient(135deg, #3a5ccc, #1a3ba0);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-view-details {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .btn-view-details:hover {
+        background-color: #e9ecef;
+        color: #495057;
+        text-decoration: none;
+    }
+
+    .btn-view-results {
+        background-color: #e9f7fe;
+        color: #3498db;
+        border: 1px solid #bee5eb;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .btn-view-results:hover {
+        background-color: #d1ecf1;
+        color: #0c7cd5;
+        text-decoration: none;
+    }
+
+    .btn-reattempt {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        margin-left: 0.5rem;
+    }
+
+    .btn-reattempt:hover {
+        background: linear-gradient(135deg, #d97706, #b45309);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .countdown {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .countdown-item {
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        padding: 0.25rem 0.5rem;
+        min-width: 40px;
+        text-align: center;
+    }
+
+    .countdown-value {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1rem;
+    }
+
+    .countdown-label {
+        font-size: 0.7rem;
+        color: #6c757d;
+    }
+
+    .booking-section {
+        margin-bottom: 3rem;
+    }
+
+    .booking-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .status-available {
+        background-color: #10b981;
+    }
+
+    .status-upcoming {
+        background-color: #3b82f6;
+    }
+
+    .status-expired {
+        background-color: #ef4444;
+    }
+
+    .status-taken {
+        background-color: #6b7280;
+    }
+
+    .status-pending {
+        background-color: #f59e0b;
+    }
+
+    .status-failed {
+        background-color: #dc3545;
+    }
+
+    /* Ad container styles */
+    .ad-container {
+        position: relative;
+        min-height: 120px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .ad-clickable {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ad-clickable:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .ad-fallback {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .fallback-content {
+        max-width: 80%;
+    }
+
+    .fallback-content h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .fallback-content p {
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-start">
+            <div>
+                <h1 class="mb-4">My Bookings</h1>
+                <p class="text-muted">View and manage your scheduled tests.</p>
+            </div>
+            <div>
+                <a href="@Url.Action("MyBookings", "Test", new { refresh = true })" class="btn btn-outline-primary mt-2 me-2">
+                    <i class="fas fa-sync-alt me-2"></i> Refresh
+                </a>
+                <a href="@Url.Action("DebugBookings", "Test")" class="btn btn-outline-secondary mt-2">
+                    <i class="fas fa-bug me-2"></i> Debug View
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12">
+            @* Alert notifications have been replaced with toast notifications *@
+            @if (TempData["TestRecreated"] != null)
+            {
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        if (typeof showToast === 'function') {
+                            showToast('Your test is recreated. Please find your test in the "Available Now" section below.', 'success');
+                        }
+                    });
+                </script>
+            }
+
+            @* Display error message from query string *@
+            @if (!string.IsNullOrEmpty(Context.Request.Query["error"]))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> @Context.Request.Query["error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Single Ad Unit at Top of My Bookings Page -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ad-container ad-clickable my-4" data-ad-link="https://www.example.com/sponsors">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8504842908769623" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8504842908769623"
+                     data-ad-slot="1234567890"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+                <!-- Fallback content if ad doesn't load -->
+                <div class="ad-fallback">
+                    <div class="fallback-content">
+                        <h4>Sponsored Content</h4>
+                        <p>Check out our partner offers and resources!</p>
+                        <a href="https://www.example.com/sponsors" target="_blank" class="btn btn-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Now Section -->
+    <div class="booking-section">
+        <h2 class="section-title">
+            <i class="fas fa-play-circle"></i> Available Now
+        </h2>
+
+        @{
+            // Create a list to hold all confirmed bookings that should be displayed in the Available Now section
+            var availableNowBookings = new List<dynamic>();
+
+            // Check all bookings for confirmed bookings that haven't been taken yet
+            if (ViewBag.AllBookings != null)
+            {
+                foreach (var booking in ViewBag.AllBookings)
+                {
+                    if (booking.Status == "Confirmed" || booking.Status == "Completed")
+                    {
+                        // Check if this booking has already been taken
+                        bool alreadyTaken = false;
+                        if (ViewBag.TestResults != null)
+                        {
+                            foreach (var result in ViewBag.TestResults)
+                            {
+                                // Check if this specific booking has been taken by comparing submission time with booking time
+                                if (result.TestId == booking.TestId && result.SubmittedAt > booking.BookedAt)
+                                {
+                                    alreadyTaken = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Only add to available bookings if it hasn't been taken yet
+                        if (!alreadyTaken)
+                        {
+                            availableNowBookings.Add(booking);
+                        }
+                    }
+                }
+            }
+        }
+
+        @{
+            // Create a list of bookings that aren't already displayed in the Available Now section
+            var otherBookings = new List<dynamic>();
+            if (ViewBag.AllBookings != null)
+            {
+                foreach (var booking in ViewBag.AllBookings)
+                {
+                    // Only add confirmed bookings that aren't already in availableNowBookings
+                    if ((booking.Status == "Confirmed" || booking.Status == "Completed"))
+                    {
+                        otherBookings.Add(booking);
+                    }
+                }
+            }
+        }
+
+        @if (availableNowBookings.Count > 0)
+        {
+            <div class="row">
+                @foreach (var booking in availableNowBookings)
+                {
+                    @* Debug information for special users *@
+                    @if (User.IsInRole("SpecialUser"))
+                    {
+                        <div class="col-12 mb-2">
+                            <div class="alert alert-info small">
+                                <strong>Debug (Special User):</strong>
+                                Booking ID: @booking.Id,
+                                Test ID: @booking.TestId,
+                                Status: @booking.Status,
+                                Booked At: @booking.BookedAt.ToString("yyyy-MM-dd HH:mm:ss")
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-md-6 col-lg-4">
+                        @{
+                            // Check if this is a retake booking
+                            bool isRetakeFromTempData = false;
+
+                            // Check global TempData first (for backward compatibility)
+                            var isRetakeBookingValue = TempData["IsRetakeBooking"]?.ToString();
+                            var bookedTestIdValue = TempData["BookedTestId"]?.ToString();
+
+                            if (isRetakeBookingValue == "True" &&
+                                bookedTestIdValue != null &&
+                                int.TryParse(bookedTestIdValue, out int retakeTestId) &&
+                                retakeTestId == booking.TestId)
+                            {
+                                isRetakeFromTempData = true;
+                            }
+
+                            // Check booking-specific TempData
+                            var bookingRetakeValue = TempData[$"IsRetakeBooking_{booking.Id}"]?.ToString();
+                            if (bookingRetakeValue == "True")
+                            {
+                                isRetakeFromTempData = true;
+                            }
+
+                            // Check session data
+                            bool isRetakeFromSession = Context.Session.GetString($"RetakeBooking_{booking.Id}") == "true";
+
+                            // Determine if this is a retake test
+                            bool isRetake = isRetakeFromTempData || isRetakeFromSession;
+                        }
+                        <div class="booking-card" data-booking-id="@booking.Id" data-test-id="@booking.TestId" data-is-retake="@(isRetake ? "true" : "false")">
+                            <div class="booking-header">
+                                <div class="booking-title">@booking.Test.Title</div>
+                                <div class="booking-status">
+                                    @{
+                                        // FIXED: Always set CanStartTest to true for confirmed bookings
+                                        bool isWithinTimeSlot = booking.Status == "Confirmed" || booking.Status == "Completed" ? true : booking.CanStartTest;
+
+                                        // Ensure the booking object also has CanStartTest set to true for confirmed bookings
+                                        if (booking.Status == "Confirmed" || booking.Status == "Completed")
+                                        {
+                                            booking.CanStartTest = true;
+                                        }
+                                    }
+
+                                    @{
+                                        bool isPendingStatus = booking.Status == "Pending";
+                                        bool isFailedStatus = booking.Status == "Failed";
+                                        bool isAbandonedStatus = booking.Status == "Abandoned";
+                                        bool isConfirmedStatus = booking.Status == "Confirmed" || booking.Status == "Completed";
+                                    }
+
+                                    @if (isPendingStatus && !isFailedStatus && !isAbandonedStatus)
+                                    {
+                                        <div class="status-indicator status-pending"></div>
+                                        <span class="badge badge-pending">Payment Pending</span>
+                                    }
+                                    else if (isFailedStatus)
+                                    {
+                                        <div class="status-indicator status-failed"></div>
+                                        <span class="badge badge-failed">Payment Failed</span>
+                                    }
+                                    else if (isAbandonedStatus)
+                                    {
+                                        <div class="status-indicator status-failed"></div>
+                                        <span class="badge badge-failed">Payment Abandoned</span>
+                                    }
+                                    else if (isConfirmedStatus)
+                                    {
+                                        <div class="status-indicator status-available"></div>
+                                        <span class="badge badge-available">Payment Confirmed</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="status-indicator status-available"></div>
+                                        <span class="badge badge-available">Available Now</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="booking-body">
+                                <div class="booking-info">
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Date</div>
+                                        <div class="booking-info-value">@booking.BookingDate.ToString("MMM dd, yyyy")</div>
+                                    </div>
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Availability</div>
+                                        <div class="booking-info-value">
+                                            Available Anytime
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="booking-info">
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Booked On</div>
+                                        <div class="booking-info-value">@booking.BookedAt.ToString("MMM dd, yyyy")</div>
+                                    </div>
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Duration</div>
+                                        <div class="booking-info-value">@booking.Test.DurationMinutes minutes</div>
+                                    </div>
+                                </div>
+                                <div class="booking-actions">
+                                    @{
+                                        // Simplified logic - all confirmed bookings can be started
+                                        bool isConfirmed = booking.Status == "Confirmed" || booking.Status == "Completed";
+
+                                        // Check if this is a retake test
+                                        bool isRetakeTest = false;
+                                        var retakeBookingValue = TempData[$"IsRetakeBooking_{booking.Id}"]?.ToString();
+                                        if (retakeBookingValue == "True")
+                                        {
+                                            isRetakeTest = true;
+                                        }
+                                        else if (Context.Session.GetString($"RetakeBooking_{booking.Id}") == "true")
+                                        {
+                                            isRetakeTest = true;
+                                        }
+                                    }
+
+                                    @if (isConfirmed)
+                                    {
+                                        if (isRetakeTest)
+                                        {
+                                            <a href="@Url.Action("ScheduledTest", "Test", new { id = booking.TestId, retake = "true" })" class="btn btn-start-test">
+                                                <i class="fas fa-play"></i> Start Test
+                                            </a>
+
+                                            <!-- Store retake state in hidden field -->
+                                            <input type="hidden" id="isRetakeTest_@booking.Id" value="true" />
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("ScheduledTest", "Test", new { id = booking.TestId })" class="btn btn-start-test">
+                                                <i class="fas fa-play"></i> Start Test
+                                            </a>
+                                        }
+
+                                        <div class="mt-2 small text-success">
+                                            <i class="fas fa-info-circle"></i> Available anytime - click to start
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("BookSlot", "Test", new { id = booking.TestId })" class="btn btn-start-test">
+                                            <i class="fas fa-calendar-check"></i> Book Test
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else if (otherBookings.Count > 0)
+        {
+            <!-- Skip the "No tests available" message when there are confirmed tests to display -->
+        }
+        else
+        {
+            <div class="no-bookings">
+                <i class="fas fa-calendar-times"></i>
+                <h4>No tests available right now</h4>
+                <p>You don't have any tests available to take at the moment.</p>
+                <p>Please book a test to get started.</p>
+            </div>
+
+        @if (otherBookings.Count > 0)
+        {
+            <div class="mt-3">
+                <h5><i class="fas fa-info-circle"></i> Your Confirmed Tests:</h5>
+                <div class="row">
+                    @foreach (var booking in otherBookings)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <div class="booking-title">@booking.Test.Title</div>
+                                    <div class="booking-status">
+                                        <div class="status-indicator status-available"></div>
+                                        <span class="badge badge-available">Completed</span>
+                                    </div>
+                                </div>
+                                <div class="booking-body">
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Date</div>
+                                            <div class="booking-info-value">@booking.BookingDate.ToString("MMM dd, yyyy")</div>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Availability</div>
+                                            <div class="booking-info-value">Available Anytime</div>
+                                        </div>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Duration</div>
+                                            <div class="booking-info-value">@booking.Test.DurationMinutes minutes</div>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Booked On</div>
+                                            <div class="booking-info-value">@booking.BookedAt.ToString("MMM dd, yyyy")</div>
+                                        </div>
+                                    </div>
+                                    <div class="booking-actions">
+                                        <a href="@Url.Action("ScheduledTest", "Test", new { id = booking.TestId })" class="btn btn-start-test">
+                                            <i class="fas fa-play"></i> Start Test
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else if (ViewBag.AllBookings != null && ViewBag.AllBookings.Count > 0)
+        {
+            <div class="mt-3">
+                <h5><i class="fas fa-info-circle"></i> Your Booked Tests:</h5>
+                <div class="row">
+                    @foreach (var booking in ViewBag.AllBookings)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <div class="booking-title">@booking.Test.Title</div>
+                                    <div class="booking-status">
+                                        <div class="status-indicator status-@booking.Status.ToLower()"></div>
+                                        <span class="badge badge-@booking.Status.ToLower()">@booking.Status</span>
+                                    </div>
+                                </div>
+                                <div class="booking-body">
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Date</div>
+                                            <div class="booking-info-value">@booking.BookingDate.ToString("MMM dd, yyyy")</div>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Availability</div>
+                                            <div class="booking-info-value">Available Anytime</div>
+                                        </div>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Duration</div>
+                                            <div class="booking-info-value">@booking.Test.DurationMinutes minutes</div>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <div class="booking-info-label">Booked On</div>
+                                            <div class="booking-info-value">@booking.BookedAt.ToString("MMM dd, yyyy")</div>
+                                        </div>
+                                    </div>
+                                    <div class="booking-actions">
+                                        @if (booking.Status == "Confirmed")
+                                        {
+                                            <a href="@Url.Action("ScheduledTest", "Test", new { id = booking.TestId })" class="btn btn-start-test">
+                                                <i class="fas fa-play"></i> Start Test
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Index", "Test")" class="btn btn-primary">
+                                                <i class="fas fa-search"></i> Browse Tests
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        }
+    </div>
+
+    <!-- Upcoming Tests section removed as requested -->
+
+    <!-- Past Bookings Section -->
+    <div class="booking-section">
+        <h2 class="section-title">
+            <i class="fas fa-history"></i> Past Tests
+        </h2>
+
+        @if (ViewBag.PastBookings != null && ViewBag.PastBookings.Count > 0)
+        {
+            <div class="row">
+                @foreach (var booking in ViewBag.PastBookings)
+                {
+                    // Skip any pending bookings that might have slipped through
+                    if (booking.Status == "Pending")
+                    {
+                        continue;
+                    }
+
+                    // This variable is not used - we use isPastTaken instead
+
+                    // Check if this is a retake booking from TempData (global or booking-specific)
+                    bool isRetakeFromTempData_past = false;
+
+                    // Check global TempData first (for backward compatibility)
+                    var isRetakeBookingValue = TempData["IsRetakeBooking"]?.ToString();
+                    var bookedTestIdValue = TempData["BookedTestId"]?.ToString();
+
+                    if (isRetakeBookingValue == "True" &&
+                        bookedTestIdValue != null &&
+                        int.TryParse(bookedTestIdValue, out int retakeTestId_past) &&
+                        retakeTestId_past == booking.TestId)
+                    {
+                        isRetakeFromTempData_past = true;
+                        // Keep the flag for the next request
+                        TempData.Keep("IsRetakeBooking");
+                        TempData.Keep("BookedTestId");
+                    }
+
+                    // Check booking-specific TempData (new approach)
+                    var bookingRetakeValue = TempData[$"IsRetakeBooking_{booking.Id}"]?.ToString();
+                    var bookingTestIdValue = TempData[$"RetakeTestId_{booking.Id}"]?.ToString();
+
+                    if (bookingRetakeValue == "True" &&
+                        bookingTestIdValue != null &&
+                        int.TryParse(bookingTestIdValue, out int bookingRetakeTestId_past) &&
+                        bookingRetakeTestId_past == booking.TestId)
+                    {
+                        isRetakeFromTempData_past = true;
+                        // Keep the flag for the next request
+                        TempData.Keep($"IsRetakeBooking_{booking.Id}");
+                        TempData.Keep($"RetakeTestId_{booking.Id}");
+                    }
+
+                    // Check session data
+                    bool isRetakeFromSession_past = Context.Session.GetString($"RetakeBooking_{booking.Id}") == "true";
+
+                    // IsRetake flag is now stored in TempData/Session instead of database
+                    bool isRetake_past = isRetakeFromTempData_past || isRetakeFromSession_past;
+
+                    // Store the IsRetakeBooking flag in TempData for this booking if it's marked as a retake
+                    if (isRetake_past && !isRetakeFromTempData_past)
+                    {
+                        TempData[$"IsRetakeBooking_{booking.Id}"] = "True";
+                        TempData[$"RetakeTestId_{booking.Id}"] = booking.TestId.ToString();
+                    }
+
+                    // Skip this booking if it doesn't have a valid Test
+                    if (booking.Test == null)
+                    {
+                        continue;
+                    }
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="booking-card" data-booking-id="@booking.Id" data-test-id="@booking.TestId" data-is-retake="@(isRetake_past ? "true" : "false")">
+                            <div class="booking-header">
+                                <div class="booking-title">@booking.Test.Title</div>
+                                <div class="booking-status">
+                                    @{
+                                        // Since we've already filtered to only include tests that have been taken,
+                                        // we don't need to check these statuses anymore
+                                        // CanStartTest is already set to false in the controller
+                                    }
+
+                                    @* Since we've filtered to only include tests that have been taken,
+                                       we only need to show the "Completed" status *@
+                                    <div class="status-indicator status-taken"></div>
+                                    <span class="badge badge-taken">Completed</span>
+                                </div>
+                            </div>
+                            <div class="booking-body">
+                                <div class="booking-info">
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Date</div>
+                                        <div class="booking-info-value">@(booking.BookingDate?.ToString("MMM dd, yyyy") ?? "N/A")</div>
+                                    </div>
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Availability</div>
+                                        <div class="booking-info-value">
+                                            Available Anytime
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="booking-info">
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Duration</div>
+                                        <div class="booking-info-value">@booking.Test.DurationMinutes minutes</div>
+                                    </div>
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Booked On</div>
+                                        <div class="booking-info-value">@booking.BookedAt.ToString("MMM dd, yyyy")</div>
+                                    </div>
+                                </div>
+                                <div class="booking-actions">
+                                    @* Since we've filtered to only include tests that have been taken,
+                                       we only need to show the "View Results" button *@
+                                    <a href="@Url.Action("History", "Test")" class="btn btn-view-results">
+                                        <i class="fas fa-eye"></i> View Results
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="no-bookings">
+                <i class="fas fa-calendar-check"></i>
+                <h4>No past tests</h4>
+                <p>You don't have any expired test bookings.</p>
+            </div>
+        }
+    </div>
+
+    <!-- JavaScript to help maintain state across page refreshes -->
+    <script>
+        // When the page loads, check if we have any retake tests
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing retake test state management');
+
+            // Look for hidden fields that indicate retake tests
+            const retakeFields = document.querySelectorAll('input[id^="isRetakeTest_"]');
+            console.log('Found retake fields:', retakeFields.length);
+
+            if (retakeFields.length > 0) {
+                // Store the retake test IDs in localStorage
+                retakeFields.forEach(field => {
+                    const bookingId = field.id.split('_')[1];
+                    localStorage.setItem('isRetakeTest_' + bookingId, 'true');
+                    console.log('Stored retake state in localStorage for booking ID:', bookingId);
+
+                    // Also add a data attribute to the booking card for easier identification
+                    const bookingCard = field.closest('.booking-card');
+                    if (bookingCard) {
+                        bookingCard.setAttribute('data-is-retake', 'true');
+
+                        // Get the test ID from the booking card
+                        const testId = bookingCard.getAttribute('data-test-id');
+                        if (testId) {
+                            // Store the test ID with the booking ID for easier retrieval
+                            localStorage.setItem('retakeTestId_' + bookingId, testId);
+                            console.log('Stored test ID in localStorage:', testId, 'for booking ID:', bookingId);
+                        }
+                    }
+                });
+            }
+
+            // Check localStorage for any retake tests that might not have hidden fields
+            // This helps maintain state across page refreshes
+            console.log('Checking localStorage for retake tests');
+            const retakeTests = [];
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('isRetakeTest_')) {
+                    const bookingId = key.split('_')[1];
+                    const value = localStorage.getItem(key);
+
+                    if (value === 'true') {
+                        retakeTests.push(bookingId);
+                        console.log('Found retake test in localStorage for booking ID:', bookingId);
+
+                        // Find the booking card for this ID
+                        const bookingCard = document.querySelector(`.booking-card[data-booking-id="${bookingId}"]`);
+                        if (bookingCard) {
+                            console.log('Found booking card for ID:', bookingId);
+                            // Mark it as a retake
+                            bookingCard.setAttribute('data-is-retake', 'true');
+
+                            // Get the test ID either from the card or from localStorage
+                            let testId = bookingCard.getAttribute('data-test-id');
+                            if (!testId) {
+                                testId = localStorage.getItem('retakeTestId_' + bookingId);
+                            }
+
+                            if (testId) {
+                                console.log('Found test ID for booking:', testId);
+
+                                // Look for any button in this card that we can replace
+                                const anyButton = bookingCard.querySelector('.btn-reattempt, .btn-start-test'); // View Details button removed as requested
+                                if (anyButton) {
+                                    console.log('Found button to replace:', anyButton);
+
+                                    // Create a new "Start Test Now" button
+                                    const newButton = document.createElement('a');
+                                    newButton.href = `/Test/ScheduledTest/${testId}?retake=true&fromPayment=true`;
+                                    newButton.className = 'btn btn-start-test';
+                                    newButton.innerHTML = '<i class="fas fa-play"></i> Start Test Now';
+
+                                    // Replace the old button with the new one
+                                    anyButton.parentNode.insertBefore(newButton, anyButton);
+                                    anyButton.remove();
+
+                                    // Add a hidden field if it doesn't exist
+                                    if (!bookingCard.querySelector(`input[id="isRetakeTest_${bookingId}"]`)) {
+                                        const hiddenField = document.createElement('input');
+                                        hiddenField.type = 'hidden';
+                                        hiddenField.id = `isRetakeTest_${bookingId}`;
+                                        hiddenField.value = 'true';
+                                        bookingCard.appendChild(hiddenField);
+                                        console.log('Added hidden field for booking ID:', bookingId);
+                                    }
+                                } else {
+                                    console.log('No button found to replace in card');
+
+                                    // If there's no button, add a new one to the booking actions
+                                    const bookingActions = bookingCard.querySelector('.booking-actions');
+                                    if (bookingActions) {
+                                        const newButton = document.createElement('a');
+                                        newButton.href = `/Test/ScheduledTest/${testId}?retake=true&fromPayment=true`;
+                                        newButton.className = 'btn btn-start-test';
+                                        newButton.innerHTML = '<i class="fas fa-play"></i> Start Test Now';
+
+                                        // Add the button to the booking actions
+                                        bookingActions.innerHTML = ''; // Clear existing buttons
+                                        bookingActions.appendChild(newButton);
+                                        console.log('Added new button to booking actions');
+
+                                        // Add a hidden field
+                                        const hiddenField = document.createElement('input');
+                                        hiddenField.type = 'hidden';
+                                        hiddenField.id = `isRetakeTest_${bookingId}`;
+                                        hiddenField.value = 'true';
+                                        bookingCard.appendChild(hiddenField);
+                                        console.log('Added hidden field for booking ID:', bookingId);
+                                    }
+                                }
+                            } else {
+                                console.log('Could not find test ID for booking:', bookingId);
+                            }
+                        } else {
+                            console.log('Could not find booking card for ID:', bookingId);
+                        }
+                    }
+                }
+            }
+
+            console.log('Retake tests found in localStorage:', retakeTests);
+        });
+    </script>
+
+    <!-- Single Ad Unit at Bottom of My Bookings Page -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="ad-container ad-clickable my-4" data-ad-link="https://www.example.com/sponsors">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8504842908769623" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8504842908769623"
+                     data-ad-slot="1234567890"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+                <!-- Fallback content if ad doesn't load -->
+                <div class="ad-fallback">
+                    <div class="fallback-content">
+                        <h4>Sponsored Content</h4>
+                        <p>Check out our partner offers and resources!</p>
+                        <a href="https://www.example.com/sponsors" target="_blank" class="btn btn-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Function to restore retake test state from localStorage and session
+        function restoreRetakeTestState() {
+            console.log('Restoring retake test state from localStorage and session');
+
+            // Check if we have any retake tests in localStorage
+            const retakeTests = [];
+
+            // First check localStorage
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('isRetakeTest_')) {
+                    const bookingId = key.split('_')[1];
+                    const value = localStorage.getItem(key);
+
+                    if (value === 'true') {
+                        retakeTests.push(bookingId);
+
+                        // Get the test ID from localStorage
+                        const testId = localStorage.getItem('retakeTestId_' + bookingId);
+                        if (testId) {
+                            console.log(`Found retake test in localStorage: booking ID ${bookingId}, test ID ${testId}`);
+
+                            // Find the booking card for this test
+                            const bookingCard = document.querySelector(`.booking-card[data-test-id="${testId}"]`);
+                            if (bookingCard) {
+                                console.log(`Found booking card for test ID ${testId}`);
+
+                                // Mark it as a retake
+                                bookingCard.setAttribute('data-is-retake', 'true');
+
+                                // Find any button that might need to be replaced
+                                const startButton = bookingCard.querySelector('.btn-start-test');
+                                const retakeButton = bookingCard.querySelector('.btn-reattempt');
+                                const detailsButton = null; // View Details button removed as requested
+
+                                // If there's a button that's not already a "Start Test Now" button
+                                if ((startButton && !startButton.textContent.includes('Start Test Now')) ||
+                                    retakeButton || detailsButton) {
+
+                                    // Create a new "Start Test Now" button
+                                    const newButton = document.createElement('a');
+                                    newButton.href = `/Test/ScheduledTest/${testId}?retake=true&fromPayment=true`;
+                                    newButton.className = 'btn btn-start-test';
+                                    newButton.id = `startRetakeButton_${bookingId}`;
+                                    newButton.innerHTML = '<i class="fas fa-play"></i> Start Test Now';
+
+                                    // Replace the existing button
+                                    const buttonToReplace = startButton || retakeButton || detailsButton;
+                                    if (buttonToReplace) {
+                                        buttonToReplace.parentNode.insertBefore(newButton, buttonToReplace);
+                                        buttonToReplace.remove();
+                                        console.log(`Replaced button for test ID ${testId}`);
+                                    }
+                                }
+
+                                // Add a hidden field if it doesn't exist
+                                if (!bookingCard.querySelector(`input[id="isRetakeTest_${bookingId}"]`)) {
+                                    const hiddenField = document.createElement('input');
+                                    hiddenField.type = 'hidden';
+                                    hiddenField.id = `isRetakeTest_${bookingId}`;
+                                    hiddenField.value = 'true';
+                                    bookingCard.appendChild(hiddenField);
+                                    console.log(`Added hidden field for booking ID ${bookingId}`);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Then check session data (server-side session values passed to the view)
+            @foreach (var booking in ViewBag.AllBookings ?? new List<dynamic>())
+            {
+                <text>
+                // Check if this booking has session data indicating it's a retake
+                @if (Context.Session.GetString($"RetakeBooking_{booking.Id}") == "true")
+                {
+                    <text>
+                    console.log('Found retake test in session: booking ID @booking.Id, test ID @booking.TestId');
+
+                    // Add this booking ID to the list of retake tests
+                    if (!retakeTests.includes('@booking.Id')) {
+                        retakeTests.push('@booking.Id');
+                    }
+
+                    // Find the booking card for this test
+                    const bookingCard = document.querySelector(`.booking-card[data-booking-id="@booking.Id"]`);
+                    if (bookingCard) {
+                        console.log('Found booking card for booking ID @booking.Id from session data');
+
+                        // Mark it as a retake
+                        bookingCard.setAttribute('data-is-retake', 'true');
+
+                        // Find any button that might need to be replaced
+                        const startButton = bookingCard.querySelector('.btn-start-test');
+                        const retakeButton = bookingCard.querySelector('.btn-reattempt');
+                        const detailsButton = null; // View Details button removed as requested
+
+                        // If there's a button that's not already a "Start Retake Test Now" button
+                        if ((startButton && !startButton.textContent.includes('Start Retake Test Now')) ||
+                            retakeButton || detailsButton) {
+
+                            // Create a new "Start Retake Test Now" button
+                            const newButton = document.createElement('a');
+                            newButton.href = `/Test/ScheduledTest/@booking.TestId?retake=true&fromPayment=true`;
+                            newButton.className = 'btn btn-start-test';
+                            newButton.id = `startRetakeButton_@booking.Id`;
+                            newButton.innerHTML = '<i class="fas fa-play"></i> Start Retake Test Now';
+
+                            // Replace the existing button
+                            const buttonToReplace = startButton || retakeButton || detailsButton;
+                            if (buttonToReplace) {
+                                buttonToReplace.parentNode.insertBefore(newButton, buttonToReplace);
+                                buttonToReplace.remove();
+                                console.log(`Replaced button for booking ID @booking.Id from session data`);
+                            }
+                        }
+
+                        // Add a hidden field if it doesn't exist
+                        if (!bookingCard.querySelector(`input[id="isRetakeTest_@booking.Id"]`)) {
+                            const hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.id = `isRetakeTest_@booking.Id`;
+                            hiddenField.value = 'true';
+                            bookingCard.appendChild(hiddenField);
+                            console.log(`Added hidden field for booking ID @booking.Id from session data`);
+                        }
+
+                        // Also store in localStorage for redundancy
+                        localStorage.setItem('isRetakeTest_@booking.Id', 'true');
+                        localStorage.setItem('retakeTestId_@booking.Id', '@booking.TestId');
+                        console.log(`Stored retake test in localStorage from session data: booking ID @booking.Id, test ID @booking.TestId`);
+                    }
+                    </text>
+                }
+                </text>
+            }
+
+            // Also check for test-specific session data
+            @foreach (var test in ViewBag.AllTests ?? new List<dynamic>())
+            {
+                <text>
+                // Check if this test has session data indicating it's a retake
+                @if (Context.Session.GetString($"RetakeTest_{test.Id}") == "true")
+                {
+                    <text>
+                    console.log('Found retake test in session by test ID: @test.Id');
+
+                    // Find the booking card for this test
+                    const bookingCard = document.querySelector(`.booking-card[data-test-id="@test.Id"]`);
+                    if (bookingCard) {
+                        console.log('Found booking card for test ID @test.Id from session data');
+
+                        // Get the booking ID
+                        const bookingId = bookingCard.getAttribute('data-booking-id');
+                        if (bookingId && !retakeTests.includes(bookingId)) {
+                            retakeTests.push(bookingId);
+                        }
+
+                        // Mark it as a retake
+                        bookingCard.setAttribute('data-is-retake', 'true');
+
+                        // Find any button that might need to be replaced
+                        const startButton = bookingCard.querySelector('.btn-start-test');
+                        const retakeButton = bookingCard.querySelector('.btn-reattempt');
+                        const detailsButton = null; // View Details button removed as requested
+
+                        // If there's a button that's not already a "Start Retake Test Now" button
+                        if ((startButton && !startButton.textContent.includes('Start Retake Test Now')) ||
+                            retakeButton || detailsButton) {
+
+                            // Create a new "Start Retake Test Now" button
+                            const newButton = document.createElement('a');
+                            newButton.href = `/Test/ScheduledTest/@test.Id?retake=true&fromPayment=true`;
+                            newButton.className = 'btn btn-start-test';
+                            newButton.id = `startRetakeButton_${bookingId || 'test_@test.Id'}`;
+                            newButton.innerHTML = '<i class="fas fa-play"></i> Start Retake Test Now';
+
+                            // Replace the existing button
+                            const buttonToReplace = startButton || retakeButton || detailsButton;
+                            if (buttonToReplace) {
+                                buttonToReplace.parentNode.insertBefore(newButton, buttonToReplace);
+                                buttonToReplace.remove();
+                                console.log(`Replaced button for test ID @test.Id from session data`);
+                            }
+                        }
+
+                        // Add a hidden field if it doesn't exist and we have a booking ID
+                        if (bookingId && !bookingCard.querySelector(`input[id="isRetakeTest_${bookingId}"]`)) {
+                            const hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.id = `isRetakeTest_${bookingId}`;
+                            hiddenField.value = 'true';
+                            bookingCard.appendChild(hiddenField);
+                            console.log(`Added hidden field for booking ID ${bookingId} from session data`);
+
+                            // Also store in localStorage for redundancy
+                            localStorage.setItem('isRetakeTest_' + bookingId, 'true');
+                            localStorage.setItem('retakeTestId_' + bookingId, '@test.Id');
+                            console.log(`Stored retake test in localStorage from session data: booking ID ${bookingId}, test ID @test.Id`);
+                        }
+                    }
+                    </text>
+                }
+                </text>
+            }
+
+            console.log(`Restored ${retakeTests.length} retake tests from localStorage and session`);
+            return retakeTests;
+        }
+
+        // Auto-refresh the page when coming from test creation or payment
+        document.addEventListener('DOMContentLoaded', function() {
+            // First, restore any retake test state from localStorage
+            const restoredTests = restoreRetakeTestState();
+
+            // Check URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromTestCreation = urlParams.get('fromTestCreation');
+            const refresh = urlParams.get('refresh');
+            const testId = urlParams.get('testId');
+            const message = urlParams.get('message');
+            const isReattempt = urlParams.get('isReattempt');
+            const fromPayment = urlParams.get('fromPayment');
+
+            console.log('URL params:', { refresh, testId, message, isReattempt, fromPayment });
+
+            // Check if this is a retake booking from TempData
+            const isRetakeBooking = @(TempData["IsRetakeBooking"]?.ToString() == "True" ? "true" : "false");
+            const bookedTestId = @(TempData["BookedTestId"]?.ToString() ?? "null");
+
+            console.log('TempData check - isRetakeBooking:', isRetakeBooking, 'bookedTestId:', bookedTestId);
+
+            // Check if we need to refresh (either from test creation, payment, or retake booking)
+            const needsRefresh = fromTestCreation === 'true' ||
+                                (refresh === 'true' && testId) ||
+                                isReattempt === 'true' ||
+                                fromPayment === 'true' ||
+                                isRetakeBooking === true;
+
+            if (needsRefresh) {
+                // Use bookedTestId from TempData if testId is not available
+                const effectiveTestId = testId || bookedTestId;
+                console.log('Page needs refresh with effectiveTestId:', effectiveTestId);
+
+                // Check if we've already refreshed once (to prevent infinite refreshes)
+                const hasRefreshed = sessionStorage.getItem('hasRefreshed_' + effectiveTestId);
+
+                if (!hasRefreshed) {
+                    // Mark that we've refreshed for this testId
+                    sessionStorage.setItem('hasRefreshed_' + effectiveTestId, 'true');
+
+                    // Remove the parameter from URL to prevent infinite refreshes
+                    const newUrl = window.location.pathname + '?refresh=true' + (effectiveTestId ? '&testId=' + effectiveTestId : '');
+                    window.history.replaceState({}, document.title, newUrl);
+
+                    // Show loading message as toast
+                    if (typeof showToast === 'function') {
+                        showToast('<i class="fas fa-sync-alt fa-spin me-2"></i> Refreshing dashboard to show your latest bookings...', 'info');
+                    }
+
+                    // Force a hard refresh after a short delay
+                    setTimeout(function() {
+                        try {
+                            // Add a timestamp to force a fresh request
+                            const refreshUrl = '@Url.Action("MyBookings", "Test")' +
+                                '?refresh=true' +
+                                (effectiveTestId ? '&testId=' + effectiveTestId : '') +
+                                (isRetakeBooking === true ? '&isReattempt=true' : '') +
+                                '&_=' + new Date().getTime();
+
+                            console.log('Refreshing to:', refreshUrl);
+                            window.location.href = refreshUrl;
+                        } catch (error) {
+                            console.error('Error during refresh:', error);
+                            // If there's an error, just reload the current page
+                            window.location.reload();
+                        }
+                    }, 2000); // 2 second delay
+                } else {
+                    // We've already refreshed once, clear the session storage
+                    console.log('Already refreshed once for testId:', effectiveTestId);
+                    sessionStorage.removeItem('hasRefreshed_' + effectiveTestId);
+                }
+            }
+
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // Check for abandoned payments
+            // Only handle abandoned payments if we don't have a successful payment flag
+            // and if the payment was actually abandoned
+            const paymentSuccessful = urlParams.get('fromPayment') === 'true';
+            const paymentAbandoned = sessionStorage.getItem('paymentAbandoned') === 'true';
+            const paymentInProgress = sessionStorage.getItem('paymentInProgress') === 'true';
+
+            console.log('Payment status check:', {
+                paymentSuccessful,
+                paymentAbandoned,
+                paymentInProgress
+            });
+
+            // If we're coming from a successful payment, clear any abandonment flags
+            if (paymentSuccessful) {
+                console.log('Payment was successful, clearing abandonment flags');
+                sessionStorage.removeItem('paymentAbandoned');
+                sessionStorage.removeItem('paymentInProgress');
+            }
+            // Only handle abandoned payments if not coming from a successful payment
+            else if (paymentAbandoned && paymentInProgress) {
+                console.log('Payment was abandoned, handling abandoned payment');
+
+                // Make an AJAX call to mark the booking as failed
+                fetch('/Payment/HandleAbandonedPayment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data.success) {
+                        // Show a message to the user using toast notification
+                        if (typeof showToast === 'function') {
+                            showToast('Your payment was not completed. The test is still available for you to book again. You will be redirected to the available tests page in a moment.', 'warning');
+                        }
+
+                        // Reload the page after a short delay to refresh the bookings list
+                        setTimeout(() => {
+                            window.location.href = '@Url.Action("Index", "Test", new { error = "Your payment was not completed. The test is still available for you to book again." })';
+                        }, 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    // Clear the payment abandonment flag
+                    sessionStorage.removeItem('paymentAbandoned');
+                    sessionStorage.removeItem('paymentInProgress');
+                });
+            }
+
+            // Check if we have a successful payment flag from the URL
+            if (urlParams.get('fromPayment') === 'true') {
+                console.log('User redirected from successful payment');
+
+                // Clear any payment flags to prevent issues on page refresh
+                sessionStorage.removeItem('paymentAbandoned');
+                sessionStorage.removeItem('paymentInProgress');
+
+                // Set a flag to indicate payment was successful
+                sessionStorage.setItem('paymentSuccessful', 'true');
+
+                // Show a success message using toast notification
+                if (typeof showToast === 'function') {
+                    showToast('Your payment was successful! Your test booking is now confirmed.', 'success');
+                }
+
+                // Update the URL to remove the fromPayment parameter
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.delete('fromPayment');
+                window.history.replaceState({}, '', newUrl);
+            }
+
+            // Toast notifications auto-dismiss automatically
+
+            // Make ads clickable
+            document.querySelectorAll('.ad-clickable').forEach(function(ad) {
+                ad.addEventListener('click', function(e) {
+                    // Only handle clicks on the container or fallback content, not on child elements
+                    if (e.target === ad || e.target.closest('.ad-fallback')) {
+                        console.log('Ad clicked, attempting to find link...');
+
+                        // First try to find a link in the fallback content
+                        const fallbackLink = ad.querySelector('.ad-fallback a');
+                        if (fallbackLink) {
+                            console.log('Fallback link found, opening...');
+                            window.open(fallbackLink.href, '_blank');
+                            return;
+                        }
+
+                        // If no fallback link, use the default ad link
+                        const defaultLink = ad.getAttribute('data-ad-link');
+                        if (defaultLink) {
+                            console.log('Default link found, opening...');
+                            window.open(defaultLink, '_blank');
+                            return;
+                        }
+
+                        // If no links found, use a default sponsor link
+                        console.log('No links found, using default sponsor link...');
+                        window.open('https://www.example.com/sponsors', '_blank');
+                    }
+                });
+            });
+
+            // Ensure fallback content is visible if ads don't load
+            setTimeout(function() {
+                document.querySelectorAll('.ad-container').forEach(function(container) {
+                    const adIframe = container.querySelector('iframe');
+                    const fallback = container.querySelector('.ad-fallback');
+
+                    // If there's no iframe or it has no content, show the fallback
+                    if (!adIframe || adIframe.clientHeight < 10) {
+                        console.log('Ad not loaded properly, showing fallback...');
+                        if (fallback) {
+                            fallback.style.display = 'flex';
+                        }
+                    }
+                });
+            }, 2000); // Check after 2 seconds
+
+            // Add event listener for page unload to ensure retake state is preserved
+            window.addEventListener('beforeunload', function() {
+                // Find all retake test hidden fields
+                const retakeFields = document.querySelectorAll('input[id^="isRetakeTest_"]');
+
+                if (retakeFields.length > 0) {
+                    console.log(`Preserving ${retakeFields.length} retake tests before page unload`);
+
+                    // Store each retake test in localStorage
+                    retakeFields.forEach(field => {
+                        const bookingId = field.id.split('_')[1];
+
+                        // Find the booking card to get the test ID
+                        const bookingCard = field.closest('.booking-card');
+                        if (bookingCard) {
+                            const testId = bookingCard.getAttribute('data-test-id');
+                            if (testId) {
+                                localStorage.setItem('isRetakeTest_' + bookingId, 'true');
+                                localStorage.setItem('retakeTestId_' + bookingId, testId);
+                                console.log(`Preserved retake test in localStorage: booking ID ${bookingId}, test ID ${testId}`);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

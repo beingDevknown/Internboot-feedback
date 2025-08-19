@@ -1,0 +1,72 @@
+@using OnlineAssessment.Web.Helpers
+@{
+    ViewData["Title"] = "Payment Gateway Example";
+    Layout = "_Layout";
+    
+    // Example values
+    int testId = 1;
+    string date = DateTime.Now.ToString("yyyy-MM-dd");
+    string startTime = "10:00";
+    string endTime = "11:00";
+    int slotNumber = 1;
+    bool isReattempt = false;
+    
+    // Generate the payment gateway URL
+    string paymentGatewayUrl = PaymentGatewayHelper.GetPaymentGatewayUrl(
+        Url,
+        testId,
+        date,
+        startTime,
+        endTime,
+        slotNumber,
+        isReattempt
+    );
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Payment Gateway Example</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">This is an example of how to use the PaymentGatewayHelper to generate a URL to open the payment gateway.</p>
+                    
+                    <div class="alert alert-info">
+                        <h5>Example Parameters:</h5>
+                        <ul>
+                            <li><strong>Test ID:</strong> @testId</li>
+                            <li><strong>Date:</strong> @date</li>
+                            <li><strong>Start Time:</strong> @startTime</li>
+                            <li><strong>End Time:</strong> @endTime</li>
+                            <li><strong>Slot Number:</strong> @slotNumber</li>
+                            <li><strong>Is Reattempt:</strong> @isReattempt</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <h5>Generated URL:</h5>
+                        <code>@paymentGatewayUrl</code>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="@paymentGatewayUrl" class="btn btn-primary btn-lg">
+                            <i class="fas fa-credit-card me-2"></i> Open Payment Gateway
+                        </a>
+                        
+                        <a href="@Url.Action("OpenPaymentGatewayForm", "Payment")" class="btn btn-outline-secondary">
+                            <i class="fas fa-edit me-2"></i> Use Form Instead
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="alert alert-warning mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Note:</strong> Make sure you have a test with ID @testId in your database, or the payment gateway will return an error.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

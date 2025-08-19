@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Super Admin Login";
+    Layout = "_EmptyLayout";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
+    <div class="card shadow" style="width: 400px;">
+        <div class="card-header bg-dark text-white text-center py-3">
+            <h4 class="mb-0">Super Admin Login</h4>
+        </div>
+        <div class="card-body p-4">
+            <div id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" value="admin@system.com" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="button" id="loginBtn" class="btn btn-primary w-100" style="background-color: #4e73df;">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        var password = document.getElementById('password').value;
+        var email = document.getElementById('email').value;
+
+        if (!password) {
+            alert('Please enter your password');
+            return;
+        }
+
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+        this.innerHTML = 'Logging in...';
+
+        fetch('/Auth/SuperAdminLogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirectUrl || '/SuperAdmin/Dashboard';
+            } else {
+                alert(data.message || 'Login failed. Please try again.');
+                this.disabled = false;
+                this.innerHTML = 'Login';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+            this.disabled = false;
+            this.innerHTML = 'Login';
+        });
+    });
+
+    document.getElementById('password').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('loginBtn').click();
+        }
+    });
+</script>
+}

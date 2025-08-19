@@ -1,0 +1,70 @@
+@model OnlineAssessment.Web.Models.Feedback
+
+@{
+    ViewData["Title"] = "Submit Feedback";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">📝 Submit Your Feedback</h3>
+                </div>
+                <div class="card-body">
+
+                    @* Success/Error Messages *@
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @* Feedback Form *@
+                    <form asp-action="Create" method="post" novalidate>
+                        @* Validation summary *@
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="Subject" class="form-control" placeholder="Enter subject" />
+                            <label asp-for="Subject">Subject</label>
+                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <textarea asp-for="Message" class="form-control" placeholder="Enter your feedback" style="height: 150px;"></textarea>
+                            <label asp-for="Message">Message</label>
+                            <span asp-validation-for="Message" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Rating" class="form-label">Rating (1 to 5)</label>
+                            <input asp-for="Rating" type="range" min="1" max="5" class="form-range" />
+                            <div class="form-text">Slide to rate your experience</div>
+                            <span asp-validation-for="Rating" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">📤 Submit Feedback</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* Ensure client-side validation works *@
+    <partial name="_ValidationScriptsPartial" />
+}

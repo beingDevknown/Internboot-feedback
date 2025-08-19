@@ -1,0 +1,261 @@
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LoginLayout";
+}
+
+@section Styles {
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .simple-footer {
+            margin-top: auto;
+        }
+    </style>
+}
+
+<div class="container mt-5">
+    <!-- Ad Unit at Top of Login Page -->
+    <div class="row mb-4">
+        <div class="col-12">
+            @await Html.PartialAsync("_AdUnit")
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="login-logo">
+                <img src="~/images/InternBoot.png" alt="InternBoot Logo" class="logo-img" style="max-width: 250px; height: auto; margin-bottom: 15px;" />
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-body">
+                    <div id="emailForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <button type="button" id="requestOtpBtn" class="btn btn-primary">Request OTP</button>
+                    </div>
+
+                    <div id="otpForm" style="display: none;">
+                        <div class="mb-3">
+                            <label for="otpCode" class="form-label">Enter OTP Code</label>
+                            <input type="text" class="form-control" id="otpCode" maxlength="6" required>
+                        </div>
+                        <button type="button" id="verifyOtpBtn" class="btn btn-success">Verify OTP</button>
+                        <button type="button" id="resendOtpBtn" class="btn btn-link">Resend OTP</button>
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <p>Don't have an account? <a href="/Auth/Register">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Unit at Bottom of Login Page -->
+    <div class="row mt-4">
+        <div class="col-12">
+            @await Html.PartialAsync("_AdUnit")
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('requestOtpBtn').addEventListener('click', function() {
+        var email = document.getElementById('email').value;
+
+        if (!email) {
+            if (typeof showToast === 'function') {
+                showToast('Please enter your email address', 'error');
+            } else {
+                alert('Please enter your email address');
+            }
+            return;
+        }
+
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+        this.innerHTML = 'Sending...';
+
+        fetch('/Auth/api/request-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => {
+            // Re-enable the button
+            this.disabled = false;
+            this.innerHTML = 'Request OTP';
+
+            if (!response.ok) {
+                throw new Error('Server returned ' + response.status + ': ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.message) {
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
+                } else {
+                    alert(data.message);
+                }
+                document.getElementById('emailForm').style.display = 'none';
+                document.getElementById('otpForm').style.display = 'block';
+            }
+        })
+        .catch(error => {
+            // Re-enable the button if there was an error
+            this.disabled = false;
+            this.innerHTML = 'Request OTP';
+
+            console.error('Error:', error);
+            if (typeof showToast === 'function') {
+                showToast('Error: ' + error.message, 'error');
+            } else {
+                alert('Error: ' + error.message);
+            }
+        });
+    });
+
+    document.getElementById('verifyOtpBtn').addEventListener('click', function() {
+        var email = document.getElementById('email').value;
+        var otpCode = document.getElementById('otpCode').value;
+
+        if (!otpCode) {
+            if (typeof showToast === 'function') {
+                showToast('Please enter the OTP code', 'error');
+            } else {
+                alert('Please enter the OTP code');
+            }
+            return;
+        }
+
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+        this.innerHTML = 'Verifying...';
+
+        fetch('/Auth/api/verify-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email, otpCode: otpCode })
+        })
+        .then(response => {
+            // Re-enable the button if there was an error
+            if (!response.ok) {
+                this.disabled = false;
+                this.innerHTML = 'Verify OTP';
+                throw new Error('Server returned ' + response.status + ': ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                if (typeof showToast === 'function') {
+                    showToast('Login successful!', 'success');
+                } else {
+                    alert('Login successful!');
+                }
+                window.location.href = '/Test';
+            } else if (data.message) {
+                // Re-enable the button
+                this.disabled = false;
+                this.innerHTML = 'Verify OTP';
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'error');
+                } else {
+                    alert(data.message);
+                }
+            }
+        })
+        .catch(error => {
+            // Re-enable the button if there was an error
+            this.disabled = false;
+            this.innerHTML = 'Verify OTP';
+
+            console.error('Error:', error);
+            if (typeof showToast === 'function') {
+                showToast('Error: ' + error.message, 'error');
+            } else {
+                alert('Error: ' + error.message);
+            }
+        });
+    });
+
+    document.getElementById('resendOtpBtn').addEventListener('click', function() {
+        var email = document.getElementById('email').value;
+
+        if (!email) {
+            if (typeof showToast === 'function') {
+                showToast('Please enter your email address', 'error');
+            } else {
+                alert('Please enter your email address');
+            }
+            return;
+        }
+
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+        this.innerHTML = 'Sending...';
+
+        fetch('/Auth/api/request-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => {
+            // Re-enable the button
+            this.disabled = false;
+            this.innerHTML = 'Resend OTP';
+
+            if (!response.ok) {
+                throw new Error('Server returned ' + response.status + ': ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.message) {
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
+                } else {
+                    alert(data.message);
+                }
+            }
+        })
+        .catch(error => {
+            // Re-enable the button if there was an error
+            this.disabled = false;
+            this.innerHTML = 'Resend OTP';
+
+            console.error('Error:', error);
+            if (typeof showToast === 'function') {
+                showToast('Error: ' + error.message, 'error');
+            } else {
+                alert('Error: ' + error.message);
+            }
+        });
+    });
+</script>
+}

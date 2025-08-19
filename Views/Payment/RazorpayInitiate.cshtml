@@ -1,0 +1,249 @@
+@model OnlineAssessment.Web.Models.RazorpayRequestModel
+@{
+    var orderId = Model.OrderId;
+    var transactionId = Model.TransactionId ?? ViewBag.TransactionId ?? string.Empty;
+    var testId = Model.TestId ?? ViewBag.TestId?.ToString() ?? string.Empty;
+    var checkoutOptions = System.Text.Json.JsonSerializer.Serialize(Model.CheckoutOptions);
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Redirecting to Razorpay...</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .redirect-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        h1 {
+            color: #2d89ef;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #2d89ef;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #2d89ef;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #1a6ecc;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="logo">
+            <img src="https://razorpay.com/assets/razorpay-glyph.svg" alt="Razorpay Logo">
+        </div>
+        <h1>Initializing Razorpay Payment</h1>
+        <p>Please wait while we initialize your payment. This will only take a moment.</p>
+        <div class="spinner"></div>
+        <p>If the payment window doesn't open automatically, please click the button below.</p>
+        <button id="rzp-button" class="button">Pay Now</button>
+
+        <!-- Debug info (hidden in production) -->
+        <div id="debugInfo" style="margin-top: 20px; font-size: 12px; color: #999; text-align: left; display: none;">
+            <p><strong>Debug Info:</strong></p>
+            <p>Test ID: <span id="debugTestId">@testId</span></p>
+            <p>Order ID: <span id="debugOrderId">@orderId</span></p>
+            <p>Transaction ID: <span id="debugTransactionId">@transactionId</span></p>
+        </div>
+
+        <div id="errorMessage" style="display: none; margin-top: 20px; color: #d9534f; padding: 10px; border: 1px solid #d9534f; border-radius: 4px; background-color: #f9f2f4;">
+            <p><strong>Error:</strong> Unable to connect to Razorpay payment gateway. Please try again or contact support.</p>
+            <a href="/Payment/ReturnToBooking?testId=@testId" class="button" style="background-color: #d9534f; margin-top: 10px;">Return to Booking</a>
+        </div>
+
+        <!-- Hidden form for submitting payment response -->
+        <form id="razorpayCallbackForm" method="POST" action="/Payment/RazorpayCallback" style="display: none;">
+            <input type="hidden" id="razorpay_payment_id" name="razorpay_payment_id" value="" />
+            <input type="hidden" id="razorpay_order_id" name="razorpay_order_id" value="" />
+            <input type="hidden" id="razorpay_signature" name="razorpay_signature" value="" />
+            <input type="hidden" id="testIdInput" name="testId" value="@testId" />
+        </form>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Store the test ID in session storage when the page loads
+        const pendingTestId = '@testId';
+        if (pendingTestId && pendingTestId !== '') {
+            sessionStorage.setItem('pendingTestId', pendingTestId);
+        }
+
+        // Show debug info in development mode
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            document.getElementById('debugInfo').style.display = 'block';
+
+            // Update debug info with session storage values
+            const debugTestId = document.getElementById('debugTestId');
+            const debugOrderId = document.getElementById('debugOrderId');
+            const debugTransactionId = document.getElementById('debugTransactionId');
+
+            if (sessionStorage.getItem('pendingTestId')) {
+                debugTestId.textContent += ' (Session: ' + sessionStorage.getItem('pendingTestId') + ')';
+            }
+
+            if (sessionStorage.getItem('paymentOrderId')) {
+                debugOrderId.textContent += ' (Session: ' + sessionStorage.getItem('paymentOrderId') + ')';
+            }
+
+            if (sessionStorage.getItem('paymentTransactionId')) {
+                debugTransactionId.textContent += ' (Session: ' + sessionStorage.getItem('paymentTransactionId') + ')';
+            }
+        }
+
+        // Set flags in session storage to indicate payment is in progress
+        sessionStorage.setItem('paymentInProgress', 'true');
+        sessionStorage.setItem('paymentInitiatedAt', Date.now().toString());
+
+        // Store the test ID if available
+        const testId = '@testId';
+        if (testId && testId !== '') {
+            sessionStorage.setItem('paymentTestId', testId);
+        } else {
+            // Try to get testId from session storage
+            const pendingTestId = sessionStorage.getItem('pendingTestId');
+            if (pendingTestId) {
+                sessionStorage.setItem('paymentTestId', pendingTestId);
+            }
+        }
+
+        // Store transaction ID and order ID for reference
+        if ('@transactionId' && '@transactionId' !== '') {
+            sessionStorage.setItem('paymentTransactionId', '@transactionId');
+        }
+        if ('@orderId' && '@orderId' !== '') {
+            sessionStorage.setItem('paymentOrderId', '@orderId');
+        }
+
+        // Parse checkout options
+        const options = @Html.Raw(checkoutOptions);
+
+        // Add callback URL to options
+        options.callback_url = window.location.origin + '/Payment/RazorpayCallback';
+        options.redirect = true;
+
+        // Configure Razorpay handler
+        options.handler = function (response) {
+            // Use the hidden form to submit the payment response
+            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+            document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+            document.getElementById('razorpay_signature').value = response.razorpay_signature;
+
+            // Get testId from session storage if not available in the current scope
+            const paymentTestId = testId || sessionStorage.getItem('pendingTestId') || '';
+            document.getElementById('testIdInput').value = paymentTestId;
+
+            // Submit the form
+            document.getElementById('razorpayCallbackForm').submit();
+        };
+
+        // Configure modal options
+        options.modal = {
+            ondismiss: function() {
+                console.log('Payment window closed');
+                // Redirect to ReturnToBooking action when payment window is closed
+                const paymentTestId = testId || sessionStorage.getItem('pendingTestId') || '';
+                window.location.href = '/Payment/ReturnToBooking?testId=' + paymentTestId;
+            },
+            escape: true,
+            backdropclose: false
+        };
+
+        // Add debug message
+        console.log('Razorpay options:', options);
+
+        // Initialize Razorpay
+        const rzp = new Razorpay(options);
+
+        // Open Razorpay checkout after a short delay
+        setTimeout(function() {
+            try {
+                console.log('Opening Razorpay checkout...');
+                rzp.open();
+                console.log('Razorpay checkout opened successfully');
+            } catch (error) {
+                console.error("Error opening Razorpay:", error);
+                // Show error message
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }, 1000);
+
+        // Add click handler for manual button
+        document.getElementById('rzp-button').onclick = function(e) {
+            rzp.open();
+            e.preventDefault();
+        };
+
+        // Set up abandonment detection
+        window.addEventListener('beforeunload', function(e) {
+            // Only set abandonment if we're still on this page (not redirected yet)
+            if (document.location.href.indexOf('RazorpayInitiate') > -1) {
+                sessionStorage.setItem('paymentAbandoned', 'true');
+                sessionStorage.setItem('paymentAbandonedAt', Date.now().toString());
+            }
+        });
+    </script>
+</body>
+</html>

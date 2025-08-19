@@ -1,0 +1,351 @@
+@{
+    ViewData["Title"] = "Payment";
+    var test = ViewBag.Test as OnlineAssessment.Web.Models.Test;
+    var amount = ViewBag.Amount;
+}
+
+@section Styles {
+    <style>
+        .payment-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-header {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 1.5rem;
+        }
+
+        .card-body {
+            background: white;
+            padding: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .test-info {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-info h5 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .test-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .test-info-item i {
+            color: #3498db;
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .payment-details {
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .payment-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .payment-note {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            color: #27ae60;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .secure-badge i {
+            margin-right: 0.5rem;
+        }
+
+        /* Payment overlay styles */
+        .payment-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .payment-overlay h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .payment-overlay-icon {
+            font-size: 4rem;
+            color: #3498db;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-required-badge {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        /* Animation for shake effect */
+        @@keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        /* Highlight effect for payment button */
+        @@keyframes highlight {
+            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+
+        .highlight {
+            animation: highlight 1.5s ease-in-out;
+        }
+    </style>
+}
+
+<!-- Payment Overlay -->
+<div id="paymentOverlay" class="payment-overlay">
+    <div class="payment-required-badge">
+        <i class="fas fa-exclamation-circle"></i> Payment Required
+    </div>
+    <div class="payment-overlay-icon">
+        <i class="fas fa-lock"></i>
+    </div>
+    <h2>Payment Required for Test Booking</h2>
+    <p>You need to complete the payment to book your test slot. After payment, your slot will be confirmed and you'll be able to access the test during the scheduled time. Please click the "Go to Payment" button below to continue.</p>
+    <button id="focusPaymentBtn" class="btn btn-primary btn-lg">
+        <i class="fas fa-credit-card me-2"></i> Go to Payment
+    </button>
+</div>
+
+<div class="payment-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3 class="mb-0">Complete Your Registration</h3>
+                        @if (ViewBag.UserName != null)
+                        {
+                            <p class="mb-0 mt-2">Welcome, @ViewBag.UserName!</p>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <div class="test-info">
+                            <h5>Assessment Information</h5>
+                            <div class="test-info-item">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span><strong>Test:</strong> @(test?.Title ?? "Assessment")</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-align-left"></i>
+                                <span><strong>Description:</strong> @(test?.Description ?? "Online assessment for candidates")</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span><strong>Duration:</strong> @(test?.DurationMinutes ?? 60) minutes</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-redo"></i>
+                                <span><strong>Attempts:</strong> @(test?.MaxAttempts ?? 1)</span>
+                            </div>
+                            @if (TempData.TryGetValue("PendingStartTime", out var startTime) && TempData.TryGetValue("PendingEndTime", out var endTime))
+                            {
+                                <div class="test-info-item">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span><strong>Time Slot:</strong> @startTime - @endTime</span>
+                                </div>
+                            }
+                            @if (TempData.TryGetValue("PendingDate", out var bookingDate))
+                            {
+                                <div class="test-info-item">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span><strong>Date:</strong> @bookingDate</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="payment-details">
+                            <h5>Payment Details</h5>
+                            <div class="secure-badge">
+                                <i class="fas fa-lock"></i> Secure Payment
+                            </div>
+                            <div class="payment-amount">
+                                ₹@amount.ToString("0.00")
+                            </div>
+                            <div class="payment-note">
+                                @if (TempData.TryGetValue("IsReattempt", out var _))
+                                {
+                                    <p>This payment is required to reattempt the test. After payment, you'll be able to take the test again.</p>
+                                }
+                                else if (TempData.TryGetValue("PendingStartTime", out var _))
+                                {
+                                    <p>This payment is required to book your selected test time slot. After payment, your time slot will be confirmed and you'll be able to access the test during the scheduled time.</p>
+                                }
+                                else
+                                {
+                                    <p>This is a one-time payment to access the assessment. After payment, you'll be redirected to the test page.</p>
+                                }
+                            </div>
+
+                            <form id="paymentForm" method="get" action="@Url.Action("RazorpayInitiate", "Payment")">
+                                <div class="d-grid">
+                                    <button id="payNowBtn" type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-credit-card me-2"></i> Pay with Razorpay
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentOverlay = document.getElementById('paymentOverlay');
+            const focusPaymentBtn = document.getElementById('focusPaymentBtn');
+            const payNowBtn = document.getElementById('payNowBtn');
+            const paymentForm = document.getElementById('paymentForm');
+
+            // Show the overlay when the page loads
+            paymentOverlay.style.display = 'flex';
+
+            // Disable all links and buttons except the payment button
+            document.querySelectorAll('a, button').forEach(element => {
+                if (element !== focusPaymentBtn && element !== payNowBtn) {
+                    element.addEventListener('click', function(e) {
+                        if (paymentOverlay.style.display !== 'none') {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Shake the overlay to indicate it needs attention
+                            paymentOverlay.classList.add('shake');
+                            setTimeout(() => {
+                                paymentOverlay.classList.remove('shake');
+                            }, 500);
+                        }
+                    });
+                }
+            });
+
+            // Focus on the payment button when clicking the overlay button
+            focusPaymentBtn.addEventListener('click', function() {
+                paymentOverlay.style.display = 'none';
+                payNowBtn.focus();
+
+                // Add a highlight effect to the payment button
+                payNowBtn.classList.add('highlight');
+                setTimeout(() => {
+                    payNowBtn.classList.remove('highlight');
+                }, 1500);
+            });
+
+            // Handle form submission
+            paymentForm.addEventListener('submit', function(e) {
+                // Hide the overlay when submitting the form
+                paymentOverlay.style.display = 'none';
+
+                // Show loading state
+                payNowBtn.disabled = true;
+                payNowBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+            });
+
+            // Prevent navigation away from the page
+            window.addEventListener('beforeunload', function(e) {
+                if (paymentOverlay.style.display !== 'none') {
+                    e.preventDefault();
+                    e.returnValue = 'You need to complete the payment to proceed. Are you sure you want to leave?';
+                    return e.returnValue;
+                }
+            });
+
+            // Disable keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (paymentOverlay.style.display !== 'none') {
+                    // Allow only Tab key for accessibility
+                    if (e.key !== 'Tab') {
+                        e.preventDefault();
+                    }
+                }
+            });
+        });
+    </script>
+}

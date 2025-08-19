@@ -1,0 +1,235 @@
+@model OnlineAssessment.Web.Models.Test
+
+@{
+    ViewData["Title"] = "Test Instructions";
+}
+
+<style>
+    .instructions-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .instructions-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .instructions-header h2 {
+        color: #2c3e50;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .instructions-header p {
+        color: #7f8c8d;
+        font-size: 16px;
+    }
+
+    .timer-container {
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .timer-display {
+        font-size: 32px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-bottom: 5px;
+    }
+
+    .timer-label {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+
+    .instructions-content {
+        margin-bottom: 30px;
+    }
+
+    .instructions-content h3 {
+        color: #2c3e50;
+        font-size: 20px;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .instructions-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .instructions-list li {
+        margin-bottom: 12px;
+        padding-left: 30px;
+        position: relative;
+    }
+
+    .instructions-list li i {
+        position: absolute;
+        left: 0;
+        top: 3px;
+        color: #3498db;
+    }
+
+    .security-notice {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+
+    .security-notice h4 {
+        color: #856404;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .security-notice ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+    }
+
+    .security-notice li {
+        margin-bottom: 8px;
+    }
+
+    .start-button {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .start-button:hover {
+        background-color: #2980b9;
+        color: white;
+        text-decoration: none;
+    }
+
+    .start-button:disabled {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+
+    .start-button i {
+        margin-right: 8px;
+    }
+</style>
+
+<div class="instructions-container">
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-success mb-4">
+            <i class="fas fa-check-circle me-2"></i> @ViewBag.SuccessMessage
+        </div>
+    }
+
+    <div class="instructions-header">
+        <h2>@Model.Title - Instructions</h2>
+        <p>Please read the following instructions carefully before starting the test</p>
+    </div>
+
+    <div class="timer-container">
+        <div id="timer" class="timer-display">01:00</div>
+        <div class="timer-label">Time to read instructions</div>
+    </div>
+
+    <div class="instructions-content">
+        <h3><i class="fas fa-info-circle"></i> General Instructions</h3>
+        <ul class="instructions-list">
+            <li><i class="fas fa-clock"></i> The test duration is <strong>@Model.DurationMinutes minutes</strong>.</li>
+            <li><i class="fas fa-question-circle"></i> There are <strong>@Model.Questions.Count questions</strong> in this test.</li>
+            <li><i class="fas fa-check-circle"></i> Each question has only one correct answer.</li>
+            <li><i class="fas fa-redo"></i> You can change your answers any time during the test.</li>
+            <li><i class="fas fa-ban"></i> You cannot return to the test once submitted.</li>
+            <li><i class="fas fa-hourglass-end"></i> The test will be automatically submitted when the time is up.</li>
+            <li><i class="fas fa-exclamation-triangle"></i> You cannot submit the test until the timer is completed.</li>
+        </ul>
+    </div>
+
+    <div class="security-notice">
+        <h4><i class="fas fa-shield-alt"></i> Security Measures</h4>
+        <ul>
+            <li>Do not switch tabs or use the back button during the test.</li>
+            <li>If you switch tabs more than 3 times, your test will be automatically submitted.</li>
+            <li>Using the back button will result in automatic test submission.</li>
+            <li>Your test session will be monitored for security purposes.</li>
+        </ul>
+    </div>
+
+    <button id="startTestBtn" class="start-button" disabled>
+        <i class="fas fa-hourglass-half"></i> Please wait...
+    </button>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startButton = document.getElementById('startTestBtn');
+            const timerElement = document.getElementById('timer');
+
+            // Check if user has just paid (success message exists)
+            const hasJustPaid = document.querySelector('.alert-success') !== null;
+
+            if (hasJustPaid) {
+                // If user has just paid, enable the button immediately
+                enableStartButton();
+                timerElement.textContent = '00:00';
+                timerElement.style.color = '#27ae60';
+            } else {
+                // Otherwise, use the timer
+                let timeLeft = 60; // 1 minute in seconds
+
+                // Initialize timer
+                updateTimer();
+                const timerInterval = setInterval(updateTimer, 1000);
+
+                function updateTimer() {
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        enableStartButton();
+                        return;
+                    }
+
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+
+                    timerElement.textContent =
+                        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                    timeLeft--;
+                }
+            }
+
+            function enableStartButton() {
+                startButton.disabled = false;
+                startButton.innerHTML = '<i class="fas fa-play"></i> Start Test Now';
+            }
+
+            startButton.addEventListener('click', function() {
+                window.location.href = '/Test/Take/@Model.Id';
+            });
+        });
+    </script>
+}

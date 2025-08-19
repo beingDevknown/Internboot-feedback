@@ -1,0 +1,800 @@
+@model OnlineAssessment.Web.Models.TestResult
+
+@{
+    ViewData["Title"] = "Test Result";
+}
+
+<div class="result-container">
+    <div class="result-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-4 mb-3">Test Result</h1>
+                    <p class="lead text-muted">@Model.Test.Title</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="action-buttons">
+                        <button onclick="exportResult()" class="btn btn-outline-light me-2">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <a href="/Test/History" class="btn btn-outline-light">
+                            <i class="fas fa-history"></i> History
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <!-- Attempt information alert -->
+        <div class="alert alert-primary mb-4">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Viewing Test Result:</strong> Attempt #@Model.AttemptNumber - Completed on @OnlineAssessment.Web.Utilities.TimeZoneHelper.ToIst(Model.SubmittedAt).ToString("MMM dd, yyyy HH:mm")
+
+            @{
+                // Check if this is the latest attempt
+                var allAttempts = ViewBag.AllAttempts as List<OnlineAssessment.Web.Models.TestResult>;
+                var latestAttempt = allAttempts?.OrderByDescending(a => a.AttemptNumber).FirstOrDefault();
+                var isLatestAttempt = latestAttempt?.Id == Model.Id;
+
+                if (!isLatestAttempt && latestAttempt != null)
+                {
+                    <div class="mt-2">
+                        <a href="@Url.Action("Result", "Test", new { id = latestAttempt.Id })" class="btn btn-sm btn-primary">
+                            <i class="fas fa-sync-alt me-1"></i> View Latest Attempt (#@latestAttempt.AttemptNumber)
+                        </a>
+                    </div>
+                }
+                else if (isLatestAttempt)
+                {
+                    <div class="mt-2">
+                        <span class="badge bg-success">
+                            <i class="fas fa-check me-1"></i> This is your latest attempt
+                        </span>
+                    </div>
+                }
+            }
+        </div>
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-info mb-4">
+                <i class="fas fa-info-circle me-2"></i> @ViewBag.Message
+            </div>
+        }
+
+        @if (TempData["TestRecreated"] != null)
+        {
+            <div class="alert alert-success mb-4">
+                <i class="fas fa-check-circle me-2"></i> Your test is recreated. <a href="@Url.Action("MyBookings", "Test")" class="alert-link">Go to My Bookings</a> to take the test.
+            </div>
+        }
+
+        @if (ViewBag.AutoSubmitted == true)
+        {
+            <div class="alert alert-warning mb-4">
+                <i class="fas fa-exclamation-triangle me-2"></i> This test was automatically submitted because you navigated away from the test page or used the back button.
+            </div>
+        }
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="result-card">
+                    <div class="result-summary">
+                        <div class="score-display">
+                            @if (Model.TotalQuestions > 0)
+                            {
+                                var passThreshold = (Model.Test.PassingScore / 100.0) * Model.TotalQuestions;
+                                var isPassed = Model.CorrectAnswers >= passThreshold;
+
+                                <div class="score-circle @(isPassed ? "score-pass" : "score-fail")">
+                                    <div class="score-content">
+                                        <h2 class="display-2 mb-0">@Model.CorrectAnswers</h2>
+                                        <small>out of @Model.TotalQuestions</small>
+                                    </div>
+                                </div>
+                                <div class="score-status">
+                                    <span class="badge @(isPassed ? "bg-success" : "bg-danger")">
+                                        @(isPassed ? "PASSED" : "FAILED")
+                                    </span>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">Passing score: @Model.Test.PassingScore% (@passThreshold.ToString("0") out of @Model.TotalQuestions)</small>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">Attempt #@Model.AttemptNumber</small>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="score-circle score-fail">
+                                    <div class="score-content">
+                                        <h2 class="display-2 mb-0">0</h2>
+                                        <small>out of 0</small>
+                                    </div>
+                                </div>
+                                <div class="score-status">
+                                    <span class="badge bg-danger">FAILED</span>
+                                </div>
+                                <div class="alert alert-warning mt-3">
+                                    <i class="fas fa-exclamation-triangle me-2"></i> This test did not contain any questions. Please contact the test administrator.
+                                </div>
+                            }
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <div>
+                                    <span class="label">Candidate</span>
+                                    <span class="value">@Model.Username</span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-redo-alt"></i>
+                                <div>
+                                    <span class="label">Attempt</span>
+                                    <span class="value">#@Model.AttemptNumber</span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <div>
+                                    <span class="label">Submitted</span>
+                                    <span class="value">@Model.SubmittedAt.ToString("MMM dd, yyyy HH:mm")</span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-question-circle"></i>
+                                <div>
+                                    <span class="label">Questions</span>
+                                    <span class="value">@Model.TotalQuestions</span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <span class="label">Correct</span>
+                                    <span class="value">@Model.CorrectAnswers</span>
+                                </div>
+                            </div>
+                            @if (Model.StartTime.HasValue && Model.EndTime.HasValue)
+                            {
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <span class="label">Test Time</span>
+                                        @{
+                                            var startTime = OnlineAssessment.Web.Utilities.TimeZoneHelper.ToIst(Model.StartTime.Value);
+                                            var endTime = OnlineAssessment.Web.Utilities.TimeZoneHelper.ToIst(Model.EndTime.Value);
+                                            var duration = endTime - startTime;
+                                        }
+                                        <span class="value">@startTime.ToString("hh:mm tt") - @endTime.ToString("hh:mm tt")</span>
+                                        <br><small class="text-muted">Duration: @duration.ToString(@"hh\:mm")</small>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="result-actions">
+                    <div class="action-card">
+                        <h4>Next Steps</h4>
+                        <div class="action-buttons">
+                            <a href="/Test/Index" class="btn btn-primary btn-lg w-100 mb-3">
+                                <i class="fas fa-list me-2"></i>Back to Tests
+                            </a>
+                            <a href="/Test/MyBookings" class="btn btn-outline-primary btn-lg w-100 mb-3">
+                                <i class="fas fa-calendar-check me-2"></i>My Bookings
+                            </a>
+
+                            @{
+                                // Get the count of attempts for this test
+                                var attemptCount = ViewBag.AttemptCount ?? 1;
+                                // Note: allAttempts is already defined in the alert section above
+                            }
+                            @if (ViewBag.IsSpecialUser == true)
+                            {
+                                <a href="@Url.Action("BookSlot", "Test", new { id = Model.TestId })" class="btn btn-warning btn-lg w-100 mb-3">
+                                    <i class="fas fa-calendar-plus me-2"></i>Book Another Slot
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("BookSlot", "Test", new { id = Model.TestId })" class="btn btn-warning btn-lg w-100 mb-3">
+                                    <i class="fas fa-calendar-plus me-2"></i>Book Another Slot
+                                </a>
+                            }
+
+                            <!-- All Attempts Section -->
+                            <div class="all-attempts-section mt-4 mb-3">
+                                <h5>All Attempts</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Attempt #</th>
+                                                <th>Score</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (allAttempts != null && allAttempts.Any())
+                                            {
+                                                int maxAttemptNumber = allAttempts.Max(a => a.AttemptNumber);
+                                                foreach (var attempt in allAttempts.OrderByDescending(a => a.AttemptNumber))
+                                                {
+                                                    bool isCurrentAttempt = attempt.Id == Model.Id;
+                                                    bool isLatestByNumber = attempt.AttemptNumber == maxAttemptNumber;
+                                                    <tr class="@(isCurrentAttempt ? "table-primary" : "")">
+                                                        <td>
+                                                            @attempt.AttemptNumber
+                                                            @if (isLatestByNumber)
+                                                            {
+                                                                <span class="badge bg-success ms-1">Latest</span>
+                                                            }
+                                                        </td>
+                                                        <td>@attempt.CorrectAnswers / @attempt.TotalQuestions</td>
+                                                        <td>@attempt.SubmittedAt.ToString("MMM dd, HH:mm")</td>
+                                                        <td>
+                                                            @if (isCurrentAttempt)
+                                                            {
+                                                                <span class="badge bg-primary">Current</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a href="@Url.Action("Result", "Test", new { id = attempt.Id })" class="btn btn-sm btn-outline-primary">View</a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="4" class="text-center">No attempts found</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <small>You've completed <strong>@attemptCount</strong> attempt@(attemptCount != 1 ? "s" : "") of this test.
+                                @if (Model.AttemptNumber > 0)
+                                {
+                                    <span>This is attempt #<strong>@Model.AttemptNumber</strong>.</span>
+                                }
+                                Booking another slot requires payment.</small>
+                            </div>
+
+                            @* Special User Features *@
+                            @if (ViewBag.IsSpecialUser == true)
+                            {
+                                <div class="special-user-features mt-4">
+                                    <h5><i class="fas fa-star text-warning me-2"></i>Special User Features</h5>
+
+                                    <!-- Performance Rating -->
+                                    <div class="performance-rating mb-3">
+                                        <h6>Performance Rating</h6>
+                                        @{
+                                            var rating = ViewBag.ScoreRating?.ToString() ?? "Below Average";
+                                            var percentage = ViewBag.ScorePercentage ?? 0.0;
+                                            var ratingClass = rating.ToLower() switch
+                                            {
+                                                "best performer" => "success",
+                                                "good performer" => "warning",
+                                                "average performer" => "info",
+                                                _ => "danger"
+                                            };
+                                        }
+                                        <div class="rating-display">
+                                            <span class="badge bg-@ratingClass fs-6 p-2">
+                                                @rating.ToUpper()
+                                            </span>
+                                            <small class="text-muted ms-2">(@percentage.ToString("F1")%)</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Debug Information -->
+                                    <div class="debug-info mb-3 p-2" style="background: rgba(255,255,255,0.1); border-radius: 5px; font-size: 0.8rem;">
+                                        <strong>Debug Info:</strong><br>
+                                        User Role: @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value<br>
+                                        User ID: @User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value<br>
+                                        IsSpecialUser: @ViewBag.IsSpecialUser<br>
+                                        Test Result ID: @Model.Id
+                                    </div>
+
+                                    <!-- Certificate Section -->
+                                    <div class="certificate-section">
+                                        <h6><i class="fas fa-certificate text-primary me-2"></i>Certificate</h6>
+                                        <div id="certificateStatus">
+                                            <div class="d-flex align-items-center">
+                                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                <span>Checking certificate status...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .simple-footer {
+        margin-top: auto;
+    }
+
+    .result-container {
+        min-height: calc(100vh - 60px); /* Account for footer */
+        background-color: #f8f9fa;
+    }
+
+    .result-header {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+    }
+
+    .result-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .result-summary {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .score-display {
+        margin-bottom: 2rem;
+    }
+
+    .score-circle {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        border: 10px solid;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .score-pass {
+        border-color: #28a745;
+        color: #28a745;
+    }
+
+    .score-fail {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    .score-content {
+        text-align: center;
+    }
+
+    .score-content small {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    .result-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+
+    .detail-item:hover {
+        transform: translateY(-3px);
+    }
+
+    .detail-item i {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        color: #3498db;
+    }
+
+    .detail-item .label {
+        display: block;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .detail-item .value {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .result-actions {
+        position: sticky;
+        top: 2rem;
+    }
+
+    .action-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+
+    .action-card h4 {
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+    }
+
+    .badge {
+        font-size: 1.1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+    }
+
+    .btn {
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-outline-light {
+        border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-outline-light:hover {
+        background: white;
+        color: #3498db;
+    }
+
+    /* Styles for attempts table */
+    .all-attempts-section {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .all-attempts-section h5 {
+        margin-bottom: 15px;
+        color: #2c3e50;
+        font-size: 1.1rem;
+    }
+
+    .all-attempts-section .table {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+
+    .all-attempts-section .table th {
+        background-color: #e9ecef;
+        font-weight: 600;
+    }
+
+    .all-attempts-section .table-primary {
+        background-color: rgba(52, 152, 219, 0.15);
+    }
+
+    .all-attempts-section .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    /* Special User Features Styles */
+    .special-user-features {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .special-user-features h5 {
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .special-user-features h6 {
+        color: #f8f9fa;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+
+    .performance-rating .rating-display {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .certificate-section {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 15px;
+    }
+
+    .certificate-btn {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .certificate-btn:hover {
+        background: linear-gradient(45deg, #218838, #1ea085);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+    }
+
+    .certificate-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .purchase-btn {
+        background: linear-gradient(45deg, #ffc107, #fd7e14);
+        border: none;
+        color: #212529;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .purchase-btn:hover {
+        background: linear-gradient(45deg, #e0a800, #e8630a);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Clear any session state when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Clear localStorage items that might be causing issues
+            if (localStorage.getItem('testInProgress')) {
+                localStorage.removeItem('testInProgress');
+            }
+
+            // Add event listener to the "Back to Tests" button
+            document.querySelector('a[href="/Test/Index"]').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Clear any localStorage items that might be causing issues
+                if (localStorage.getItem('testInProgress')) {
+                    localStorage.removeItem('testInProgress');
+                }
+
+                // Navigate to the Tests page with a clear parameter to ensure fresh state
+                window.location.href = '/Test/Index?clear=true';
+            });
+
+            // Check for certificate success parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const certificateSuccess = urlParams.get('certificateSuccess');
+
+            if (certificateSuccess === 'true') {
+                // Show success message
+                if (typeof showToast === 'function') {
+                    showToast('<i class="fas fa-certificate me-2"></i>Certificate purchased successfully! You can now download it.', 'success');
+                } else {
+                    // Fallback alert if toast function is not available
+                    alert('Certificate purchased successfully! You can now download it.');
+                }
+
+                // Clean up URL
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+            }
+
+            // Session keep-alive mechanism
+            setInterval(function() {
+                fetch('/Test/SessionCheck', {
+                    method: 'HEAD',
+                    credentials: 'same-origin'
+                }).catch(error => {
+                    console.log('Session keep-alive failed:', error);
+                });
+            }, 5 * 60 * 1000); // Every 5 minutes
+
+            // Load certificate status for special users
+            @if (ViewBag.IsSpecialUser == true)
+            {
+                <text>
+                loadCertificateStatus(@Model.Id);
+                </text>
+            }
+        });
+
+        function exportResult() {
+            const resultData = {
+                testTitle: '@Model.Test.Title',
+                username: '@Model.Username',
+                submittedAt: '@OnlineAssessment.Web.Utilities.TimeZoneHelper.ToIst(Model.SubmittedAt).ToString("g")',
+                totalQuestions: @Model.TotalQuestions,
+                correctAnswers: @Model.CorrectAnswers,
+                score: @Model.CorrectAnswers,
+                attemptNumber: @Model.AttemptNumber
+            };
+
+            const jsonString = JSON.stringify(resultData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test_result_${resultData.testTitle.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        // Certificate functionality for special users
+        function loadCertificateStatus(testResultId) {
+            console.log('Loading certificate status for test result ID:', testResultId);
+
+            // Show loading state
+            const statusDiv = document.getElementById('certificateStatus');
+            statusDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="spinner-border spinner-border-sm text-light me-2" role="status"></div>
+                    <span class="text-white">Loading certificate status...</span>
+                </div>
+            `;
+
+            fetch(`/Certificate/api/status/${testResultId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin' // Include cookies for authentication
+            })
+                .then(response => {
+                    console.log('Certificate API response status:', response.status);
+                    console.log('Certificate API response headers:', response.headers);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Certificate API response data:', data);
+
+                    if (data.success) {
+                        if (data.hasPurchased) {
+                            if (data.certificateUrl) {
+                                // Certificate purchased and generated
+                                statusDiv.innerHTML = `
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span class="text-white">Certificate purchased and ready!</span>
+                                            <br><small class="text-light">Purchased on: ${data.purchaseDate}</small>
+                                        </div>
+                                        <a href="/Certificate/Download/${testResultId}" class="certificate-btn">
+                                            <i class="fas fa-download me-2"></i>Download Certificate
+                                        </a>
+                                    </div>
+                                `;
+                            } else {
+                                // Certificate purchased but not yet generated
+                                statusDiv.innerHTML = `
+                                    <div class="d-flex align-items-center">
+                                        <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div>
+                                        <span class="text-white">Certificate is being generated...</span>
+                                    </div>
+                                `;
+                                // Check again in 5 seconds
+                                setTimeout(() => loadCertificateStatus(testResultId), 5000);
+                            }
+                        } else {
+                            // Certificate not purchased - check if eligible
+                            const scorePercentage = (@Model.CorrectAnswers * 100.0) / @Model.TotalQuestions;
+
+                            if (scorePercentage >= 60) {
+                                // Eligible for certificate
+                                statusDiv.innerHTML = `
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="fas fa-certificate text-warning me-2"></i>
+                                            <span class="text-white">Get your achievement certificate</span>
+                                            <br><small class="text-light">Price: ₹1000</small>
+                                        </div>
+                                        <button onclick="purchaseCertificate(${testResultId})" class="btn purchase-btn">
+                                            <i class="fas fa-shopping-cart me-2"></i>Purchase Certificate
+                                        </button>
+                                    </div>
+                                `;
+                            } else {
+                                // Not eligible for certificate
+                                statusDiv.innerHTML = `
+                                    <div class="text-center">
+                                        <i class="fas fa-times-circle text-danger me-2"></i>
+                                        <span class="text-white">Certificate not available</span>
+                                        <br><small class="text-light">Minimum 60% score required. Your score: ${scorePercentage.toFixed(1)}%</small>
+                                        <br><small class="text-light">Retake the test to improve your score and earn a certificate.</small>
+                                    </div>
+                                `;
+                            }
+                        }
+                    } else {
+                        console.error('Certificate API returned error:', data.message);
+                        statusDiv.innerHTML = `
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <span class="text-white">Error loading certificate status: ${data.message || 'Unknown error'}</span>
+                                <br><small class="text-light">Debug: ${JSON.stringify(data.debugInfo || {})}</small>
+                                <br><small class="text-light">Error: ${data.error || 'No additional error info'}</small>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading certificate status:', error);
+                    statusDiv.innerHTML = `
+                        <div class="text-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span class="text-white">Error loading certificate status: ${error.message}</span>
+                            <br><small class="text-light">Check browser console for details</small>
+                            <br><small class="text-light">URL: /Certificate/api/status/${testResultId}</small>
+                        </div>
+                    `;
+                });
+        }
+
+        function purchaseCertificate(testResultId) {
+            // Redirect to certificate purchase page
+            window.location.href = `/Certificate/Purchase/${testResultId}`;
+        }
+    </script>
+}

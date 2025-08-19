@@ -1,0 +1,85 @@
+@model List<User>
+@{
+    ViewData["Title"] = "Users";
+    Layout = "_SuperAdminLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Users</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/SuperAdmin/Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Users</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-users me-1"></i>
+                    Users
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Verified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.SapId</td>
+                            <td>@user.Username</td>
+                            <td>@user.Email</td>
+                            <td>
+                                <span class="badge @(user.Role == UserRole.Candidate ? "bg-primary" : "bg-success")">
+                                    @user.Role
+                                </span>
+                            </td>
+                            <td>@(string.IsNullOrEmpty(user.FirstName) ? "-" : $"{user.FirstName} {user.LastName}")</td>
+                            <td>@(string.IsNullOrEmpty(user.MobileNumber) ? "-" : user.MobileNumber)</td>
+                            <td>
+                                @if (user.IsOtpVerified)
+                                {
+                                    <span class="badge bg-success">Verified</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">Not Verified</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="/SuperAdmin/UserDetails/@user.SapId" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable for better user experience
+            $('.table').DataTable({
+                responsive: true,
+                order: [[0, 'desc']]
+            });
+        });
+    </script>
+}

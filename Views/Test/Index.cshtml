@@ -1,0 +1,1032 @@
+@using OnlineAssessment.Web.Utilities
+@model List<OnlineAssessment.Web.Models.Test>
+@using OnlineAssessment.Web.Models
+@{
+    ViewData["Title"] = "Tests";
+    var isAdmin = ViewBag.IsAdmin ?? false;
+    var username = ViewBag.Username ?? "Guest";
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+    var hasActiveSubscription = ViewBag.HasActiveSubscription ?? false;
+    var canCreateMcq = ViewBag.CanCreateMcq ?? false;
+}
+
+@section Styles {
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success-color: #22c55e;
+            --info-color: #3b82f6;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-bg: #1e1e1e;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --hover-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .simple-footer {
+            margin-top: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            padding: 2rem;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .welcome-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .create-test-btn {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .create-test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            background-color: white;
+            color: var(--primary-hover);
+        }
+
+        .btn-light {
+            background-color: white;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-light:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .alert {
+            border: none;
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, var(--info-color), #2563eb);
+            color: white;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+            color: white;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, var(--success-color), #16a34a);
+            color: white;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: white;
+        }
+
+        .alert-link {
+            color: white;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .test-card {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: var(--card-shadow);
+            height: 100%;
+        }
+
+        .test-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .test-card .card-header {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem;
+        }
+
+        .test-card .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .test-card .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .test-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .test-card .card-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .test-info {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .test-info-item i {
+            color: var(--primary-color);
+        }
+
+        .test-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .test-actions .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .test-actions .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border: none;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .test-actions .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        .test-actions .btn-info {
+            background: linear-gradient(135deg, var(--info-color), #2563eb);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .test-actions .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, var(--info-color), #2563eb);
+            color: white;
+        }
+
+        .test-actions .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        .test-actions .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: white;
+        }
+
+        .test-card .card-footer {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+        }
+
+        .test-card .card-footer small {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-card .card-footer i {
+            color: var(--primary-color);
+        }
+
+        .scheduled-test-card .card {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        .scheduled-test-card .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .scheduled-test-card .card-body {
+            padding: 2rem;
+        }
+
+        .scheduled-test-card h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .scheduled-test-card p {
+            margin-bottom: 0.75rem;
+        }
+
+        .scheduled-test-card .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .scheduled-test-card .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Ad container styles */
+        .ad-container {
+            position: relative;
+            min-height: 120px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .ad-clickable {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ad-clickable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .ad-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .fallback-content {
+            max-width: 80%;
+        }
+
+        .fallback-content h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .fallback-content p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        @@media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .welcome-section {
+                padding: 1.5rem;
+            }
+
+            .test-info {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .test-actions {
+                flex-wrap: wrap;
+            }
+
+            .test-actions .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+}
+
+<div class="container">
+    <div class="welcome-section">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2>Welcome, @username!</h2>
+                @if ((userRole == "Candidate" || userRole == "SpecialUser") && ViewBag.UserDomain != null)
+                {
+                    @if (Context.Request.Query.ContainsKey("isReattempt") && Context.Request.Query["isReattempt"] == "True")
+                    {
+                        <p class="mb-0">Select a test to retake. You will need to book a new slot and make a payment.</p>
+                    }
+                    else if (ViewBag.UserDomain.ToString().Equals("BFSI Internship", StringComparison.OrdinalIgnoreCase) ||
+                         ViewBag.UserDomain.ToString().Equals("Pharma Intern", StringComparison.OrdinalIgnoreCase) ||
+                         ViewBag.UserDomain.ToString().Equals("Medical Coding Intern", StringComparison.OrdinalIgnoreCase) ||
+                         ViewBag.UserDomain.ToString().Equals("AI", StringComparison.OrdinalIgnoreCase) ||
+                         ViewBag.UserDomain.ToString().Equals("DataScience", StringComparison.OrdinalIgnoreCase) ||
+                         ViewBag.UserDomain.ToString().Equals("Cybersecurity", StringComparison.OrdinalIgnoreCase))
+                    {
+                        <p class="mb-0">Browse and take tests specifically designed for <strong>@ViewBag.UserDomain</strong> category</p>
+                    }
+                    else
+                    {
+                        <p class="mb-0">Browse and take available tests in your domain: <strong>@ViewBag.UserDomain</strong></p>
+                    }
+                }
+                else if (userRole == "Organization")
+                {
+                    <p class="mb-0">Browse and manage your domain-specific tests.</p>
+                }
+                else
+                {
+                    <p class="mb-0">Browse and take available tests.</p>
+                }
+            </div>
+            <div class="d-flex gap-2">
+                <a href="@Url.Action("Index", "Test", new { refresh = true })" class="btn btn-light" title="Refresh test list">
+                    <i class="fas fa-sync-alt"></i>
+                </a>
+                @if (isAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Test", new { clearSession = true })" class="btn btn-light" title="Clear session data">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                }
+                @if (isAuthenticated && userRole == "Organization")
+                {
+                    <a href="/Test/Create" class="create-test-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        Create New Test
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (!isAuthenticated)
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Please <a href="/Auth/Login" class="alert-link">login</a> to take tests or create new ones.
+        </div>
+    }
+
+    @if (ViewData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle me-2"></i>
+            @ViewData["SuccessMessage"]
+        </div>
+    }
+
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            @ViewData["ErrorMessage"]
+        </div>
+    }
+
+    @if (ViewBag.InfoMessage != null)
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            @ViewBag.InfoMessage
+        </div>
+    }
+
+    @if (TempData["JustPaid"] != null && TempData["BookedTestId"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle me-2"></i>
+            @if (TempData["TestRecreated"] != null)
+            {
+                <span>Your test is recreated. <a href="@Url.Action("MyBookings", "Test")" class="alert-link">Go to My Bookings</a> to take the test.</span>
+            }
+            else
+            {
+                <span>Your test has been booked successfully! <a href="@Url.Action("MyBookings", "Test", new { fromPayment = true })" class="alert-link">View your bookings</a> to start the test.</span>
+            }
+        </div>
+    }
+
+    @if (Context.Request.Query.ContainsKey("bookingError"))
+    {
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span>There was an issue loading your bookings. Your payment was successful, but it may take a moment for your booking to appear.
+            <a href="@Url.Action("MyBookings", "Test", new { fromPayment = true })" class="alert-link">Try again</a> or refresh this page.</span>
+        </div>
+    }
+
+
+
+    <!-- Ad Unit Before Test List -->
+    <div class="row mb-4">
+        <div class="col-12">
+            @await Html.PartialAsync("_AdUnit")
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @if (Model.Any())
+        {
+            foreach (var test in Model)
+            {
+                <div class="col-md-6 col-lg-4" data-test-id="@test.Id">
+                    <div class="test-card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title text-truncate" title="@test.Title">@test.Title</h5>
+                                <span class="badge bg-primary">
+                                    MCQ
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@test.Description</p>
+                            <div class="test-info">
+                                <div class="test-info-item">
+                                    <i class="fas fa-clock"></i>
+                                    @test.DurationMinutes min
+                                </div>
+                                <!-- MaxStudents field removed as per requirement -->
+                                <div class="test-info-item">
+                                    <i class="fas fa-redo"></i>
+                                    @test.MaxAttempts attempts
+                                </div>
+                                @* <div class="test-info-item">
+                                    <i class="fas fa-rupee-sign"></i>
+                                    ₹@test.Price.ToString("F2")
+                                </div> *@
+                            </div>
+
+                            @if (test.IsScheduleRestricted && test.ScheduledStartTime.HasValue && test.ScheduledEndTime.HasValue)
+                            {
+                                <div class="test-schedule-info mt-3 mb-3">
+                                    <div class="alert alert-info p-2">
+                                        <div><i class="fas fa-calendar-alt me-2"></i><strong>Scheduled Time (IST):</strong></div>
+                                        @{
+                                            string startTimeStr = "";
+                                            string endTimeStr = "";
+
+                                            // Get the times from the database
+                                            if (test.ScheduledStartTime.HasValue && test.ScheduledEndTime.HasValue)
+                                            {
+                                                startTimeStr = test.ScheduledStartTime.Value.ToString("hh:mm tt");
+                                                endTimeStr = test.ScheduledEndTime.Value.ToString("hh:mm tt");
+                                            }
+                                            else
+                                            {
+                                                // Default times if not set
+                                                startTimeStr = "09:00 AM";
+                                                endTimeStr = "11:00 AM";
+                                            }
+
+                                            var bookingDate = test.ScheduledStartTime.Value.ToString("yyyy-MM-dd");
+                                        }
+                                        <div class="ms-4 mt-1">Date: @bookingDate</div>
+                                        <div class="ms-4">Time: @startTimeStr - @endTimeStr</div>
+
+                                        <div class="mt-2">
+                                            <i class="fas fa-users me-2"></i><strong>Capacity:</strong>
+                                            <span class="ms-2 badge bg-@(test.CurrentUserCount >= test.MaxUsersPerSlot ? "danger" : "success")">
+                                                @test.CurrentUserCount / @test.MaxUsersPerSlot users
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(test.Domain))
+                            {
+                                <div class="mt-2 mb-3">
+                                    <span class="badge bg-info">
+                                        <i class="fas fa-tag me-1"></i>
+                                        Domain: @test.Domain
+                                    </span>
+                                </div>
+                            }
+                            <div class="test-actions">
+                                @if (userRole == "Candidate" || userRole == "SpecialUser")
+                                {
+                                    @if (test.IsScheduleRestricted && test.ScheduledStartTime.HasValue && test.ScheduledEndTime.HasValue)
+                                    {
+                                        // Convert test times to IST using our helper
+                                        DateTime? testStartTimeIST = test.ScheduledStartTime.HasValue
+                                            ? TimeZoneHelper.ToIst(test.ScheduledStartTime.Value)
+                                            : null;
+
+                                        DateTime? testEndTimeIST = test.ScheduledEndTime.HasValue
+                                            ? TimeZoneHelper.ToIst(test.ScheduledEndTime.Value)
+                                            : null;
+
+                                        // Get current time in IST
+                                        DateTime nowIST = TimeZoneHelper.GetCurrentIstTime();
+
+                                        var isTestTime = testStartTimeIST.HasValue && testEndTimeIST.HasValue &&
+                                                       nowIST >= testStartTimeIST && nowIST <= testEndTimeIST;
+
+                                        <!-- We don't show booked tests in this view anymore -->
+                                        @if (test.CurrentUserCount < test.MaxUsersPerSlot)
+                                        {
+                                            <form method="post" action="/Test/BookSlot/@test.Id" style="flex-grow: 1;">
+                                                <button type="submit" class="btn btn-info w-100">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                    Book Slot
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary flex-grow-1" disabled>
+                                                <i class="fas fa-users-slash"></i>
+                                                Slot Full
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @if (Context.Request.Query.ContainsKey("isReattempt") && Context.Request.Query["isReattempt"] == "True")
+                                        {
+                                            <a href="@Url.Action("BookSlot", "Test", new { id = test.Id, isReattempt = true })" class="btn btn-primary flex-grow-1">
+                                                <i class="fas fa-redo"></i>
+                                                Retake Test
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("BookSlot", "Test", new { id = test.Id })" class="btn btn-primary flex-grow-1">
+                                                <i class="fas fa-calendar-check"></i>
+                                                Book Test
+                                            </a>
+                                        }
+                                    }
+                                }
+                                else if (userRole == "Organization")
+                                {
+                                    <a href="/Test/Instructions/@test.Id" class="btn btn-primary">
+                                        <i class="fas fa-play"></i>
+                                        Start
+                                    </a>
+                                    <button onclick="deleteTest(@test.Id)" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                        Delete
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary flex-grow-1" disabled title="Please login to take the test">
+                                        <i class="fas fa-lock"></i>
+                                        Login Required
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small>
+                                <i class="fas fa-calendar-alt"></i>
+                                Created @test.CreatedAt.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>No Tests Available</h3>
+                    @if ((userRole == "Candidate" || userRole == "SpecialUser") && ViewBag.UserDomain != null)
+                    {
+                        @if (ViewBag.UserDomain.ToString().Equals("BFSI Internship", StringComparison.OrdinalIgnoreCase) ||
+                             ViewBag.UserDomain.ToString().Equals("Pharma Intern", StringComparison.OrdinalIgnoreCase) ||
+                             ViewBag.UserDomain.ToString().Equals("Medical Coding Intern", StringComparison.OrdinalIgnoreCase) ||
+                             ViewBag.UserDomain.ToString().Equals("AI", StringComparison.OrdinalIgnoreCase) ||
+                             ViewBag.UserDomain.ToString().Equals("DataScience", StringComparison.OrdinalIgnoreCase) ||
+                             ViewBag.UserDomain.ToString().Equals("Cybersecurity", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <p>There are no tests currently available for <strong>@ViewBag.UserDomain</strong> category.</p>
+                            <p>Only tests specifically designed for @ViewBag.UserDomain will be shown here.</p>
+                            <p>Please check back later or contact your administrator.</p>
+                        }
+                        else
+                        {
+                            <p>There are no tests available for your domain: <strong>@ViewBag.UserDomain</strong></p>
+                            <p>Please check back later or contact your administrator.</p>
+                        }
+                        <a href="@Url.Action("Index", "Test", new { refresh = true })" class="btn btn-primary mt-3">
+                            <i class="fas fa-sync-alt me-2"></i> Refresh
+                        </a>
+                    }
+                    else if (userRole == "Organization")
+                    {
+                        <p>You haven't created any tests yet.</p>
+                        <a href="/Test/Create" class="create-test-btn mt-3">
+                            <i class="fas fa-plus-circle"></i>
+                            Create Your First Test
+                        </a>
+                    }
+                    else
+                    {
+                        <p>There are no tests available at the moment.</p>
+                        <p>Please check back later or contact your administrator.</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Ad Unit at Bottom of Test List -->
+    <div class="row mt-4">
+        <div class="col-12">
+            @await Html.PartialAsync("_AdUnit")
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-refresh the page periodically for candidates to see new tests
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only set up auto-refresh for candidates and special users
+            const userRole = '@userRole';
+            if (userRole === 'Candidate' || userRole === 'SpecialUser') {
+                // Check for new tests every 30 seconds
+                setInterval(function() {
+                    // Make an AJAX request to check for new tests
+                    fetch('@Url.Action("Index", "Test")?refresh=true&ajax=true')
+                        .then(response => {
+                            if (response.ok) {
+                                // If there are new tests, refresh the page
+                                window.location.reload();
+                            }
+                        })
+                        .catch(error => console.error('Error checking for new tests:', error));
+                }, 30000); // 30 seconds
+            }
+        });
+
+        document.getElementById('createTestForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            try {
+                // Get the form values
+                const title = document.getElementById('testTitle').value.trim();
+                const description = document.getElementById('testDescription').value.trim();
+                const durationMinutes = parseInt(document.getElementById('durationMinutes').value);
+                const maxStudents = parseInt(document.getElementById('maxStudents').value);
+                const maxAttempts = parseInt(document.getElementById('maxAttempts').value);
+                const typeElement = document.getElementById('testType');
+                const type = parseInt(typeElement.value);
+
+                console.log('Test type element:', typeElement);
+                console.log('Test type raw value:', typeElement.value);
+                console.log('Test type parsed value:', type);
+
+                // Validate form values
+                if (!title) {
+                    throw new Error('Test title is required');
+                }
+                if (!description) {
+                    throw new Error('Test description is required');
+                }
+                if (isNaN(durationMinutes) || durationMinutes <= 0 || durationMinutes > 1440) {
+                    throw new Error('Duration must be between 1 and 1440 minutes');
+                }
+                if (isNaN(maxStudents) || maxStudents < 1) {
+                    throw new Error('Maximum number of students must be at least 1');
+                }
+                if (isNaN(maxAttempts) || maxAttempts < 1) {
+                    throw new Error('Maximum number of attempts must be at least 1');
+                }
+                if (isNaN(type)) {
+                    throw new Error('Invalid test type');
+                }
+
+                // Create the test object
+                const test = {
+                    Title: title,
+                    Description: description,
+                    DurationMinutes: durationMinutes,
+                    MaxStudents: maxStudents,
+                    MaxAttempts: maxAttempts,
+                    Type: type,
+                    Questions: []
+                };
+
+                console.log('Sending test data:', test);
+                console.log('Test type value:', type);
+                console.log('Test type as string:', type.toString());
+
+                const response = await fetch('/api/TestApi/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(test)
+                });
+
+                const result = await response.json();
+                console.log('Server response:', result);
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Server error: ' + response.status);
+                }
+
+                showToast('Test created successfully!', 'success');
+                window.location.href = result.redirectUrl || '/Test/Index';
+            } catch (error) {
+                console.error('Error:', error);
+                console.error('Error details:', error.stack);
+                showToast('Error creating test: ' + error.message, 'error');
+            }
+        });
+
+        // Upload questions functionality has been removed in favor of using category questions only
+
+        async function deleteTest(testId) {
+            try {
+                // Create a Bootstrap modal for confirmation
+                const confirmModal = document.createElement('div');
+                confirmModal.className = 'modal fade';
+                confirmModal.innerHTML = `
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this test? This action cannot be undone.</p>
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Warning:</strong> This will permanently delete the test and all its questions.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" id="confirmDelete">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(confirmModal);
+                const modal = new bootstrap.Modal(confirmModal);
+                modal.show();
+
+                confirmModal.querySelector('#confirmDelete').addEventListener('click', async function() {
+                    const deleteButton = this;
+                    deleteButton.disabled = true;
+                    deleteButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Deleting...';
+
+                    try {
+                        const response = await fetch(`/Test/delete/${testId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            showToast('Test deleted successfully!', 'success');
+                            // Remove the test card from the page with animation
+                            const testCard = document.querySelector(`div[data-test-id="${testId}"]`);
+                            if (testCard) {
+                                testCard.style.transition = 'all 0.3s ease';
+                                testCard.style.opacity = '0';
+                                setTimeout(() => {
+                                    testCard.remove();
+                                    // Check if there are no more tests
+                                    const remainingTests = document.querySelectorAll('div[data-test-id]');
+                                    if (remainingTests.length === 0) {
+                                        location.reload(); // Reload to show "No tests available" message
+                                    }
+                                }, 300);
+                            }
+                        } else {
+                            showToast(result.message || 'Error deleting test', 'error');
+                            deleteButton.disabled = false;
+                            deleteButton.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showToast('An error occurred while deleting the test. Please try again.', 'error');
+                        deleteButton.disabled = false;
+                        deleteButton.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                    } finally {
+                        modal.hide();
+                    }
+                });
+
+                confirmModal.addEventListener('hidden.bs.modal', function () {
+                    document.body.removeChild(confirmModal);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('An unexpected error occurred. Please try again.', 'error');
+            }
+        }
+
+        async function bookTestSlot(testId) {
+            try {
+                // Create a Bootstrap modal for confirmation
+                const confirmModal = document.createElement('div');
+                confirmModal.className = 'modal fade';
+                confirmModal.innerHTML = `
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Book Test Slot</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to book a slot for this test?</p>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    <strong>Note:</strong> Once booked, you'll be able to start the test during the scheduled time.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="confirmBooking">
+                                    <i class="fas fa-calendar-check"></i> Book Slot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(confirmModal);
+                const modal = new bootstrap.Modal(confirmModal);
+                modal.show();
+
+                confirmModal.querySelector('#confirmBooking').addEventListener('click', async function() {
+                    const bookButton = this;
+                    bookButton.disabled = true;
+                    bookButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Booking...';
+
+                    try {
+                        console.log(`Booking slot for test ID: ${testId}`);
+
+                        // First test if the API is working
+                        try {
+                            const pingResponse = await fetch('/Test/Ping');
+                            const pingResult = await pingResponse.json();
+                            console.log('Ping result:', pingResult);
+                        } catch (pingError) {
+                            console.error('Ping error:', pingError);
+                        }
+
+                        const response = await fetch(`/Test/BookSlot/${testId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            credentials: 'include' // Include cookies for authentication
+                        });
+
+                        console.log('Response status:', response.status);
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        console.log('Response data:', result);
+
+                        if (result.success) {
+                            showToast('Slot booked successfully!', 'success');
+                            setTimeout(() => {
+                                location.reload(); // Reload to update the UI
+                            }, 1000);
+                        } else {
+                            showToast(result.message || 'Error booking slot', 'error');
+                            bookButton.disabled = false;
+                            bookButton.innerHTML = '<i class="fas fa-calendar-check"></i> Book Slot';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showToast('An error occurred while booking the slot. Please try again.', 'error');
+                        bookButton.disabled = false;
+                        bookButton.innerHTML = '<i class="fas fa-calendar-check"></i> Book Slot';
+                    } finally {
+                        modal.hide();
+                    }
+                });
+
+                confirmModal.addEventListener('hidden.bs.modal', function () {
+                    document.body.removeChild(confirmModal);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('An unexpected error occurred. Please try again.', 'error');
+            }
+        }
+    </script>
+}

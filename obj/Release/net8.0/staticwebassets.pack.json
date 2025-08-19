@@ -1,0 +1,353 @@
+{
+  "Files": [
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/obj/Release/net8.0/scopedcss/projectbundle/OnlineAssessment.Web.bundle.scp.css",
+      "PackagePath": "staticwebassets/OnlineAssessment.Web.bundle.scp.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/ads.txt",
+      "PackagePath": "staticwebassets/ads.txt"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_11_7e222539-8e43-40b0-ab60-03f3d73241c0.png",
+      "PackagePath": "staticwebassets/certificates/certificate_11_7e222539-8e43-40b0-ab60-03f3d73241c0.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_1_b96d4d46-0fd4-4ecf-bf7b-dc7c20ac8a7f.png",
+      "PackagePath": "staticwebassets/certificates/certificate_1_b96d4d46-0fd4-4ecf-bf7b-dc7c20ac8a7f.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_2_022851b4-f821-4d83-8045-f9f61dc52650.png",
+      "PackagePath": "staticwebassets/certificates/certificate_2_022851b4-f821-4d83-8045-f9f61dc52650.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_2_261d456d-80b3-4e29-af9a-3d6e232d0b9d.png",
+      "PackagePath": "staticwebassets/certificates/certificate_2_261d456d-80b3-4e29-af9a-3d6e232d0b9d.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_2_8f55b73a-0c35-406e-96d3-a8ac64fb3d50.png",
+      "PackagePath": "staticwebassets/certificates/certificate_2_8f55b73a-0c35-406e-96d3-a8ac64fb3d50.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_2_9ca9ea34-618a-4bb0-ba37-c7515259efec.png",
+      "PackagePath": "staticwebassets/certificates/certificate_2_9ca9ea34-618a-4bb0-ba37-c7515259efec.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_2_b5883348-3495-4a4f-8dcf-9366934d8cf6.png",
+      "PackagePath": "staticwebassets/certificates/certificate_2_b5883348-3495-4a4f-8dcf-9366934d8cf6.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_2_b96d8e7d-5523-4d46-9133-4b2d9502a0d1.png",
+      "PackagePath": "staticwebassets/certificates/certificate_2_b96d8e7d-5523-4d46-9133-4b2d9502a0d1.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_39_3657b0c8-8212-483f-9c77-341c2d1a046e.jpg",
+      "PackagePath": "staticwebassets/certificates/certificate_39_3657b0c8-8212-483f-9c77-341c2d1a046e.jpg"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_39_b8ce2199-e21d-47ce-907b-fc3526b4b442.txt",
+      "PackagePath": "staticwebassets/certificates/certificate_39_b8ce2199-e21d-47ce-907b-fc3526b4b442.txt"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_3_203ca50e-feab-44d6-80a2-bfefff418374.png",
+      "PackagePath": "staticwebassets/certificates/certificate_3_203ca50e-feab-44d6-80a2-bfefff418374.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/certificates/certificate_9_40a25452-3aaa-42e6-9725-30ee73567410.png",
+      "PackagePath": "staticwebassets/certificates/certificate_9_40a25452-3aaa-42e6-9725-30ee73567410.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/docs/ads-system.md",
+      "PackagePath": "staticwebassets/docs/ads-system.md"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/favicon.ico",
+      "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/fonts/GreatVibes-Regular.ttf",
+      "PackagePath": "staticwebassets/fonts/GreatVibes-Regular.ttf"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/images/InternBoot.png",
+      "PackagePath": "staticwebassets/images/InternBoot.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/images/TestPortal.jpeg",
+      "PackagePath": "staticwebassets/images/TestPortal.jpeg"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/images/TestPortal.png",
+      "PackagePath": "staticwebassets/images/TestPortal.png"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/images/default-profile.svg",
+      "PackagePath": "staticwebassets/images/default-profile.svg"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/js/ad-config.js",
+      "PackagePath": "staticwebassets/js/ad-config.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/js/ads.js",
+      "PackagePath": "staticwebassets/js/ads.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/js/code-execution.js",
+      "PackagePath": "staticwebassets/js/code-execution.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/LICENSE",
+      "PackagePath": "staticwebassets/lib/bootstrap"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation/LICENSE.md",
+      "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery/dist/jquery.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery/dist/jquery.min.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
+    },
+    {
+      "Id": "/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/wwwroot/lib/jquery/dist/jquery.min.map",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.OnlineAssessment.Web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.build.OnlineAssessment.Web.props",
+      "PackagePath": "build\\OnlineAssessment.Web.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildMultiTargeting.OnlineAssessment.Web.props",
+      "PackagePath": "buildMultiTargeting\\OnlineAssessment.Web.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildTransitive.OnlineAssessment.Web.props",
+      "PackagePath": "buildTransitive\\OnlineAssessment.Web.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

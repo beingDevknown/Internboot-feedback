@@ -1,0 +1,192 @@
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LoginLayout";
+}
+
+@section Styles {
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .simple-footer {
+            margin-top: auto;
+        }
+    </style>
+}
+
+<div class="container mt-5">
+    <!-- Ad Unit at Top of Login Page -->
+    <div class="row mb-4">
+        <div class="col-12">
+            @await Html.PartialAsync("_AdUnit")
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="login-logo">
+                <img src="~/images/InternBoot.png" alt="InternBoot Logo" class="logo-img" style="max-width: 250px; height: auto; margin-bottom: 15px;" />
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-body">
+                    <div id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <a href="/Auth/ForgotPassword" class="text-decoration-none">Forgot Password?</a>
+                        </div>
+                        <button type="button" id="loginBtn" class="btn btn-primary">Login</button>
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <p>Don't have an account? <a href="/Auth/Register">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Unit at Bottom of Login Page -->
+    <div class="row mt-4">
+        <div class="col-12">
+            @await Html.PartialAsync("_AdUnit")
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        if (!email || !password) {
+            if (typeof showToast === 'function') {
+                showToast('Please enter your email and password', 'error');
+            } else {
+                alert('Please enter your email and password');
+            }
+            return;
+        }
+
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+        this.innerHTML = 'Logging in...';
+
+        fetch('/Auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include', // Add this to include cookies
+            body: JSON.stringify({ email: email, password: password })
+        })
+        .then(response => {
+            // Re-enable the button
+            this.disabled = false;
+            this.innerHTML = 'Login';
+
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.message || 'Login failed');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+
+                // Show toast notification for successful login
+                showToast('Login successful!', 'success');
+
+                // Redirect after a short delay to ensure toast is visible
+                setTimeout(() => {
+                    window.location.href = data.redirectUrl || '/Test';
+                }, 1000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Show toast notification for login error
+            showToast(error.message || 'Login failed. Please check your credentials.', 'error');
+        });
+    });
+
+    function showToast(message, type) {
+        // Create toast element
+        const toast = document.createElement('div');
+
+        // Set background color based on type
+        let bgColor = 'danger';
+        if (type === 'success') {
+            bgColor = 'success';
+        } else if (type === 'warning') {
+            bgColor = 'warning';
+            // For warning, use dark text instead of white
+            toast.className = `toast align-items-center text-dark bg-${bgColor} border-0 position-fixed`;
+        } else {
+            // For error/danger, use white text
+            toast.className = `toast align-items-center text-white bg-${bgColor} border-0 position-fixed`;
+        }
+
+        // Position the toast below the navbar with higher z-index
+        toast.style.top = '80px';
+        toast.style.right = '20px';
+        toast.style.zIndex = '1100';
+        // Add shadow and better styling
+        toast.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+        toast.style.minWidth = '300px';
+        toast.style.fontSize = '1rem';
+        toast.style.padding = '10px';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+
+        // Create toast content with appropriate close button color
+        const closeButtonClass = type === 'warning' ? 'btn-close' : 'btn-close btn-close-white';
+
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="${closeButtonClass} me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+
+        // Add toast to body
+        document.body.appendChild(toast);
+
+        // Show toast with longer duration (5 seconds)
+        const bsToast = new bootstrap.Toast(toast, {
+            delay: 5000 // 5 seconds
+        });
+        bsToast.show();
+
+        // Remove toast after it's hidden
+        toast.addEventListener('hidden.bs.toast', () => {
+            toast.remove();
+        });
+    }
+</script>
+}

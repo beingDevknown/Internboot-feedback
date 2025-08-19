@@ -1,0 +1,311 @@
+@{
+    ViewData["Title"] = "Organization Registration";
+    Layout = "_LoginLayout";
+}
+
+@section Styles {
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .simple-footer {
+            margin-top: auto;
+        }
+
+        .register-section {
+            background: #ffffff; /* White background */
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 1.5rem;
+        }
+
+        .card-body {
+            background: white;
+            padding: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+        }
+
+        .input-group-text {
+            border-radius: 8px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #2980b9;
+        }
+    </style>
+}
+
+<div class="register-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="login-logo">
+                    <img src="~/images/InternBoot.png" alt="InternBoot Logo" class="logo-img" style="max-width: 250px; height: auto; margin-bottom: 15px;" />
+                </div>
+                <div class="card rounded-4 overflow-hidden">
+                    <div class="card-header text-center">
+                        <h3 class="mb-0">Create Organization Account</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="registerForm">
+                            <h4 class="mb-3">Organization Information</h4>
+                            <div class="mb-4">
+                                <label for="organizationName" class="form-label fw-bold">Organization Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-building text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="organizationName" name="organizationName" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-envelope text-muted"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0" id="email" name="email" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="contactPerson" class="form-label fw-bold">Contact Person</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-user text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="contactPerson" name="contactPerson">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="mobileNumber" class="form-label fw-bold">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-phone text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="mobileNumber" name="mobileNumber">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="address" class="form-label fw-bold">Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-map-marker-alt text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="address" name="address">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="website" class="form-label fw-bold">Website</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-globe text-muted"></i>
+                                    </span>
+                                    <input type="url" class="form-control border-start-0" id="website" name="website">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="description" class="form-label fw-bold">Description</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-info-circle text-muted"></i>
+                                    </span>
+                                    <textarea class="form-control border-start-0" id="description" name="description" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-bold">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-lock text-muted"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0" id="password" name="password" required>
+                                </div>
+                            </div>
+
+                            <!-- Hidden fields required by the RegisterRequest model -->
+                            <input type="hidden" id="firstName" name="firstName" value="Organization">
+                            <input type="hidden" id="lastName" name="lastName" value="Account">
+                            <input type="hidden" id="keySkills" name="keySkills" value="Organization Management">
+                            <input type="hidden" id="employment" name="employment" value="Employed">
+                            <input type="hidden" id="education" name="education" value="Graduate">
+                            <input type="hidden" id="category" name="category" value="Business">
+
+                            <!-- Organization Logo field removed as requested -->
+
+                            <!-- Hidden field for role -->
+                            <input type="hidden" id="role" name="role" value="Organization">
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                                </label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    Register Organization
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <p class="mb-0">Already have an account? <a href="/Auth/OrganizationLogin" class="fw-bold">Login here</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // No file upload needed for organizations
+
+            // Create JSON data for API
+            const formData = {
+                username: document.getElementById('organizationName').value, // Use organization name as username
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                role: document.getElementById('role').value,
+                // Required user fields
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                keySkills: document.getElementById('keySkills').value,
+                employment: document.getElementById('employment').value,
+                education: document.getElementById('education').value,
+                category: document.getElementById('category').value,
+                // Organization fields
+                organizationName: document.getElementById('organizationName').value,
+                contactPerson: document.getElementById('contactPerson').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                address: document.getElementById('address').value,
+                website: document.getElementById('website').value,
+                description: document.getElementById('description').value
+            };
+
+            try {
+                let response;
+
+                // Use organization-specific registration endpoint
+                console.log('Submitting organization registration with JSON');
+                response = await fetch('/Auth/api/register-organization', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                console.log('JSON response status:', response.status);
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store the token in localStorage
+                    localStorage.setItem('token', data.token);
+                    showToast('Registration successful!', 'success');
+                    // Redirect to the appropriate page based on the response
+                    window.location.href = data.redirectUrl || '/Test';
+                } else {
+                    showToast(data.message || 'Registration failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showToast('An error occurred during registration. Please try again.', 'error');
+            }
+        });
+
+        function showToast(message, type) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 position-fixed`;
+            // Position the toast below the navbar with higher z-index
+            toast.style.top = '80px';
+            toast.style.right = '20px';
+            toast.style.zIndex = '1100';
+            // Add shadow and better styling
+            toast.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            toast.style.minWidth = '300px';
+            toast.style.fontSize = '1rem';
+            toast.style.padding = '10px';
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+
+            // Create toast content
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+
+            // Add toast to body
+            document.body.appendChild(toast);
+
+            // Show toast with longer duration (5 seconds)
+            const bsToast = new bootstrap.Toast(toast, {
+                delay: 5000 // 5 seconds
+            });
+            bsToast.show();
+
+            // Remove toast after it's hidden
+            toast.addEventListener('hidden.bs.toast', () => {
+                toast.remove();
+            });
+        }
+    </script>
+}

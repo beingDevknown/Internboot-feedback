@@ -1,0 +1,275 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = OnlineAssessment.Web
+build_property.RootNamespace = OnlineAssessment.Web
+build_property.ProjectDir = /home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web
+build_property._RazorSourceGeneratorDebug = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9BY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/OrganizationLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9Pcmdhbml6YXRpb25Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/OrganizationRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9Pcmdhbml6YXRpb25SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/OtpLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9PdHBMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9SZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Auth/TestEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9UZXN0RW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/CategoryQuestions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnlRdWVzdGlvbnMvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/CategoryQuestions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnlRdWVzdGlvbnMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Certificate/DownloadPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2VydGlmaWNhdGUvRG93bmxvYWRQYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Certificate/Purchase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2VydGlmaWNhdGUvUHVyY2hhc2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Organization/TokenManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JnYW5pemF0aW9uL1Rva2VuTWFuYWdlbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Payment/Failure.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudC9GYWlsdXJlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Payment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Payment/OpenPaymentGateway.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudC9PcGVuUGF5bWVudEdhdGV3YXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Payment/PaymentGatewayExample.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudC9QYXltZW50R2F0ZXdheUV4YW1wbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Payment/RazorpayInitiate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudC9SYXpvcnBheUluaXRpYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Payment/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGF5bWVudC9TdWNjZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_AdUnit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19BZFVuaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_EmptyLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19FbXB0eUxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_LoginLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_PaymentWarning.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19QYXltZW50V2FybmluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_PopupAd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Qb3B1cEFkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_SuperAdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19TdXBlckFkbWluTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_TestLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19UZXN0TGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_ToastNotifications.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Ub2FzdE5vdGlmaWNhdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SpecialUser/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3BlY2lhbFVzZXIvQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SpecialUser/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3BlY2lhbFVzZXIvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SpecialUser/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3BlY2lhbFVzZXIvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SpecialUser/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3BlY2lhbFVzZXIvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/AddOrganization.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9BZGRPcmdhbml6YXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9DaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9EYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/OrganizationDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9Pcmdhbml6YXRpb25EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/Organizations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9Pcmdhbml6YXRpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/UserDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9Vc2VyRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/SuperAdmin/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3VwZXJBZG1pbi9Vc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/BookSlot.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9Cb29rU2xvdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/History.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9IaXN0b3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/Instructions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9JbnN0cnVjdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/MyBookings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9NeUJvb2tpbmdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/OrganizationResults.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9Pcmdhbml6YXRpb25SZXN1bHRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/Result.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9SZXN1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/ScheduledTest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9TY2hlZHVsZWRUZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/Take.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9UYWtlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/TestCard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9UZXN0Q2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/TestDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9UZXN0RGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Test/ViewUploads.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVzdC9WaWV3VXBsb2Fkcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/UserProfile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclByb2ZpbGUvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/UserProfile/SpecialUserProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclByb2ZpbGUvU3BlY2lhbFVzZXJQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/ubuntu/OnlineAssessmnetPlatform/OnlineAssessment.Web/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-rc3jf31idi

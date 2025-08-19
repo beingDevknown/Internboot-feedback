@@ -1,0 +1,192 @@
+@model User
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "_SuperAdminLayout";
+    var testResults = ViewBag.TestResults as List<TestResult>;
+    var testCount = ViewBag.TestCount;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">User Details</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/SuperAdmin/Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/SuperAdmin/Users">Users</a></li>
+        <li class="breadcrumb-item active">@Model.Username</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-user me-1"></i>
+                    User Information
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 text-center">
+                        @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+                        {
+                            <img src="@Model.PhotoUrl" alt="@Model.Username" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" onerror="this.src='/images/default-profile.svg'; this.onerror=null;" />
+                        }
+                        else
+                        {
+                            <img src="/images/default-profile.svg" alt="@Model.Username" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+                        }
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>ID</th>
+                            <td>@Model.SapId</td>
+                        </tr>
+                        <tr>
+                            <th>Username</th>
+                            <td>@Model.Username</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <th>Role</th>
+                            <td>
+                                <span class="badge @(Model.Role == UserRole.Candidate ? "bg-primary" : "bg-success")">
+                                    @Model.Role
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>First Name</th>
+                            <td>@(string.IsNullOrEmpty(Model.FirstName) ? "-" : Model.FirstName)</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td>@(string.IsNullOrEmpty(Model.LastName) ? "-" : Model.LastName)</td>
+                        </tr>
+                        <tr>
+                            <th>Mobile Number</th>
+                            <td>@(string.IsNullOrEmpty(Model.MobileNumber) ? "-" : Model.MobileNumber)</td>
+                        </tr>
+                        <tr>
+                            <th>SAP ID</th>
+                            <td>@(string.IsNullOrEmpty(Model.SapId) ? "-" : Model.SapId)</td>
+                        </tr>
+                        <tr>
+                            <th>Verified</th>
+                            <td>
+                                @if (Model.IsOtpVerified)
+                                {
+                                    <span class="badge bg-success">Verified</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">Not Verified</span>
+                                }
+                            </td>
+                        </tr>
+                        <!-- Payment status removed as payment is no longer required -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-clipboard-list me-1"></i>
+                    Test Results (@testCount)
+                </div>
+                <div class="card-body">
+                    @if (testResults != null && testResults.Any())
+                    {
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Test</th>
+                                    <th>Score</th>
+                                    <th>Percentage</th>
+                                    <th>Completed At</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var result in testResults)
+                                {
+                                    <tr>
+                                        <td>@result.Test.Title</td>
+                                        <td>@result.Score / @result.TotalQuestions</td>
+                                        <td>@(Math.Round((double)result.Score / result.TotalQuestions * 100, 2))%</td>
+                                        <td>@result.SubmittedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                        <td>
+                                            @{
+                                                // Use the actual test passing score instead of hardcoded 70%
+                                                var passThreshold = result.TotalQuestions * (result.Test.PassingScore / 100.0);
+                                                var isPassed = result.Score >= passThreshold;
+                                            }
+                                            @if (isPassed)
+                                            {
+                                                <span class="badge bg-success">Passed</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Failed</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            This user has not taken any tests yet.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.Role == UserRole.Candidate)
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-graduation-cap me-1"></i>
+                        Additional Information
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Education</h5>
+                                <p>@(Model.Education.HasValue ? Model.Education.ToString() : "Not specified")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Employment</h5>
+                                <p>@(Model.Employment.HasValue ? Model.Employment.ToString() : "Not specified")</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h5>Category</h5>
+                                <p>@(string.IsNullOrEmpty(Model.Category) ? "Not specified" : Model.Category)</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Key Skills</h5>
+                                <p>@(string.IsNullOrEmpty(Model.KeySkills) ? "Not specified" : Model.KeySkills)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable for better user experience
+            $('.table-striped').DataTable({
+                responsive: true,
+                order: [[3, 'desc']]
+            });
+        });
+    </script>
+}

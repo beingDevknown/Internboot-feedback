@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google AdSense account -->
+    <meta name="google-adsense-account" content="ca-pub-8504842908769623">
+    <title>@ViewData["Title"] - InternBoot</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <!-- Google Fonts - Great Vibes for certificates -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OnlineAssessment.Web.styles.css" asp-append-version="true" />
+    <!-- Google AdSense script -->
+    <!-- internboot -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8504842908769623"
+     crossorigin="anonymous"></script>
+    <style>
+        .navbar {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 80px; /* Add fixed height */
+            display: flex;
+            align-items: center;
+        }
+
+        body {
+            padding-top: 80px; /* Add padding to prevent content from hiding under navbar */
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #2c3e50 !important;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-1px);
+        }
+
+        .logo-img {
+            height: 40px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+            font-weight: 500;
+            color: #2c3e50 !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #3498db !important;
+            transform: translateY(-1px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: none;
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background-color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 2px;
+            background-color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler-icon::before {
+            transform: translateY(-8px);
+        }
+
+        .navbar-toggler-icon::after {
+            transform: translateY(8px);
+        }
+
+        /* User profile image styles */
+        .user-profile-image {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 5px;
+        }
+
+        .user-profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-profile-image i {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+        }
+
+        .dropdown-item {
+            padding: 0.6rem 1.2rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #3498db;
+        }
+
+        .dropdown-divider {
+            margin: 0.3rem 0;
+        }
+
+        .nav-item.dropdown .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.8rem !important;
+        }
+
+        .nav-item.dropdown .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+
+        #userProfileName {
+            font-weight: 500;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @@media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                margin-top: 1rem;
+            }
+
+            .nav-link {
+                padding: 0.8rem 1rem !important;
+            }
+
+            .nav-item.dropdown .nav-link {
+                display: flex;
+                align-items: center;
+                padding: 0.8rem 1rem !important;
+            }
+
+            #userProfileName {
+                max-width: none;
+            }
+
+            .dropdown-menu {
+                box-shadow: none;
+                border: 1px solid #e9ecef;
+                margin-left: 1rem;
+            }
+        }
+
+        /* Footer styles */
+        .simple-footer {
+            background-color: #f8fafc;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand">
+                    <img src="~/images/InternBoot.png" alt="InternBoot Logo" class="logo-img" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Test" asp-action="Index">
+                                <i class="fas fa-tasks me-1"></i> Tests
+                            </a>
+                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            @if (User.IsInRole("Organization"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="CategoryQuestions" asp-action="Index">
+                                        <i class="fas fa-database me-1"></i> Question Banks
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="SpecialUser" asp-action="Index">
+                                        <i class="fas fa-users-cog me-1"></i> Special Users
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Organization" asp-action="TokenManagement">
+                                        <i class="fas fa-key me-1"></i> Organization Token
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Test" asp-action="MyBookings">
+                                        <i class="fas fa-calendar-check me-1"></i> My Bookings
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Test" asp-action="History">
+                                        <i class="fas fa-history me-1"></i> Test History
+                                    </a>
+                                </li>
+                            }
+                        }
+                        @if (User.IsInRole("Organization"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Test" asp-action="OrganizationResults">
+                                    <i class="fas fa-chart-bar me-1"></i> Test Results
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-profile-image" id="userProfileImage">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <span class="ms-2" id="userProfileName">@User.Identity?.Name</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="UserProfile" asp-action="Index">
+                                            <i class="fas fa-user-circle me-2"></i> My Profile
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" onclick="logout()">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Register">
+                                    <i class="fas fa-user-plus me-1"></i> Register
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid px-0">
+        <main role="main" class="pb-3">
+            <!-- Top Ad Unit -->
+            <div class="container mt-3">
+                @await Html.PartialAsync("_AdUnit")
+            </div>
+
+            <!-- Include toast notifications partial view -->
+            @await Html.PartialAsync("_ToastNotifications")
+
+            @RenderBody()
+
+            <!-- Bottom Ad Unit -->
+            <div class="container mb-3">
+                @await Html.PartialAsync("_AdUnit")
+            </div>
+        </main>
+    </div>
+
+    <footer class="simple-footer">
+        <div class="container text-center">
+            &copy; 2025 InternBoot. All rights reserved.
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Ad configuration - load this before ads.js -->
+    <script src="~/js/ad-config.js" asp-append-version="true"></script>
+
+    @* Only include code-execution.js on pages that need it *@
+    @if (ViewData["IncludeCodeExecution"] != null && (bool)ViewData["IncludeCodeExecution"] == true)
+    {
+        <script src="~/js/code-execution.js" asp-append-version="true"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+    }
+
+    <script>
+        // Fetch user profile information when the page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (document.getElementById('userProfileImage')) {
+                try {
+                    const response = await fetch('/UserProfile/GetUserInfo');
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success) {
+                            updateUserProfileUI(data.user);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                }
+            }
+        });
+
+        // Update the UI with user profile information
+        function updateUserProfileUI(user) {
+            const profileImageElement = document.getElementById('userProfileImage');
+            const profileNameElement = document.getElementById('userProfileName');
+
+            // Update profile name based on user role
+            if (profileNameElement) {
+                if (user.role === 'Organization') {
+                    // For organizations, use the username
+                    profileNameElement.textContent = user.username;
+                } else if (user.firstName && user.lastName) {
+                    // For candidates, use first and last name
+                    profileNameElement.textContent = `${user.firstName} ${user.lastName}`;
+                } else {
+                    // Fallback to username
+                    profileNameElement.textContent = user.username;
+                }
+            }
+
+            // Update profile image if available
+            if (profileImageElement) {
+                if (user.photoUrl) {
+                    profileImageElement.innerHTML = `<img src="${user.photoUrl}" alt="${user.username}" onerror="this.onerror=null; this.src='/images/default-profile.svg';" />`;
+                } else {
+                    // Use default profile image
+                    profileImageElement.innerHTML = `<img src="/images/default-profile.svg" alt="${user.username}" />`;
+                }
+            }
+        }
+
+        async function logout() {
+            try {
+                const response = await fetch('/Auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    // Clear local storage
+                    localStorage.clear();
+
+                    // Parse the response to get the redirect URL
+                    const data = await response.json();
+
+                    // Redirect to the URL provided by the server or default to registration page
+                    window.location.href = data.redirectUrl || '/Auth/Register';
+                } else {
+                    showToast('Failed to logout. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+                showToast('An error occurred during logout. Please try again.', 'error');
+            }
+        }
+
+        // Configure toastr options
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "toastClass": "toast-with-margin"
+        };
+
+        // Add custom CSS for toast positioning
+        const style = document.createElement('style');
+        style.textContent = `
+            .toast-with-margin {
+                margin-top: 80px !important; /* Match navbar height */
+            }
+            #toast-container {
+                margin-top: 80px !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Helper function to show toast notifications
+        function showToast(message, type = 'info') {
+            switch (type) {
+                case 'success':
+                    toastr.success(message);
+                    break;
+                case 'error':
+                    toastr.error(message);
+                    break;
+                case 'warning':
+                    toastr.warning(message);
+                    break;
+                default:
+                    toastr.info(message);
+            }
+        }
+    </script>
+    <script src="~/js/remove-time-cards.js"></script>
+    <script src="~/js/ads.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Popup Ad -->
+    @await Html.PartialAsync("_PopupAd")
+</body>
+</html>

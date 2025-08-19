@@ -1,0 +1,256 @@
+@{
+    ViewData["Title"] = "Organization Token Management";
+    var organization = ViewBag.Organization as OnlineAssessment.Web.Models.Organization;
+    var registeredUsers = ViewBag.RegisteredUsers as IEnumerable<dynamic>;
+    var userCount = ViewBag.UserCount as int? ?? 0;
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-key me-2"></i>
+                        Organization Token Management
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Organization Info -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Organization Details</h5>
+                            <p><strong>Name:</strong> @organization?.Name</p>
+                            <p><strong>Email:</strong> @organization?.Email</p>
+                            <p><strong>Contact Person:</strong> @organization?.ContactPerson</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Statistics</h5>
+                            <p><strong>Registered Users:</strong> @userCount</p>
+                            <p><strong>Token Status:</strong> 
+                                @if (organization?.IsTokenActive == true)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactive</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Token Management Section -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>Organization Token</h5>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    @if (!string.IsNullOrEmpty(organization?.OrganizationToken))
+                                    {
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="organizationToken" 
+                                                   value="@organization.OrganizationToken" readonly>
+                                            <button class="btn btn-outline-secondary" type="button" onclick="copyToken()">
+                                                <i class="fas fa-copy"></i> Copy
+                                            </button>
+                                        </div>
+                                        <small class="text-muted">
+                                            Generated on: @organization.TokenGeneratedAt?.ToString("yyyy-MM-dd HH:mm:ss")
+                                        </small>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">No token generated yet.</p>
+                                    }
+                                    
+                                    <div class="mt-3">
+                                        @if (string.IsNullOrEmpty(organization?.OrganizationToken))
+                                        {
+                                            <button class="btn btn-success" onclick="generateToken()">
+                                                <i class="fas fa-plus"></i> Generate Token
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-warning me-2" onclick="regenerateToken()">
+                                                <i class="fas fa-sync"></i> Regenerate Token
+                                            </button>
+                                            @if (organization.IsTokenActive)
+                                            {
+                                                <button class="btn btn-danger" onclick="deactivateToken()">
+                                                    <i class="fas fa-ban"></i> Deactivate Token
+                                                </button>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>How to Use Organization Token</h5>
+                            <div class="alert alert-info">
+                                <ol>
+                                    <li><strong>Generate Token:</strong> Click "Generate Token" to create a unique token for your organization.</li>
+                                    <li><strong>Share Token:</strong> Share this token with users who should register under your organization.</li>
+                                    <li><strong>User Registration:</strong> Users can enter this token during registration to be automatically linked to your organization.</li>
+                                    <li><strong>Test Access:</strong> Users linked to your organization will only see tests created by your organization.</li>
+                                    <li><strong>Token Management:</strong> You can regenerate or deactivate the token at any time.</li>
+                                </ol>
+                                <p class="mb-0"><strong>Note:</strong> Users who register without a token will be assigned to the default organization and can see all public tests.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Registered Users -->
+                    @if (registeredUsers != null && registeredUsers.Any())
+                    {
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Registered Users (@userCount)</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SAP ID</th>
+                                                <th>Username</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var user in registeredUsers)
+                                            {
+                                                <tr>
+                                                    <td>@user.SapId</td>
+                                                    <td>@user.Username</td>
+                                                    <td>@user.FirstName @user.LastName</td>
+                                                    <td>@user.Email</td>
+                                                    <td>@user.Category</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Registered Users</h5>
+                                <div class="alert alert-secondary">
+                                    No users have registered with your organization token yet.
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToken() {
+    const tokenInput = document.getElementById('organizationToken');
+    tokenInput.select();
+    tokenInput.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(tokenInput.value);
+    
+    // Show success message
+    showAlert('Token copied to clipboard!', 'success');
+}
+
+function generateToken() {
+    if (confirm('Are you sure you want to generate a new organization token?')) {
+        fetch('/Organization/api/generate-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showAlert(data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            showAlert('Error generating token. Please try again.', 'danger');
+        });
+    }
+}
+
+function regenerateToken() {
+    if (confirm('Are you sure you want to regenerate the token? The old token will become invalid and users with the old token will not be able to register.')) {
+        fetch('/Organization/api/regenerate-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showAlert(data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            showAlert('Error regenerating token. Please try again.', 'danger');
+        });
+    }
+}
+
+function deactivateToken() {
+    if (confirm('Are you sure you want to deactivate the token? New users will not be able to register with this token.')) {
+        fetch('/Organization/api/deactivate-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showAlert(data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            showAlert('Error deactivating token. Please try again.', 'danger');
+        });
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    const container = document.querySelector('.container-fluid');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    // Auto-dismiss after 3 seconds
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+}
+</script>

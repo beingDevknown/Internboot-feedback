@@ -1,0 +1,60 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+main {
+  flex: 1;
+}
+
+/* Footer styles */
+.simple-footer {
+  margin-top: auto;
+}
+
+/* Button styles */
+.btn-reattempt {
+  background-color: #ff9800;
+  color: white;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-reattempt:hover {
+  background-color: #f57c00;
+  color: white;
+}
+
+/* Great Vibes font for certificates and elegant text */
+.great-vibes {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+}
+
+.certificate-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}

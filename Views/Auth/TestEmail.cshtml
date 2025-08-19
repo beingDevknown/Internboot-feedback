@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Test Email";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Test Email Sending</h3>
+                </div>
+                <div class="card-body">
+                    <div id="emailForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <button type="button" id="sendTestEmailBtn" class="btn btn-primary">Send Test Email</button>
+                    </div>
+                    
+                    <div id="result" class="mt-3 alert" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('sendTestEmailBtn').addEventListener('click', function() {
+        var email = document.getElementById('email').value;
+        var resultDiv = document.getElementById('result');
+        
+        if (!email) {
+            showResult('Please enter your email address', 'danger');
+            return;
+        }
+        
+        // Show loading state
+        this.disabled = true;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+        
+        fetch(`/Auth/test-email?email=${encodeURIComponent(email)}`)
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+                }
+                return response.text();
+            })
+            .then(data => {
+                showResult(data, 'success');
+            })
+            .catch(error => {
+                showResult('Error: ' + error.message, 'danger');
+            })
+            .finally(() => {
+                // Reset button state
+                this.disabled = false;
+                this.innerHTML = 'Send Test Email';
+            });
+    });
+    
+    function showResult(message, type) {
+        var resultDiv = document.getElementById('result');
+        resultDiv.className = `mt-3 alert alert-${type}`;
+        resultDiv.textContent = message;
+        resultDiv.style.display = 'block';
+    }
+</script>
+}

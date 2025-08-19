@@ -1,0 +1,164 @@
+@model OnlineAssessment.Web.Models.Test
+@{
+    var alreadyTaken = ViewBag.AlreadyTaken ?? false;
+    var testResults = ViewBag.TestResults ?? new List<OnlineAssessment.Web.Models.TestResult>();
+    var username = User.Identity?.Name;
+    var testResultsForTest = 0;
+
+    if (testResults != null)
+    {
+        foreach (var tr in testResults)
+        {
+            if (tr.TestId == Model.Id && tr.Username == username)
+            {
+                testResultsForTest++;
+            }
+        }
+    }
+}
+
+<div class="test-card">
+    <div class="card-header">
+        <h2>@Model.Title</h2>
+        <div class="status-badge">
+            @if (alreadyTaken)
+            {
+                <span class="badge already-taken">Already Taken</span>
+            }
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="test-info">
+            <div class="info-item">
+                <div class="info-label">Date</div>
+                <div class="info-value">Apr 16, 2025</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Time Slot</div>
+                <div class="info-value">06:42 PM - 08:42 PM</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Booked On</div>
+                <div class="info-value">Apr 16, 2025</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Duration</div>
+                <div class="info-value">@Model.DurationMinutes minutes</div>
+            </div>
+        </div>
+
+        <div class="test-actions">
+            <a href="@Url.Action("History", "Test")" class="btn btn-view-results">
+                <i class="fas fa-eye"></i> View Results
+            </a>
+
+            @if (alreadyTaken)
+            {
+                <a href="@Url.Action("BookSlot", "Test", new { id = Model.Id, isReattempt = true })" class="btn btn-retake-test">
+                    <i class="fas fa-redo"></i> Retake Test
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .test-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .status-badge .badge {
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+    .badge.already-taken {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .test-info {
+        margin-bottom: 20px;
+    }
+
+    .info-item {
+        margin-bottom: 15px;
+    }
+
+    .info-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #343a40;
+    }
+
+    .test-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-view-results {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+
+    .btn-view-results:hover {
+        background-color: #dee2e6;
+        color: #212529;
+    }
+
+    .btn-retake-test {
+        background-color: #ff9800;
+        color: white;
+    }
+
+    .btn-retake-test:hover {
+        background-color: #f57c00;
+        color: white;
+    }
+</style>

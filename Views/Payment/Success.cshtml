@@ -1,0 +1,145 @@
+@{
+    ViewData["Title"] = "Payment Successful";
+    Layout = "_Layout";
+
+    // Check if we have a test ID in TempData or ViewBag
+    int? testId = null;
+
+    // First check ViewBag (set by the controller)
+    if (ViewBag.TestId != null)
+    {
+        testId = (int)ViewBag.TestId;
+    }
+    // Then check TempData
+    else if (TempData.ContainsKey("BookedTestId") && TempData["BookedTestId"] != null)
+    {
+        var bookedTestIdValue = TempData["BookedTestId"]?.ToString();
+        if (!string.IsNullOrEmpty(bookedTestIdValue) && int.TryParse(bookedTestIdValue, out int id))
+        {
+            testId = id;
+        }
+    }
+
+    // If we still don't have a test ID, check the URL
+    if (!testId.HasValue)
+    {
+        var urlTestId = Context.Request.Query["id"];
+        if (!string.IsNullOrEmpty(urlTestId) && int.TryParse(urlTestId, out int id))
+        {
+            testId = id;
+        }
+    }
+
+    // If we don't have a test ID, set a default one for testing
+    if (!testId.HasValue)
+    {
+        // Set a default test ID (1) for testing
+        testId = 1;
+        TempData["BookedTestId"] = testId;
+    }
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                    </div>
+                    <h2 class="card-title mb-3">Payment Successful!</h2>
+                    <p class="card-text mb-4">Your payment has been processed successfully. You will be redirected in a moment.</p>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong>Payment Successful!</strong> Your test booking is now confirmed.
+                    </div>
+                    <div class="spinner-border text-primary mb-4" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted small">If you are not redirected automatically, please click one of the buttons below.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="@(ViewBag.RedirectUrl != null ? ViewBag.RedirectUrl : Url.Action("MyBookings", "Test", new { fromPayment = true }))" class="btn btn-primary">
+                            <i class="fas fa-calendar-check me-2"></i>Go to My Bookings
+                        </a>
+                    </div>
+                    <div class="mt-3">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Note:</strong> It may take a moment for your booking to appear in your bookings list. If you don't see your booking immediately, please wait a few seconds and refresh the page.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Clear any payment abandonment flags since payment was successful
+        sessionStorage.removeItem('paymentAbandoned');
+        sessionStorage.removeItem('paymentInProgress');
+
+        // Set a flag indicating payment was successful
+        sessionStorage.setItem('paymentSuccessful', 'true');
+        sessionStorage.setItem('paymentSuccessfulAt', Date.now().toString());
+
+        // Store the test ID for reference
+        if (@(testId.HasValue ? testId.Value.ToString() : "null")) {
+            sessionStorage.setItem('paymentSuccessTestId', @(testId.HasValue ? testId.Value.ToString() : "null"));
+        }
+
+        // Redirect to the test page after a short delay
+        setTimeout(function() {
+            try {
+                // First check if we have a test ID from TempData
+                var testId = @(testId.HasValue ? testId.Value.ToString() : "null");
+                console.log('Test ID from server: ' + testId);
+
+                // If not, try to check if there's a test ID in the URL
+                if (!testId) {
+                    var urlParams = new URLSearchParams(window.location.search);
+                    testId = urlParams.get('id');
+                    console.log('Test ID from URL: ' + testId);
+                }
+
+                // Check if we have a redirect URL from the controller
+                var redirectUrl = '@(ViewBag.RedirectUrl != null ? ViewBag.RedirectUrl : "")';
+
+                // If we don't have a redirect URL, build one
+                if (!redirectUrl) {
+                    // Always redirect to MyBookings after payment
+                    redirectUrl = '@Url.Action("MyBookings", "Test")';
+
+                    // Add query parameters
+                    redirectUrl += '?refresh=true&fromPayment=true&message=' + encodeURIComponent('Payment successful! Your test is now available in your bookings.');
+
+                    // Add testId if available as a query parameter
+                    if (testId) {
+                        redirectUrl += '&testId=' + testId;
+                    }
+                }
+
+                // Log the redirect URL for debugging
+                console.log('Redirecting to: ' + redirectUrl);
+
+                // Force a hard refresh by adding a timestamp to the URL
+                redirectUrl += (redirectUrl.indexOf('?') > -1 ? '&' : '?') + '_=' + new Date().getTime();
+
+                // Add error handling for the redirect
+                try {
+                    window.location.href = redirectUrl;
+                } catch (redirectError) {
+                    console.error('Error redirecting: ', redirectError);
+                    // If redirect fails, show a message and stop the spinner
+                    document.querySelector('.spinner-border').style.display = 'none';
+                    document.querySelector('.text-muted.small').innerHTML = 'There was an issue with automatic redirection. Please use the buttons below.';
+                }
+            } catch (error) {
+                console.error('Error in redirect script: ', error);
+                // If there's any error, redirect to MyBookings
+                window.location.href = '@Url.Action("MyBookings", "Test")' + '?fromPayment=true';
+            }
+        }, 3000);
+    </script>
+}

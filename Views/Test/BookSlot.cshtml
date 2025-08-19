@@ -1,0 +1,344 @@
+@model OnlineAssessment.Web.Models.Test
+
+@{
+    ViewData["Title"] = "Book Test Slot";
+}
+
+@section Styles {
+    <style>
+        .booking-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-header {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 1.5rem;
+        }
+
+        .card-body {
+            background: white;
+            padding: 2rem;
+        }
+
+        .test-info {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-info h5 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .test-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .test-info-item i {
+            color: #3498db;
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .date-selector {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+
+        .date-card {
+            min-width: 120px;
+            padding: 1rem;
+            margin-right: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+
+        .date-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .date-card.active {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+
+        .date-card .day {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .date-card .date {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #3498db;
+        }
+
+        .date-card .month {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .time-slot {
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .time-slot:hover {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+
+        .time-slot.active {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+
+        .time-slot.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #f8f9fa;
+        }
+
+        .time-slot .time {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .time-slot .availability {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        .time-slot .availability-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .time-slot .availability-indicator.available {
+            background-color: #2ecc71;
+        }
+
+        .time-slot .availability-indicator.limited {
+            background-color: #f39c12;
+        }
+
+        .time-slot .availability-indicator.full {
+            background-color: #e74c3c;
+        }
+
+        .booking-info {
+            border-left: 4px solid #3498db;
+            padding: 15px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background-color: #bdc3c7;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Loading spinner */
+        .spinner-border {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-width: 0.2rem;
+        }
+
+        /* Animation for slot selection */
+        @@keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+    </style>
+}
+
+<div class="booking-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3 class="mb-0">Book Your Test Slot</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.PaymentFailed == true)
+                        {
+                            <div class="alert alert-warning" role="alert">
+                                <h5><i class="fas fa-exclamation-triangle me-2"></i> Payment Failed</h5>
+                                <p>Your previous payment attempt was not successful. This could be due to:</p>
+                                <ul>
+                                    <li>Insufficient funds in your account</li>
+                                    <li>Bank declined the transaction</li>
+                                    <li>Payment gateway timeout</li>
+                                    <li>Network connectivity issues</li>
+                                </ul>
+                                <p>No money has been deducted from your account. If you see a pending transaction, it will be reversed automatically.</p>
+                                <p class="mb-0"><strong>Please try booking again with a different payment method if available.</strong></p>
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(ViewBag.Error as string))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i> @ViewBag.Error
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(ViewBag.Message as string))
+                        {
+                            <div class="alert alert-success" role="alert">
+                                <i class="fas fa-check-circle me-2"></i> @ViewBag.Message
+                            </div>
+                        }
+
+                        <div class="test-info">
+                            <h5>Test Information</h5>
+                            <div class="test-info-item">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span><strong>Test:</strong> @Model.Title</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-align-left"></i>
+                                <span><strong>Description:</strong> @Model.Description</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span><strong>Duration:</strong> @Model.DurationMinutes minutes</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-tag"></i>
+                                <span><strong>Domain:</strong> @Model.Domain</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-redo"></i>
+                                <span><strong>Attempts:</strong> @Model.MaxAttempts</span>
+                            </div>
+                            <div class="test-info-item">
+                                <i class="fas fa-rupee-sign"></i>
+                                <span><strong>Price:</strong> ₹@Model.Price.ToString("F2")</span>
+                            </div>
+                        </div>
+
+                        <div class="booking-info alert alert-info">
+                            <i class="fas fa-info-circle"></i> <strong>Test Booking:</strong> You can now take this test at any time after booking. No time slot selection is required.
+                        </div>
+
+                        <div class="alert alert-success mb-4">
+                            <i class="fas fa-check-circle me-2"></i> This test is available for immediate booking. After booking, you can take the test at any time.
+                        </div>
+
+                     
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="@Url.Action("Index", "Test")" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Tests
+                            </a>
+                            <form id="directBookingForm" method="post" action="@Url.Action("ProcessBooking", "Test", new { id = Model.Id })" style="display: inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="selectedDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                                <button type="submit" id="bookButton" class="btn btn-primary">
+                                    <i class="fas fa-calendar-check me-2"></i> Book Now
+                                </button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookButton = document.getElementById('bookButton');
+            const testId = @Model.Id;
+            const directBookingForm = document.getElementById('directBookingForm');
+
+            // Add a submit handler for the direct booking form
+            directBookingForm.addEventListener('submit', function(e) {
+                try {
+                    // Add visual feedback
+                    bookButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+                    bookButton.disabled = true;
+
+                    // Log form submission
+                    console.log('Submitting direct booking form for test ID:', testId);
+                    console.log('Form action:', directBookingForm.action);
+                    console.log('Form method:', directBookingForm.method);
+
+                    // Allow form to submit normally
+                    return true;
+                } catch (error) {
+                    console.error('Error in form submission:', error);
+                    return false;
+                }
+            });
+        });
+    </script>
+}
