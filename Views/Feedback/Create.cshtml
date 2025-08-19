@@ -30,34 +30,74 @@
                         </div>
                     }
 
-                    @* Feedback Form *@
                     <form asp-action="Create" method="post" novalidate>
-                        @* Validation summary *@
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <div class="form-floating mb-4">
-                            <input asp-for="Subject" class="form-control" placeholder="Enter subject" />
-                            <label asp-for="Subject">Subject</label>
-                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        <div class="form-floating mb-3">
+                            <input asp-for="InternName" class="form-control" placeholder="Enter your name" />
+                            <label asp-for="InternName">Intern Name</label>
+                            <span asp-validation-for="InternName" class="text-danger small"></span>
                         </div>
 
-                        <div class="form-floating mb-4">
-                            <textarea asp-for="Message" class="form-control" placeholder="Enter your feedback" style="height: 150px;"></textarea>
-                            <label asp-for="Message">Message</label>
-                            <span asp-validation-for="Message" class="text-danger small"></span>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                            <label asp-for="Email">Email ID</label>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Domain" class="form-control" placeholder="Enter your domain" />
+                            <label asp-for="Domain">Domain</label>
+                            <span asp-validation-for="Domain" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Date" class="form-control" type="date" />
+                            <label asp-for="Date">Date</label>
+                            <span asp-validation-for="Date" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-4">
-                            <label asp-for="Rating" class="form-label">Rating (1 to 5)</label>
-                            <input asp-for="Rating" type="range" min="1" max="5" class="form-range" />
-                            <div class="form-text">Slide to rate your experience</div>
-                            <span asp-validation-for="Rating" class="text-danger small"></span>
+                            <label asp-for="TrainingRating" class="form-label">Training Session Rating (1 to 5)</label>
+                            <input asp-for="TrainingRating" type="range" min="1" max="5" class="form-range" />
+                            <span asp-validation-for="TrainingRating" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="TrainingRelevance" class="form-label">Training Relevance to Learning Needs (1 to 5)</label>
+                            <input asp-for="TrainingRelevance" type="range" min="1" max="5" class="form-range" />
+                            <span asp-validation-for="TrainingRelevance" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="MentorRating" class="form-label">Mentor Rating (1 to 5)</label>
+                            <input asp-for="MentorRating" type="range" min="1" max="5" class="form-range" />
+                            <span asp-validation-for="MentorRating" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="LikedMost" class="form-control" style="height: 100px;" placeholder="What did you like the most?"></textarea>
+                            <label asp-for="LikedMost">What did you like most about the training?</label>
+                            <span asp-validation-for="LikedMost" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="ImprovementSuggestions" class="form-control" style="height: 100px;" placeholder="What could be improved?"></textarea>
+                            <label asp-for="ImprovementSuggestions">What could be improved in upcoming sessions?</label>
+                            <span asp-validation-for="ImprovementSuggestions" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <textarea asp-for="MentorSuggestions" class="form-control" style="height: 100px;" placeholder="Any suggestions for the mentor?"></textarea>
+                            <label asp-for="MentorSuggestions">Any suggestions for your mentor?</label>
+                            <span asp-validation-for="MentorSuggestions" class="text-danger small"></span>
                         </div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success btn-lg">📤 Submit Feedback</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -65,6 +105,5 @@
 </div>
 
 @section Scripts {
-    @* Ensure client-side validation works *@
     <partial name="_ValidationScriptsPartial" />
 }

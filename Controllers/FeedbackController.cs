@@ -17,28 +17,43 @@ public class FeedbackController : Controller
     {
         Console.WriteLine("POST /Feedback/Create triggered");
 
-        // Check if model state is valid
-        if (string.IsNullOrWhiteSpace(model.Subject) ||
-            string.IsNullOrWhiteSpace(model.Message) ||
-            model.Rating < 1 || model.Rating > 5)
-        {
-            ModelState.AddModelError("", "All fields are required and rating must be between 1 and 5.");
-            return View(model);
-        }
 
-        // Prepare email body
-        string body = $"Subject: {model.Subject}\n\nMessage:\n{model.Message}\n\nRating: {model.Rating}";
+        // Prepare email body with all feedback details
+        string body = $@"
+New Feedback Submitted:
 
-        // Send the email
+Intern Name: {model.InternName}
+Email ID: {model.Email}
+Domain: {model.Domain}
+Date: {model.Date:yyyy-MM-dd}
+
+Training Session Rating: {model.TrainingRating}/5
+Training Relevance to Learning Needs: {model.TrainingRelevance}/5
+Mentor Rating: {model.MentorRating}/5
+
+What was liked most:
+{model.LikedMost}
+
+Suggestions for improvement:
+{model.ImprovementSuggestions}
+
+Suggestions for mentor:
+{model.MentorSuggestions ?? "None"}
+
+----------------------------------------
+Submitted on {DateTime.Now}
+        ";
+
+        // Send email
         try
         {
-            SendEmail("ys4727052@gmail.com", "New Feedback Received", body); // 👈 updated
+            SendEmail("ys4727052@gmail.com", "New Intern Feedback Submission", body);
             TempData["SuccessMessage"] = "Thank you for your feedback!";
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Email sending failed: {ex.Message}");
-            TempData["ErrorMessage"] = "There was an error sending your feedback.";
+            TempData["ErrorMessage"] = "There was an error sending your feedback. Please try again later.";
             return View(model);
         }
 
@@ -50,7 +65,7 @@ public class FeedbackController : Controller
         Console.WriteLine($"Sending email to: {toEmail}");
 
         var fromEmail = "info.internboot@gmail.com";
-        var appPassword = "dbbo wtnp znhn kild";  // ⚠️ Replace with your generated App Password
+        var appPassword = "dbbo wtnp znhn kild";  // ⚠️ Use App Password securely in production
 
         var smtpClient = new SmtpClient("smtp.gmail.com")
         {

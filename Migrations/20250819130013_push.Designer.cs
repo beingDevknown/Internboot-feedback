@@ -12,8 +12,8 @@ using OnlineAssessment.Web.Models;
 namespace OnlineAssessment.Web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250819104215_Feed")]
-    partial class Feed
+    [Migration("20250819130013_push")]
+    partial class push
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,16 +122,41 @@ namespace OnlineAssessment.Web.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Message")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Domain")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Rating")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImprovementSuggestions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("InternName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LikedMost")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("MentorRating")
                         .HasColumnType("int");
 
-                    b.Property<string>("Subject")
+                    b.Property<string>("MentorSuggestions")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("TrainingRating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrainingRelevance")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()

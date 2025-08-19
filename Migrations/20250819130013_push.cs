@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineAssessment.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class AddFeedbackEntity : Migration
+    public partial class push : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -220,6 +220,7 @@ namespace OnlineAssessment.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.SapId);
+                    table.UniqueConstraint("AK_Users_Username", x => x.Username);
                     table.ForeignKey(
                         name: "FK_Users_organizations_OrganizationSapId",
                         column: x => x.OrganizationSapId,
@@ -266,23 +267,33 @@ namespace OnlineAssessment.Web.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Subject = table.Column<string>(type: "longtext", nullable: false)
+                    InternName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Message = table.Column<string>(type: "longtext", nullable: false)
+                    Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    UserSapId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Domain = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SubmittedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TrainingRating = table.Column<int>(type: "int", nullable: false),
+                    TrainingRelevance = table.Column<int>(type: "int", nullable: false),
+                    MentorRating = table.Column<int>(type: "int", nullable: false),
+                    LikedMost = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImprovementSuggestions = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MentorSuggestions = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Username = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Feedbacks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Feedbacks_Users_UserSapId",
-                        column: x => x.UserSapId,
+                        name: "FK_Feedbacks_Users_Username",
+                        column: x => x.Username,
                         principalTable: "Users",
-                        principalColumn: "SapId",
+                        principalColumn: "Username",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -416,9 +427,9 @@ namespace OnlineAssessment.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedbacks_UserSapId",
+                name: "IX_Feedbacks_Username",
                 table: "Feedbacks",
-                column: "UserSapId");
+                column: "Username");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Organizations_Email_Unique",

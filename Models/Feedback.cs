@@ -1,28 +1,57 @@
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineAssessment.Web.Models
-{using Microsoft.AspNetCore.Mvc.ModelBinding;
-
+{
     public class Feedback
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public string Subject { get; set; }
+        [Display(Name = "Intern Name")]
+        public string InternName { get; set; }
 
         [Required]
-        public string Message { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email ID")]
+        public string Email { get; set; }
 
+        [Required]
+        public string Domain { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+
+        [Required]
+        [Display(Name = "Training Session Rating")]
         [Range(1, 5)]
-        public int Rating { get; set; }
+        public int TrainingRating { get; set; }
 
-          [Required]
-    public string Username { get; set; }  // This will be the foreign key to User
+        [Required]
+        [Display(Name = "Training Relevance")]
+        [Range(1, 5)]
+        public int TrainingRelevance { get; set; }
 
-    public User User { get; set; }  // Navigation property to User
+        [Required]
+        [Display(Name = "Mentor Rating")]
+        [Range(1, 5)]
+        public int MentorRating { get; set; }
 
-}
+        [Required]
+        [Display(Name = "Liked Most About Training")]
+        public string LikedMost { get; set; }
 
+        [Required]
+        [Display(Name = "Improvements for Upcoming Sessions")]
+        public string ImprovementSuggestions { get; set; }
+
+        [Display(Name = "Suggestions for Mentor")]
+        public string MentorSuggestions { get; set; }
+
+        // Optional: User-related foreign key if applicable
+        public string Username { get; set; }
+        public User User { get; set; }
+    }
 }

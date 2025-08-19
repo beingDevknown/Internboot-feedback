@@ -6241,11 +6241,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Abcom\\Desktop\\project\\project\\OnlineAssessment.Web.csproj",
+      "projectUniqueName": "C:\\Users\\Abcom\\Desktop\\project\\t\\OnlineAssessment.Web.csproj",
       "projectName": "OnlineAssessment.Web",
-      "projectPath": "C:\\Users\\Abcom\\Desktop\\project\\project\\OnlineAssessment.Web.csproj",
+      "projectPath": "C:\\Users\\Abcom\\Desktop\\project\\t\\OnlineAssessment.Web.csproj",
       "packagesPath": "C:\\Users\\Abcom\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\",
+      "outputPath": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Abcom\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ELyfTT/qKIojDZBzwtQbuzm5kz5SUHngu2ulG7MQ51Y=",
+  "Hash": "Z0pdGKz/lxaj0KHUffZSOtyNfJJkcVeTceAjV010WZk=",
   "Source": "OnlineAssessment.Web",
   "BasePath": "_content/OnlineAssessment.Web",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "OnlineAssessment.Web\\wwwroot",
       "Source": "OnlineAssessment.Web",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\Debug\\net8.0\\scopedcss\\bundle\\OnlineAssessment.Web.styles.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\Debug\\net8.0\\scopedcss\\bundle\\OnlineAssessment.Web.styles.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "OnlineAssessment.Web.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\Debug\\net8.0\\scopedcss\\bundle\\OnlineAssessment.Web.styles.css"
+      "OriginalItemSpec": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\Debug\\net8.0\\scopedcss\\bundle\\OnlineAssessment.Web.styles.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\OnlineAssessment.Web.bundle.scp.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\OnlineAssessment.Web.bundle.scp.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "OnlineAssessment.Web.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Abcom\\Desktop\\project\\project\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\OnlineAssessment.Web.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\Abcom\\Desktop\\project\\t\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\OnlineAssessment.Web.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\ads.txt",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\ads.txt",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "ads.txt",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\ads.txt"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_1_b96d4d46-0fd4-4ecf-bf7b-dc7c20ac8a7f.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_1_b96d4d46-0fd4-4ecf-bf7b-dc7c20ac8a7f.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_1_b96d4d46-0fd4-4ecf-bf7b-dc7c20ac8a7f.png",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_1_b96d4d46-0fd4-4ecf-bf7b-dc7c20ac8a7f.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_11_7e222539-8e43-40b0-ab60-03f3d73241c0.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_11_7e222539-8e43-40b0-ab60-03f3d73241c0.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_11_7e222539-8e43-40b0-ab60-03f3d73241c0.png",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_11_7e222539-8e43-40b0-ab60-03f3d73241c0.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_2_022851b4-f821-4d83-8045-f9f61dc52650.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_2_022851b4-f821-4d83-8045-f9f61dc52650.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_2_022851b4-f821-4d83-8045-f9f61dc52650.png",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_2_022851b4-f821-4d83-8045-f9f61dc52650.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_2_261d456d-80b3-4e29-af9a-3d6e232d0b9d.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_2_261d456d-80b3-4e29-af9a-3d6e232d0b9d.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_2_261d456d-80b3-4e29-af9a-3d6e232d0b9d.png",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_2_261d456d-80b3-4e29-af9a-3d6e232d0b9d.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_2_8f55b73a-0c35-406e-96d3-a8ac64fb3d50.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_2_8f55b73a-0c35-406e-96d3-a8ac64fb3d50.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_2_8f55b73a-0c35-406e-96d3-a8ac64fb3d50.png",
       "AssetKind": "All",
@@ -169,10 +169,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_2_8f55b73a-0c35-406e-96d3-a8ac64fb3d50.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_2_9ca9ea34-618a-4bb0-ba37-c7515259efec.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_2_9ca9ea34-618a-4bb0-ba37-c7515259efec.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_2_9ca9ea34-618a-4bb0-ba37-c7515259efec.png",
       "AssetKind": "All",
@@ -188,10 +188,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_2_9ca9ea34-618a-4bb0-ba37-c7515259efec.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_2_b5883348-3495-4a4f-8dcf-9366934d8cf6.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_2_b5883348-3495-4a4f-8dcf-9366934d8cf6.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_2_b5883348-3495-4a4f-8dcf-9366934d8cf6.png",
       "AssetKind": "All",
@@ -207,10 +207,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_2_b5883348-3495-4a4f-8dcf-9366934d8cf6.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_2_b96d8e7d-5523-4d46-9133-4b2d9502a0d1.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_2_b96d8e7d-5523-4d46-9133-4b2d9502a0d1.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_2_b96d8e7d-5523-4d46-9133-4b2d9502a0d1.png",
       "AssetKind": "All",
@@ -226,10 +226,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_2_b96d8e7d-5523-4d46-9133-4b2d9502a0d1.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_3_203ca50e-feab-44d6-80a2-bfefff418374.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_3_203ca50e-feab-44d6-80a2-bfefff418374.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_3_203ca50e-feab-44d6-80a2-bfefff418374.png",
       "AssetKind": "All",
@@ -245,10 +245,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_3_203ca50e-feab-44d6-80a2-bfefff418374.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_39_3657b0c8-8212-483f-9c77-341c2d1a046e.jpg",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_39_3657b0c8-8212-483f-9c77-341c2d1a046e.jpg",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_39_3657b0c8-8212-483f-9c77-341c2d1a046e.jpg",
       "AssetKind": "All",
@@ -264,10 +264,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_39_3657b0c8-8212-483f-9c77-341c2d1a046e.jpg"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_39_b8ce2199-e21d-47ce-907b-fc3526b4b442.txt",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_39_b8ce2199-e21d-47ce-907b-fc3526b4b442.txt",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_39_b8ce2199-e21d-47ce-907b-fc3526b4b442.txt",
       "AssetKind": "All",
@@ -283,10 +283,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_39_b8ce2199-e21d-47ce-907b-fc3526b4b442.txt"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\certificates\\certificate_9_40a25452-3aaa-42e6-9725-30ee73567410.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\certificates\\certificate_9_40a25452-3aaa-42e6-9725-30ee73567410.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "certificates/certificate_9_40a25452-3aaa-42e6-9725-30ee73567410.png",
       "AssetKind": "All",
@@ -302,10 +302,10 @@
       "OriginalItemSpec": "wwwroot\\certificates\\certificate_9_40a25452-3aaa-42e6-9725-30ee73567410.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\css\\site.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -321,10 +321,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\docs\\ads-system.md",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\docs\\ads-system.md",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "docs/ads-system.md",
       "AssetKind": "All",
@@ -340,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\docs\\ads-system.md"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\favicon.ico",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\favicon.ico",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -359,10 +359,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\fonts\\GreatVibes-Regular.ttf",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\fonts\\GreatVibes-Regular.ttf",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "fonts/GreatVibes-Regular.ttf",
       "AssetKind": "All",
@@ -378,10 +378,10 @@
       "OriginalItemSpec": "wwwroot\\fonts\\GreatVibes-Regular.ttf"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\images\\default-profile.svg",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\images\\default-profile.svg",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "images/default-profile.svg",
       "AssetKind": "All",
@@ -397,10 +397,10 @@
       "OriginalItemSpec": "wwwroot\\images\\default-profile.svg"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\images\\InternBoot.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\images\\InternBoot.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "images/InternBoot.png",
       "AssetKind": "All",
@@ -416,10 +416,10 @@
       "OriginalItemSpec": "wwwroot\\images\\InternBoot.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\images\\TestPortal.jpeg",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\images\\TestPortal.jpeg",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "images/TestPortal.jpeg",
       "AssetKind": "All",
@@ -435,10 +435,10 @@
       "OriginalItemSpec": "wwwroot\\images\\TestPortal.jpeg"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\images\\TestPortal.png",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\images\\TestPortal.png",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "images/TestPortal.png",
       "AssetKind": "All",
@@ -454,10 +454,10 @@
       "OriginalItemSpec": "wwwroot\\images\\TestPortal.png"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\js\\ad-config.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\js\\ad-config.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "js/ad-config.js",
       "AssetKind": "All",
@@ -473,10 +473,10 @@
       "OriginalItemSpec": "wwwroot\\js\\ad-config.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\js\\ads.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\js\\ads.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "js/ads.js",
       "AssetKind": "All",
@@ -492,10 +492,10 @@
       "OriginalItemSpec": "wwwroot\\js\\ads.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\js\\code-execution.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\js\\code-execution.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "js/code-execution.js",
       "AssetKind": "All",
@@ -511,10 +511,10 @@
       "OriginalItemSpec": "wwwroot\\js\\code-execution.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\js\\site.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -530,10 +530,10 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetKind": "All",
@@ -549,10 +549,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "AssetKind": "All",
@@ -568,10 +568,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetKind": "All",
@@ -587,10 +587,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "AssetKind": "All",
@@ -606,10 +606,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "AssetKind": "All",
@@ -625,10 +625,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "AssetKind": "All",
@@ -644,10 +644,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "AssetKind": "All",
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "AssetKind": "All",
@@ -682,10 +682,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
       "AssetKind": "All",
@@ -701,10 +701,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "AssetKind": "All",
@@ -720,10 +720,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "AssetKind": "All",
@@ -739,10 +739,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "AssetKind": "All",
@@ -758,10 +758,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "AssetKind": "All",
@@ -777,10 +777,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "AssetKind": "All",
@@ -796,10 +796,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "AssetKind": "All",
@@ -815,10 +815,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "AssetKind": "All",
@@ -834,10 +834,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
       "AssetKind": "All",
@@ -853,10 +853,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "AssetKind": "All",
@@ -872,10 +872,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "AssetKind": "All",
@@ -891,10 +891,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "AssetKind": "All",
@@ -910,10 +910,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "AssetKind": "All",
@@ -929,10 +929,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "AssetKind": "All",
@@ -948,10 +948,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "AssetKind": "All",
@@ -967,10 +967,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "AssetKind": "All",
@@ -986,10 +986,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -1005,10 +1005,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -1024,10 +1024,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -1043,10 +1043,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -1062,10 +1062,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
       "AssetKind": "All",
@@ -1081,10 +1081,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "AssetKind": "All",
@@ -1100,10 +1100,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "AssetKind": "All",
@@ -1119,10 +1119,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "AssetKind": "All",
@@ -1138,10 +1138,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -1157,10 +1157,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -1176,10 +1176,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -1195,10 +1195,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -1214,10 +1214,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
       "AssetKind": "All",
@@ -1233,10 +1233,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "AssetKind": "All",
@@ -1252,10 +1252,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "AssetKind": "All",
@@ -1271,10 +1271,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "AssetKind": "All",
@@ -1290,10 +1290,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -1309,10 +1309,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -1328,10 +1328,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -1347,10 +1347,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -1366,10 +1366,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\bootstrap\\LICENSE",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -1385,10 +1385,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -1404,10 +1404,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -1423,10 +1423,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
       "AssetKind": "All",
@@ -1442,10 +1442,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
       "AssetKind": "All",
@@ -1461,10 +1461,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
       "AssetKind": "All",
@@ -1480,10 +1480,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetKind": "All",
@@ -1499,10 +1499,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
       "AssetKind": "All",
@@ -1518,10 +1518,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
       "AssetKind": "All",
@@ -1537,10 +1537,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -1556,10 +1556,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -1575,10 +1575,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -1594,10 +1594,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Identity": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "SourceId": "OnlineAssessment.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\project\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Abcom\\Desktop\\project\\t\\wwwroot\\",
       "BasePath": "_content/OnlineAssessment.Web",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
